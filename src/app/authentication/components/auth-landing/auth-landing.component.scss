@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+}
+
+.side-image {
+  width: 40%;
+  height: 100vh;
+  background-color: red;
+}
+
+.component-container {
+  width: 32%;
+  height: 100vh;
+  margin: 0 auto;
+  background-color: green;
+}
