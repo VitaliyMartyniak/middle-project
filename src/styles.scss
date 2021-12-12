@@ -1,7 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+  --primary-color: #4C6FFF;
+  --black-color: #1A1E2C;
+  --white-color: #FFFFFF;
+  --input-color: #F5F6F7;
+  --status-color: #2E5BFF;
+  --header-color: #040D32;
+}
 
 * {
   box-sizing: border-box;
@@ -10,11 +17,54 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 a {
+  display: block;
+  font-size: 16px;
   text-decoration: none;
+  color: var(--primary-color);
+}
+
+p {
+  font-size: 16px;
 }
 
 ul {
   list-style: none;
+}
+
+mat-form-field {
+  width: 100% !important;
+}
+
+//.mat-form-field-flex:focus {
+//
+//}
+
+//::ng-deep .mat-form-field-flex:focus {
+//  border: 1px solid rgba(76, 111, 255, 1) !important;
+//}
+
+label {
+  display: inline-block;
+  color: #6F7C8B;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.mat-form-field-flex {
+  padding: 7px !important;
+  padding-left: 30px !important;
+  background-color: #F5F6F7 !important;
+  font-size: 16px !important;
+  border-radius: 3px !important;
+}
+
+.mat-form-field-underline {
+  display: none;
+}
+
+.mat-input-element::placeholder {
+  font-size: 16px;
+  color: #6F7C8B !important;
 }
 
 //img {
@@ -25,10 +75,29 @@ ul {
 //  margin-top: 2px;
 //}
 
-//.btn {
-//  color: var(--light-color);
-//  border: none;
-//  cursor: pointer;
-//  transition: background-color 0.2s ease-in;
-//  outline: none;
-//}
+.primary-btn {
+  height: 55px;
+  color: var(--white-color);
+  background-color: var(--primary-color);
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.hr-with-text {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin: 30px 0;
+
+  .line {
+    height: .1px;
+    width: 100%;
+    border-top: 1px solid #9D9D9D;
+  }
+
+  .text {
+    margin: 0 15px;
+    color: #6F7C8B;
+    font-size: 12px;
+  }
+}

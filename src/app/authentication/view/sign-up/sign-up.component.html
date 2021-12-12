@@ -1,1 +1,63 @@
-<p>sign-up works!</p>
+<section class="register-container">
+  <section class="greeting">
+    <h2>Get started today</h2>
+    <p>Enter your details to create super account.</p>
+  </section>
+
+  <form class="sign-up-form">
+    <div class="name-input">
+      <label for="name">Name</label>
+      <mat-form-field appearance="fill">
+        <input id="name" matInput placeholder="Name">
+      </mat-form-field>
+    </div>
+
+    <div class="age-input">
+      <label for="age">Age</label>
+      <mat-form-field appearance="fill">
+        <input id="age" matInput placeholder="Enter your age">
+      </mat-form-field>
+    </div>
+
+    <div class="email-input">
+      <label for="email">Email Address</label>
+      <mat-form-field appearance="fill">
+        <input id="email" matInput placeholder="Enter your email address">
+      </mat-form-field>
+      <span>Must be 8 characters long at least</span>
+    </div>
+
+    <label for="password">Password</label>
+    <mat-form-field appearance="fill">
+      <input id="password" matInput placeholder="Enter your password">
+    </mat-form-field>
+
+    <label for="confirm-password">Confirm New Password</label>
+    <mat-form-field appearance="fill">
+      <input id="confirm-password" matInput placeholder="Enter your new password again">
+    </mat-form-field>
+  </form>
+
+  <mat-checkbox class="example-margin">
+    I agree to Product <a>Terms and Policy</a>.
+  </mat-checkbox>
+
+  <button class="primary-btn" mat-button>Get started now</button>
+
+  <div class="hr-with-text">
+    <div class="line"></div>
+    <div class="text">Or do it via other accounts</div>
+    <div class="line"></div>
+  </div>
+
+  <section class="auth-alternative">
+    <button mat-button>
+      <img src="assets/img/logos/google.svg" alt="Google">
+    </button>
+    <button mat-button>
+      <img src="assets/img/logos/facebook.svg" alt="Facebook">
+    </button>
+  </section>
+
+  <span class="login-message">Already have an account? <a>Login</a></span>
+</section>
