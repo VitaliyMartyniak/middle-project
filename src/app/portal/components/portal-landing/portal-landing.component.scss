@@ -1,0 +1,139 @@
+header {
+  display: flex;
+  height: 74px;
+  background-color: var(--white-color);
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 230px;
+    min-width: 230px;
+    height: 100%;
+    border-right: 1px solid #EAEDF3;
+    border-bottom: 1px solid #EAEDF3;
+  }
+
+  .searcher-and-profile {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    &-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 94%;
+      margin: 0 auto;
+
+      .searcher {
+        display: flex;
+        align-items: center;
+        height: 42px;
+        width: 365px;
+
+        .mat-icon {
+          margin-left: 30px;
+          margin-right: 15px;
+          transform: translateY(2px);
+        }
+
+        ::ng-deep mat-form-field {
+          height: 42px !important;
+        }
+
+        ::ng-deep .mat-form-field-flex {
+          padding: 0 !important;
+          font-size: 14px !important;
+          border-radius: 200px !important;
+        }
+      }
+
+      .profile {
+        display: flex;
+        align-items: center;
+
+        &-photo {
+          width: 48px;
+          height: 48px;
+          background-color: red;
+          border-radius: 50%;
+          margin-right: 16px;
+        }
+
+        &-name {
+          color: var(--black-color);
+        }
+
+        &-dropdown {
+          display: flex;
+          align-items: center;
+          margin-left: 24px;
+        }
+      }
+    }
+  }
+}
+
+main {
+  display: flex;
+  min-height: calc(100% - 74px);
+
+  aside {
+    height: 100%;
+    width: 230px;
+    min-width: 230px;
+
+    p {
+      font-size: 14px;
+      color: rgba(111, 124, 139, 0.5);
+      padding-top: 22px;
+      padding-left: 34px;
+      margin-bottom: 24px;
+    }
+
+    nav {
+      margin-bottom: 30px;
+
+      a {
+        display: flex;
+        align-items: center;
+        height: 20px;
+        border-left: 1.5px solid #1943EF;
+        font-size: 14px;
+        padding-left: 34px;
+      }
+    }
+
+    .line {
+      width: 80%;
+      height: 1px;
+      background-color: transparent;
+      margin: 0 auto;
+      border-bottom: 1px solid #EAEDF3;
+    }
+
+    button {
+      display: block;
+      width: 80%;
+      height: 34px;
+      margin: 27px auto 0;
+      color: var(--black-color);
+      background-color: #F5F6F7;
+
+      img {
+        margin-right: 10px;
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .component-container {
+    display: flex;
+    flex-grow: 1;
+    background-color: #E5E5E5;
+  }
+}
+
+

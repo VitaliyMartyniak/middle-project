@@ -1,0 +1,38 @@
+<header>
+  <section class="logo">
+    <img src="assets/img/logos/logoipsum-black.svg" alt="Logoipsum logo">
+  </section>
+
+  <section class="searcher-and-profile">
+    <section class="searcher-and-profile-container">
+      <section class="searcher">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-icon matPrefix><img src="assets/img/icons/search.svg" alt="Search icon"></mat-icon>
+          <input matInput placeholder="Find articles...">
+        </mat-form-field>
+      </section>
+      <section class="profile">
+        <div class="profile-photo"></div>
+        <span class="profile-name">Annette Black</span>
+        <div class="profile-dropdown"><img src="assets/img/icons/arrow.svg" alt="arrow"></div>
+      </section>
+    </section>
+  </section>
+</header>
+
+<main>
+  <aside>
+    <p>Main Menu</p>
+    <nav>
+      <a>Dashboard</a>
+    </nav>
+
+    <div class="line"></div>
+
+    <button mat-button><img src="assets/img/icons/logout.svg" alt="Logout">Logout</button>
+  </aside>
+
+  <section class="component-container">
+    <router-outlet></router-outlet>
+  </section>
+</main>
