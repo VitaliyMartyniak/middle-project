@@ -67,20 +67,16 @@ label {
   color: #6F7C8B !important;
 }
 
-//img {
-//  height: 200px;
-//}
 
-//hr {
-//  margin-top: 2px;
-//}
-
-.primary-btn {
+.btn {
   height: 55px;
-  color: var(--white-color);
-  background-color: var(--primary-color);
   cursor: pointer;
   border-radius: 3px;
+
+  &-primary {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+  }
 }
 
 .hr-with-text {
