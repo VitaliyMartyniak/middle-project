@@ -71,7 +71,7 @@ label {
 .btn {
   height: 55px;
   cursor: pointer;
-  border-radius: 3px;
+  border-radius: 3px !important;
 
   &-primary {
     color: var(--white-color);

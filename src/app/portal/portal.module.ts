@@ -4,6 +4,8 @@ import {RouterModule} from "@angular/router";
 import {SharedModule} from "../shared/shared.module";
 import { PortalLandingComponent } from './components/portal-landing/portal-landing.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { ArticlesComponent } from './components/articles/articles.component';
+import { WeatherWidgetComponent } from './components/weather-widget/weather-widget.component';
 
 @NgModule({
   imports: [
@@ -25,7 +27,9 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
   exports: [RouterModule],
   declarations: [
     PortalLandingComponent,
-    DashboardComponent
+    DashboardComponent,
+    ArticlesComponent,
+    WeatherWidgetComponent
   ]
 })
 export class PortalModule { }
