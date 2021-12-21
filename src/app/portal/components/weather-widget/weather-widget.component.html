@@ -1,3 +1,33 @@
 <section class="weather-widget">
-
+  <header>
+    <span>WEATHER WIDGET</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Redial</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Check voice mail</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Disable alerts</span>
+      </button>
+    </mat-menu>
+  </header>
+  <main>
+    <p class="date">June 12</p>
+    <span>Wednesday</span>
+    <section class="temperature-info">
+      <div>
+        <p class="temperature">-27</p>
+        <p class="location">Lviv, Ukraine</p>
+      </div>
+      <img src="assets/img/icons/cloud-weather.svg" alt="Weather Icon" />
+    </section>
+  </main>
 </section>
