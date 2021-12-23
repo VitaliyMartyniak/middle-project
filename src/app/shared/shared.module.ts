@@ -7,9 +7,13 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCardModule} from "@angular/material/card";
 import {MatMenuModule} from "@angular/material/menu";
+import { PhotoDndDirective } from './directives/photo-dnd.directive';
+import { PhotoDndComponent } from './components/photo-dnd/photo-dnd.component';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   imports: [
+    CommonModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -28,6 +32,12 @@ import {MatMenuModule} from "@angular/material/menu";
     MatSelectModule,
     MatCardModule,
     MatMenuModule,
+    PhotoDndDirective,
+    PhotoDndComponent,
+  ],
+  declarations: [
+    PhotoDndDirective,
+    PhotoDndComponent
   ]
 })
 export class SharedModule {

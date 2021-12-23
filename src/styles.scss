@@ -73,9 +73,20 @@ label {
   cursor: pointer;
   border-radius: 3px !important;
 
+  &-small {
+    width: 108px;
+    height: 38px;
+  }
+
   &-primary {
     color: var(--white-color);
     background-color: var(--primary-color);
+  }
+
+  &-regular {
+    color: #6F7C8B;
+    background-color: var(--white-color);
+    border: 1px solid rgba(111, 124, 139, 0.5) !important;
   }
 }
 
@@ -95,5 +106,13 @@ label {
     margin: 0 15px;
     color: #6F7C8B;
     font-size: 12px;
+  }
+}
+
+.form-actions {
+  margin-top: 22px;
+
+  .btn-regular {
+    margin-right: 17px;
   }
 }

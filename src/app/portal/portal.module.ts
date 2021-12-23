@@ -6,6 +6,7 @@ import { PortalLandingComponent } from './components/portal-landing/portal-landi
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { ArticlesComponent } from './components/articles/articles.component';
 import { WeatherWidgetComponent } from './components/weather-widget/weather-widget.component';
+import { AddEditArticleComponent } from './views/add-edit-article/add-edit-article.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { WeatherWidgetComponent } from './components/weather-widget/weather-widg
         path: '', component: PortalLandingComponent, children: [
           {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
           {path: 'dashboard', component: DashboardComponent},
+          {path: 'article', component: AddEditArticleComponent},
           // {path: 'register', component: SignUpComponent},
           // {path: 'forgot-password', component: ForgotPasswordComponent},
         ],
@@ -29,7 +31,8 @@ import { WeatherWidgetComponent } from './components/weather-widget/weather-widg
     PortalLandingComponent,
     DashboardComponent,
     ArticlesComponent,
-    WeatherWidgetComponent
+    WeatherWidgetComponent,
+    AddEditArticleComponent,
   ]
 })
 export class PortalModule { }

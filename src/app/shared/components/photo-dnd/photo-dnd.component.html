@@ -1,0 +1,12 @@
+<div class="container" appPhotoDnd (fileDropped)="onFileDropped($event)">
+  <input type="file" id="fileDropRef" (change)="fileBrowseHandler($event)" />
+  <img src="assets/img/icons/upload.svg" alt="Upload icon">
+  <p class="format">.JPG  .PNG</p>
+
+  <p class="hint">You can also upload files by</p>
+  <label for="fileDropRef">clicking here</label>
+  <section [ngClass]="{'file-image-hidden': !!!file, 'file-image-show': !!file}">
+    <img class="uploaded-image" *ngIf="!!file" [src]="file.url" alt="Uploaded image"/>
+  </section>
+  <button *ngIf="!!file" (click)="deleteFile()">X</button>
+</div>

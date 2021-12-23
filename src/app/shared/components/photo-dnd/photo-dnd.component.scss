@@ -1,0 +1,65 @@
+.container {
+  height: 170px;
+  padding-top: 20px;
+  text-align: center;
+  border: 1px dashed #6F7C8B;
+  position: relative;
+  margin: 0 auto;
+
+  input {
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+  }
+
+  .file-image-hidden {
+    display: none;
+  }
+
+  .file-image-show {
+    display: block;
+    position: absolute;
+    background-color: var(--white-color);
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  .uploaded-image {
+    width: auto;
+    height: 100%;
+  }
+
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 4;
+    background-color: green;
+  }
+
+  .format {
+    font-size: 13px;
+    color: rgba(35, 35, 39, 0.836589);
+    margin-bottom: 3px;
+  }
+
+  .hint {
+    font-size: 14px;
+    color: rgba(111, 124, 139, 0.5);
+    margin-bottom: 3px;
+  }
+
+  label {
+    font-size: 14px;
+    color: var(--primary-color);
+    text-decoration-line: underline;
+  }
+}
