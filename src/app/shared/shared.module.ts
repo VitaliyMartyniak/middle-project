@@ -10,6 +10,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import { PhotoDndDirective } from './directives/photo-dnd.directive';
 import { PhotoDndComponent } from './components/photo-dnd/photo-dnd.component';
 import {CommonModule} from "@angular/common";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import {CommonModule} from "@angular/common";
     MatSelectModule,
     MatCardModule,
     MatMenuModule,
+    MatTabsModule,
   ],
   exports: [
     MatFormFieldModule,
@@ -34,6 +36,7 @@ import {CommonModule} from "@angular/common";
     MatMenuModule,
     PhotoDndDirective,
     PhotoDndComponent,
+    MatTabsModule,
   ],
   declarations: [
     PhotoDndDirective,

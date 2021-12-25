@@ -1,0 +1,27 @@
+.profile {
+  width: 52%;
+  margin: 75px auto 30px;
+  background-color: var(--white-color);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.03);
+  border-radius: 6px;
+  padding: 30px 35px;
+
+  h2 {
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--black-color);
+  }
+
+  ::ng-deep .mat-tab-label {
+    color: rgba(111, 124, 139, 0.5) !important;
+  }
+
+  ::ng-deep .mat-tab-label-active {
+    color: #1943EF !important;
+    opacity: 1 !important;
+  }
+
+  ::ng-deep .mat-ink-bar {
+    background-color: #1943EF !important;
+  }
+}

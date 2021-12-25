@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'portal', loadChildren: () => import('./portal/portal.module').then(m => m.PortalModule),
     // path: '', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule),
-    path: '', loadChildren: () => import('./portal/portal.module').then(m => m.PortalModule)
     // path: '', component: LandingTemplateComponent, children: [
       // {path: '', redirectTo: 'iphone', pathMatch: 'full'},
       // {path: 'iphone', component: IphoneCatalogComponent},
