@@ -100,9 +100,19 @@ main {
         display: flex;
         align-items: center;
         height: 20px;
-        border-left: 1.5px solid #1943EF;
+        color: rgba(111, 124, 139, 0.5);
+        border-left: 1.5px solid transparent;
         font-size: 14px;
-        padding-left: 34px;
+        padding-left: 30px;
+
+        img {
+          margin-right: 15px;
+        }
+
+        &.active {
+          color: #1943EF;
+          border-left: 1.5px solid #1943EF;
+        }
       }
     }
 

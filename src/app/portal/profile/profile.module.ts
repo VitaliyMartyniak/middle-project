@@ -13,14 +13,7 @@ import { ProfilePasswordComponent } from './components/profile-password/profile-
     SharedModule,
     RouterModule.forChild([
       {path: '', component: ProfileLandingComponent},
-      // {
-      //   path: '', component: ProfileLandingComponent, children: [
-      //     // {path: 'register', component: SignUpComponent},
-      //     // {path: 'forgot-password', component: ForgotPasswordComponent},
-      //   ],
-      // },
-      // {path: 'terms', component: TermsComponent},
-      {path: '**', redirectTo: '/'},
+      {path: '**', redirectTo: '/portal/profile'},
     ]),
   ],
   exports: [RouterModule],

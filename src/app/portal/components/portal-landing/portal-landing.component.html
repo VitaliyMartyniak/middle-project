@@ -24,7 +24,11 @@
   <aside>
     <p>Main Menu</p>
     <nav>
-      <a>Dashboard</a>
+      <a routerLink="/portal/dashboard" routerLinkActive="active" #dashboard="routerLinkActive">
+        <img *ngIf="dashboard.isActive" src="assets/img/icons/speedometer-active.svg" />
+        <img *ngIf="!dashboard.isActive" src="assets/img/icons/speedometer-inactive.svg" />
+        Dashboard
+      </a>
     </nav>
 
     <div class="line"></div>

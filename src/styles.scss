@@ -39,10 +39,6 @@ mat-form-field {
 //
 //}
 
-//::ng-deep .mat-form-field-flex:focus {
-//  border: 1px solid rgba(76, 111, 255, 1) !important;
-//}
-
 label {
   display: inline-block;
   color: #6F7C8B;
@@ -56,6 +52,11 @@ label {
   background-color: #F5F6F7 !important;
   font-size: 16px !important;
   border-radius: 3px !important;
+  border: 1px solid transparent;
+
+  &:hover {
+    border: 1px solid var(--primary-color) !important;
+  }
 }
 
 .mat-form-field-underline {

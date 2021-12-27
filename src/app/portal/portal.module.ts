@@ -19,11 +19,8 @@ import { AddEditArticleComponent } from './views/add-edit-article/add-edit-artic
           {path: 'dashboard', component: DashboardComponent},
           {path: 'article', component: AddEditArticleComponent},
           {path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)}
-          // {path: 'register', component: SignUpComponent},
-          // {path: 'forgot-password', component: ForgotPasswordComponent},
         ],
       },
-      // {path: 'terms', component: TermsComponent},
       {path: '**', redirectTo: '/portal'},
     ]),
   ],
