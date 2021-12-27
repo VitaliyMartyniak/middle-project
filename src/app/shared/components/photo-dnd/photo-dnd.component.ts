@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {FileHandle} from "../../directives/photo-dnd.directive";
 import {DomSanitizer} from "@angular/platform-browser";
 
@@ -8,6 +8,9 @@ import {DomSanitizer} from "@angular/platform-browser";
   styleUrls: ['./photo-dnd.component.scss']
 })
 export class PhotoDndComponent {
+
+  @Input() containerHeight: string = '';
+
   file: FileHandle | null | undefined;
 
   constructor(private sanitizer: DomSanitizer) { }

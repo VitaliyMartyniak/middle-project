@@ -1,4 +1,4 @@
-<div class="container" appPhotoDnd (fileDropped)="onFileDropped($event)">
+<div [ngStyle]="{height: containerHeight}" class="container" appPhotoDnd (fileDropped)="onFileDropped($event)">
   <input type="file" id="fileDropRef" (change)="fileBrowseHandler($event)" />
   <img src="assets/img/icons/upload.svg" alt="Upload icon">
   <p class="format">.JPG  .PNG</p>

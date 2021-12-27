@@ -1,6 +1,8 @@
 .container {
-  height: 170px;
-  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   border: 1px dashed #6F7C8B;
   position: relative;
