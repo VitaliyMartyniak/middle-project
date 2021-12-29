@@ -3,27 +3,36 @@
 
   <div class="line"></div>
 
-  <form>
+  <form [formGroup]="form" (ngSubmit)="submit()">
     <label for="title">Title</label>
     <mat-form-field class="title" appearance="fill">
-      <input id="title" matInput placeholder="Enter your title">
+      <input id="title" matInput placeholder="Enter your title" formControlName="title">
+      <mat-error *ngIf="form.get('title')!.invalid && form.get('title')!.touched">
+        <span *ngIf="form.get('title')!.errors!['required']">Enter title</span>
+      </mat-error>
     </mat-form-field>
 
     <label for="text">Text</label>
     <mat-form-field appearance="fill">
-      <textarea id="text" matInput placeholder="Enter your text copy"></textarea>
+      <textarea id="text" matInput placeholder="Enter your text copy" formControlName="text"></textarea>
+      <mat-error *ngIf="form.get('text')!.invalid && form.get('text')!.touched">
+        <span *ngIf="form.get('text')!.errors!['required']">Enter text</span>
+      </mat-error>
     </mat-form-field>
+
+    <section class="add-photo">
+      <h3>Add cover photo</h3>
+      <p>Drag and drop file below</p>
+
+      <app-photo-dnd [containerHeight]="'180px'" (updateFile)="updateFile($event)"></app-photo-dnd>
+      <mat-error *ngIf="form.get('photo')!.invalid && form.get('photo')!.touched">
+        <span *ngIf="form.get('photo')!.errors!['required']">Add photo</span>
+      </mat-error>
+    </section>
+
+    <section class="form-actions">
+      <a routerLink="/portal/dashboard" class="btn-regular btn-small" mat-button>Cancel</a>
+      <button class="btn-primary btn-small" mat-button type="submit" [disabled]="form.invalid">Publish</button>
+    </section>
   </form>
-
-  <section class="add-photo">
-    <h3>Add cover photo</h3>
-    <p>Drag and drop file below</p>
-
-    <app-photo-dnd [containerHeight]="'180px'"></app-photo-dnd>
-  </section>
-
-  <section class="form-actions">
-    <a routerLink="/portal/dashboard" class="btn-regular btn-small" mat-button>Cancel</a>
-    <button class="btn-primary btn-small" mat-button>Publish</button>
-  </section>
 </section>

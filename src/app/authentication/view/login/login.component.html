@@ -5,21 +5,29 @@
     <p>Sign in to manage your account.</p>
   </section>
 
-  <form class="login-form">
+  <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
     <label for="email">Email Address</label>
     <mat-form-field appearance="fill">
-      <input id="email" matInput placeholder="Enter your email address">
+      <input id="email" matInput placeholder="Enter your email address" formControlName="email">
+      <mat-error *ngIf="form.get('email')!.invalid && form.get('email')!.touched">
+        <span *ngIf="form.get('email')!.errors!['required']">Enter email</span>
+        <span *ngIf="form.get('email')!.errors!['email']">Enter valid email</span>
+      </mat-error>
     </mat-form-field>
 
     <label for="password">Password</label>
     <mat-form-field appearance="fill">
-      <input id="password" matInput placeholder="Enter your password">
+      <input id="password" type="password" matInput placeholder="Enter your password" formControlName="password">
+      <mat-error *ngIf="form.get('password')!.invalid && form.get('password')!.touched">
+        <span *ngIf="form.get('password')!.errors!['required']">Enter password</span>
+        <span *ngIf="form.get('password')!.errors!['minlength']">Password must be at least {{form.get('password')!.errors!['minlength'].requiredLength}} characters long</span>
+      </mat-error>
     </mat-form-field>
+
+    <a routerLink="/forgot-password">Forgot your password?</a>
+
+    <button class="btn btn-primary" [disabled]="form.invalid" mat-button type="submit">Sign in</button>
   </form>
-
-  <a routerLink="/forgot-password">Forgot your password?</a>
-
-  <button class="btn-primary" mat-button>Sign in</button>
 
   <div class="hr-with-text">
     <div class="line"></div>

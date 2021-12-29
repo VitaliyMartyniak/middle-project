@@ -4,45 +4,62 @@
     <p>Enter your details to create super account.</p>
   </section>
 
-  <form class="sign-up-form">
+  <form class="sign-up-form" [formGroup]="form" (ngSubmit)="submit()">
     <div class="name-input">
       <label for="name">Name</label>
       <mat-form-field appearance="fill">
-        <input id="name" matInput placeholder="Name">
+        <input id="name" matInput placeholder="Name" formControlName="name">
+        <mat-error *ngIf="form.get('name')!.invalid && form.get('name')!.touched">
+          <span *ngIf="form.get('name')!.errors!['required']">Enter name</span>
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="age-input">
       <label for="age">Age</label>
       <mat-form-field appearance="fill">
-        <input id="age" matInput placeholder="Enter your age">
+        <input id="age" type="number" matInput placeholder="Enter your age" formControlName="age">
+        <mat-error *ngIf="form.get('age')!.invalid && form.get('age')!.touched">
+          <span *ngIf="form.get('age')!.errors!['required']">Enter age</span>
+          <span *ngIf="form.get('age')!.errors!['min']">Minimal age is 1</span>
+        </mat-error>
       </mat-form-field>
     </div>
 
-    <div class="email-input">
-      <label for="email">Email Address</label>
-      <mat-form-field appearance="fill">
-        <input id="email" matInput placeholder="Enter your email address">
-      </mat-form-field>
-      <span>Must be 8 characters long at least</span>
-    </div>
+    <label for="email">Email Address</label>
+    <mat-form-field appearance="fill">
+      <input id="email" matInput placeholder="Enter your email address" formControlName="email">
+      <mat-error *ngIf="form.get('email')!.invalid && form.get('email')!.touched">
+        <span *ngIf="form.get('email')!.errors!['required']">Enter email</span>
+        <span *ngIf="form.get('email')!.errors!['email']">Enter valid email</span>
+      </mat-error>
+    </mat-form-field>
 
     <label for="password">Password</label>
     <mat-form-field appearance="fill">
-      <input id="password" matInput placeholder="Enter your password">
+      <input id="password" type="password" matInput placeholder="Enter your password" formControlName="password">
+      <mat-error *ngIf="form.get('password')!.invalid && form.get('password')!.touched">
+        <span *ngIf="form.get('password')!.errors!['required']">Enter password</span>
+        <span *ngIf="form.get('password')!.errors!['minlength']">Password must be at least {{form.get('password')!.errors!['minlength'].requiredLength}} characters long</span>
+      </mat-error>
+      <mat-hint>Must be 8 characters long at least</mat-hint>
     </mat-form-field>
 
     <label for="confirm-password">Confirm New Password</label>
     <mat-form-field appearance="fill">
-      <input id="confirm-password" matInput placeholder="Enter your new password again">
+      <input id="confirm-password" type="password" matInput placeholder="Enter your new password again" formControlName="confirmPassword">
+      <mat-error *ngIf="form.get('confirmPassword')!.invalid && form.get('confirmPassword')!.touched">
+        <span *ngIf="form.get('confirmPassword')!.errors!['required']">Enter your new password again</span>
+        <span *ngIf="form.get('confirmPassword')!.errors!['noPassswordMatch']">Passwords do not match</span>
+      </mat-error>
     </mat-form-field>
+
+    <mat-checkbox class="example-margin" formControlName="acceptTerms">
+      I agree to Product <a routerLink="/terms">Terms and Policy</a>.
+    </mat-checkbox>
+
+    <button class="btn btn-primary" [disabled]="form.invalid" type="submit" mat-button>Get started now</button>
   </form>
-
-  <mat-checkbox class="example-margin">
-    I agree to Product <a routerLink="/terms">Terms and Policy</a>.
-  </mat-checkbox>
-
-  <button class="btn-primary" mat-button>Get started now</button>
 
   <div class="hr-with-text">
     <div class="line"></div>
