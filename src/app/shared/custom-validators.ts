@@ -12,11 +12,7 @@ export class CustomValidators {
   static passwordNotMatchValidator(control: AbstractControl): void {
     const oldPassword: string = control.get('oldPassword')!.value;
     const newPassword: string = control.get('password')!.value;
-    console.log('oldPassword', oldPassword);
-    console.log('newPassword', newPassword);
-    console.log('oldPassword === newPassword', oldPassword === newPassword);
-    if (oldPassword === newPassword) {
-      console.log('works');
+    if (oldPassword === newPassword && newPassword !== '') {
       control.get('password')!.setErrors({ passswordMatch: true });
     }
   }
