@@ -12,6 +12,7 @@ import { PhotoDndComponent } from './components/photo-dnd/photo-dnd.component';
 import {CommonModule} from "@angular/common";
 import {MatTabsModule} from "@angular/material/tabs";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MatTabsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   exports: [
     MatFormFieldModule,
@@ -42,6 +44,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MatTabsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   declarations: [
     PhotoDndDirective,
