@@ -24,15 +24,15 @@ export class LoginComponent implements OnInit {
         Validators.minLength(8)
       ]),
     })
-    this.authService.googleAuthObservable().subscribe(user => {
-      console.log('user', user);
-      console.log('user name', user?.getBasicProfile().getName());
-    });
+    // this.authService.googleAuthObservable().subscribe(user => {
+    //   console.log('user', user);
+    //   console.log('user name', user?.getBasicProfile().getName());
+    // });
   }
 
   submit() {
     const loginData = {...this.form.value};
-    this.authService.login(loginData).subscribe(() => {
+    this.authService.login(loginData).subscribe(user => {
       this.form.reset();
       this.router.navigate(['portal', 'dashboard']);
     })
@@ -40,5 +40,9 @@ export class LoginComponent implements OnInit {
 
   loginByGoogle() {
     this.authService.googleLogin();
+  }
+
+  loginByFacebook() {
+    this.authService.facebookLogin();
   }
 }

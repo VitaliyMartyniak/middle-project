@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../../authentication/view/auth.service";
 import {Router} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-portal-landing',
@@ -8,6 +9,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./portal-landing.component.scss']
 })
 export class PortalLandingComponent implements OnInit {
+  private userSub: Subscription;
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -16,7 +18,8 @@ export class PortalLandingComponent implements OnInit {
 
   logout(event: Event) {
     event.preventDefault();
-    this.authService.logout();
-    this.router.navigate(['login']);
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['login']);
+    });
   }
 }
