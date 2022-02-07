@@ -8,6 +8,8 @@ import {AuthenticationModule} from "./authentication/authentication.module";
 import {SharedModule} from "./shared/shared.module";
 import { environment } from '../environments/environment';
 import {AngularFireModule} from "@angular/fire/compat";
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,9 @@ import {AngularFireModule} from "@angular/fire/compat";
     AuthenticationModule,
     SharedModule,
     AngularFireModule.initializeApp(environment.firebase),
+    StoreModule.forRoot(reducers, {
+      metaReducers
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
