@@ -9,7 +9,7 @@ import {SharedModule} from "./shared/shared.module";
 import { environment } from '../environments/environment';
 import {AngularFireModule} from "@angular/fire/compat";
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
+import { reducers, metaReducers } from './store';
 
 @NgModule({
   declarations: [

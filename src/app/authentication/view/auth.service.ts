@@ -1,34 +1,25 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError, from, mergeMap, Observable, of, ReplaySubject, tap, throwError} from "rxjs";
-import {environment} from "../../../environments/environment";
+import {Injectable} from '@angular/core';
+import {from, Observable} from "rxjs";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {addDoc, collection, getDocs, getFirestore} from "@angular/fire/firestore";
+import {addDoc, collection, getDocs, getFirestore, query, where} from "@angular/fire/firestore";
 import {
   createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
   FacebookAuthProvider,
+  getAuth,
+  GoogleAuthProvider,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
   signInWithPopup,
-  signOut, sendPasswordResetEmail
+  signOut
 } from "@angular/fire/auth";
 
 @Injectable()
 export class AuthService {
-  private auth2: gapi.auth2.GoogleAuth
-  private googleAuthSubject$ = new ReplaySubject<gapi.auth2.GoogleUser | null>(1)
   private auth = getAuth();
   private db = getFirestore();
   private usersDataRef = collection(this.db, 'usersData');
-  user = null;
 
-  constructor(private http: HttpClient, private fireStore: AngularFirestore) {
-    // gapi.load('auth2', () => {
-    //   this.auth2 = gapi.auth2.init({
-    //     client_id: '981490114024-82qs2lqct5hojkc8f85isam986uvesek.apps.googleusercontent.com'
-    //   })
-    // })
+  constructor(private fireStore: AngularFirestore) {
   }
 
   get token(): string | null {
@@ -38,15 +29,10 @@ export class AuthService {
       this.logout();
       return null
     }
-    console.log('get token', localStorage.getItem('fb-token'));
     return localStorage.getItem('fb-token');
   }
 
   login(loginData: any): Observable<any> {
-    // const db = getFirestore();
-    // const colRef = collection(db, 'usersData');
-    // getDocs(colRef).then((snapshot) => console.log(snapshot.docs[0].data()));
-    // console.log(this.fireStore.collection('usersData'));
     // loginData.returnSecureToken = true;
     // return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, loginData)
     //   .pipe(
@@ -72,20 +58,19 @@ export class AuthService {
 
   setAdditionalData(userData: any) {
     return from(addDoc(this.usersDataRef, userData).then(r => r));
-    // return this.http.post<any>(`${environment.fbDBUrl}/usersData/${userId}.json`, userData);
   }
 
-  getAdditionalData(userId: string) {
-    return this.http.get<any>(`${environment.fbDBUrl}/usersData/${userId}.json`);
+  getAdditionalData(userId: string): Observable<any> {
+    const q = query(this.usersDataRef, where('uid', '==', userId));
+    return from(getDocs(q).then(r => {
+      return {...r.docs[0].data()};
+    }));
   }
 
   forgotPasswordRequest(email: any): Observable<any> {
-    console.log(email, 'forgotPasswordData');
     return from(sendPasswordResetEmail(this.auth, email).then(r => {
       return r;
     }));
-    // forgotPasswordData.requestType = 'PASSWORD_RESET';
-    // return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${environment.apiKey}`, forgotPasswordData)
   }
 
   logout() {
@@ -108,12 +93,10 @@ export class AuthService {
   // }
 
   private setToken(response: any) {
-    console.log('works', response);
     if (response) {
       const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
       localStorage.setItem('fb-token', response.idToken);
       localStorage.setItem('fb-token-exp', expDate.toString());
-      console.log('response', response);
     } else {
       localStorage.clear();
     }
@@ -121,32 +104,11 @@ export class AuthService {
 
   //Google sign in
   googleLogin() {
-    console.log('works');
     const provider = new GoogleAuthProvider();
-    signInWithPopup(this.auth, provider).then(r => console.log(r));
-    // this.auth2.signIn({
-    //   //
-    //   scope: 'https://www.googleapis.com/auth/gmail.readonly'
-    // }).then( user => {
-    //   this.googleAuthSubject$.next(user);
-    // }).catch(() => {
-    //   this.googleAuthSubject$.next(null);
-    // })
+    return from(signInWithPopup(this.auth, provider).then(r => r));
   }
 
-  // googleLogout() {
-  //   this.auth2.signOut()
-  //     .then(() => {
-  //       this.googleAuthSubject$.next(null);
-  //     })
-  // }
-  //
-  // googleAuthObservable(): Observable<gapi.auth2.GoogleUser | null> {
-  //   return this.googleAuthSubject$.asObservable();
-  // }
-
   facebookLogin() {
-    console.log('facebookLogin');
     const provider = new FacebookAuthProvider();
     signInWithPopup(this.auth, provider).then(r => console.log(r));
   }

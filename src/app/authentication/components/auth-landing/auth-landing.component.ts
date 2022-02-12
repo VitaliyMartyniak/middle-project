@@ -13,13 +13,11 @@ export class AuthLandingComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentRoute = this.router.url;
-    console.log(this.currentRoute);
     this.router.events
       .subscribe(
         (event: NavigationEvent) => {
           if(event instanceof NavigationStart) {
             this.currentRoute = event.url;
-            console.log(this.currentRoute);
           }
         });
   }

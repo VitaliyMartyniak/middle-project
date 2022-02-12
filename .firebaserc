@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "middle-project-6ebe9": {
+      "hosting": {
+        "middle-project": [
+          "middle-project-6ebe9"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "middle-project-6ebe9"
+  }
+}

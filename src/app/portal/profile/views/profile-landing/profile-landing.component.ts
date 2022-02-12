@@ -10,7 +10,6 @@ export class ProfileLandingComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('works');
   }
 
 }

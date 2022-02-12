@@ -24,11 +24,11 @@ export class ProfileInfoComponent implements OnInit {
         Validators.min(1),
       ]),
     });
-    console.log(this.form);
+    // console.log(this.form);
   }
 
   submit() {
     const formData = {...this.form.value}
-    console.log(formData);
+    // console.log(formData);
   }
 }

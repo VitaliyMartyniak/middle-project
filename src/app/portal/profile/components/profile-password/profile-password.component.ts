@@ -26,11 +26,11 @@ export class ProfilePasswordComponent implements OnInit {
       ]),
       // @ts-ignore
     }, [CustomValidators.passwordMatchValidator, CustomValidators.passwordNotMatchValidator]);
-    console.log(this.form);
+    // console.log(this.form);
   }
 
   submit() {
     const formData = {...this.form.value}
-    console.log(formData);
+    // console.log(formData);
   }
 }

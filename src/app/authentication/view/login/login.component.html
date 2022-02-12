@@ -5,7 +5,7 @@
     <p>Sign in to manage your account.</p>
   </section>
 
-  <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+  <form class="login-form" [formGroup]="form" (ngSubmit)="loginByEmail()">
     <label for="email">Email Address</label>
     <mat-form-field appearance="fill">
       <input id="email" matInput placeholder="Enter your email address" formControlName="email">

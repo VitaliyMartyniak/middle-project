@@ -24,16 +24,16 @@ export class AddEditArticleComponent {
         Validators.required,
       ]),
     });
-    console.log(this.form);
+    // console.log(this.form);
   }
 
   submit() {
     const formData = {...this.form.value}
-    console.log(formData);
+    // console.log(formData);
   }
 
   updateFile(file: FileHandle | null) {
-    console.log(file);
+    // console.log(file);
     this.form.patchValue({photo: file});
     this.form.get('photo')?.markAsTouched();
   }

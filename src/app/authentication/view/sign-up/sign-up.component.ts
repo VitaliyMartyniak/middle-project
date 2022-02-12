@@ -39,36 +39,23 @@ export class SignUpComponent implements OnInit {
       ]),
       // @ts-ignore
     }, CustomValidators.passwordMatchValidator);
-    console.log(this.form);
   }
 
   submit() {
     const signUpData = {...this.form.value}
-    console.log('signUpData', signUpData);
     const firebaseSignUpData = {
       email: signUpData.email,
       password: signUpData.password
     };
     this.authService.signUpUser(firebaseSignUpData).subscribe((data) => {
-      console.log('data',data);
-      this.form.reset();
-      this.router.navigate(['portal', 'dashboard']);
       const usersData = {
-        ...signUpData,
-        id: data.user.uid
+        name: signUpData.name,
+        age: signUpData.age,
+        uid: data.user.uid
       }
-      // let dataToSend = {};
-      // dataToSend = {
-      //   [userId]: signUpData
-      // };
       this.authService.setAdditionalData(usersData).subscribe((data) => {
-        console.log('additional data', data);
-        // this.authService.getAdditionalData(userId).subscribe(newdata => {
-          // const firstKey = Object.keys(newdata)[0];
-          // if (firstKey) {
-          //   const loadedData = newdata[firstKey];
-          // }
-        // })
+        this.form.reset();
+        this.router.navigate(['portal', 'dashboard']);
       })
     })
   }
