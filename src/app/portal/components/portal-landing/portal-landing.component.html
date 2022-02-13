@@ -14,7 +14,15 @@
       <section class="profile">
         <div class="profile-photo"></div>
         <span class="profile-name">{{user ? user.name : ''}}</span>
-        <mat-icon class="profile-dropdown">keyboard_arrow_down</mat-icon>
+        <button class="profile-dropdown" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <a routerLink="/portal/profile">Edit profile</a>
+          </button>
+        </mat-menu>
+<!--        <mat-icon class="profile-dropdown">keyboard_arrow_down</mat-icon>-->
       </section>
     </section>
   </section>
