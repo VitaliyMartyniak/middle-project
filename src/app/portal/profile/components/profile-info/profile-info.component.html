@@ -4,9 +4,9 @@
     <div class="first-name-input">
       <label for="first-name">First Name</label>
       <mat-form-field appearance="fill">
-        <input id="first-name" matInput placeholder="Enter your first name" formControlName="firstName">
-        <mat-error *ngIf="form.get('firstName')!.invalid && form.get('firstName')!.touched">
-          <span *ngIf="form.get('firstName')!.errors!['required']">Enter first name</span>
+        <input id="first-name" matInput placeholder="Enter your first name" formControlName="name">
+        <mat-error *ngIf="form.get('name')!.invalid && form.get('name')!.touched">
+          <span *ngIf="form.get('name')!.errors!['name']">Enter first name</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -15,9 +15,6 @@
       <label for="last-name">Last Name</label>
       <mat-form-field appearance="fill">
         <input id="last-name" matInput placeholder="Enter your last name" formControlName="lastName">
-        <mat-error *ngIf="form.get('lastName')!.invalid && form.get('lastName')!.touched">
-          <span *ngIf="form.get('lastName')!.errors!['required']">Enter last name</span>
-        </mat-error>
       </mat-form-field>
     </div>
 
@@ -25,9 +22,6 @@
       <label for="age">Age</label>
       <mat-form-field appearance="fill">
         <input id="age" matInput placeholder="Enter your age" formControlName="age">
-        <mat-error *ngIf="form.get('age')!.invalid && form.get('age')!.touched">
-          <span *ngIf="form.get('age')!.errors!['required']">Enter age</span>
-        </mat-error>
       </mat-form-field>
     </div>
 

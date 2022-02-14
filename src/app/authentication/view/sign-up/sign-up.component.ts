@@ -50,12 +50,15 @@ export class SignUpComponent implements OnInit {
     this.authService.signUpUser(firebaseSignUpData).subscribe((data) => {
       const usersData = {
         name: signUpData.name,
+        lastName: '',
         age: signUpData.age,
         uid: data.user.uid
       }
-      this.authService.setAdditionalData(usersData).subscribe((data) => {
-        this.form.reset();
-        this.router.navigate(['portal', 'dashboard']);
+      this.authService.setAdditionalData(usersData).subscribe((id) => {
+        this.authService.saveDocumentID(id).subscribe(() => {
+          this.form.reset();
+          this.router.navigate(['portal', 'dashboard']);
+        })
       })
     })
   }

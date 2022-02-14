@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
           ...user,
           name: response.name,
           age: response.age,
+          docID: response.docID,
         };
         this.store.dispatch(setUser({user: userWithAllData}));
         this.form.reset();

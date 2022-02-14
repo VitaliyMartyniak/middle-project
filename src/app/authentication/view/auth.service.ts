@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {from, Observable} from "rxjs";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {addDoc, collection, getDocs, getFirestore, query, where} from "@angular/fire/firestore";
+import {addDoc, collection, doc, getDocs, getFirestore, query, updateDoc, where} from "@angular/fire/firestore";
 import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
@@ -57,7 +57,24 @@ export class AuthService {
   }
 
   setAdditionalData(userData: any) {
-    return from(addDoc(this.usersDataRef, userData).then(r => r));
+    return from(addDoc(this.usersDataRef, userData).then(r => r.id));
+  }
+
+  saveDocumentID(id: string) {
+    const docRef = doc(this.db, 'usersData', id);
+    return from(updateDoc(docRef, {
+      docID: id
+    }).then(r => r));
+  }
+
+  updateUserProfileInfo(usersData: any, id: string) {
+    const docRef = doc(this.db, 'usersData', id);
+    console.log('docRef', docRef);
+    return from(updateDoc(docRef, {
+      name: usersData.name,
+      lastName: usersData.lastName,
+      age: usersData.age,
+    }).then(r => r));
   }
 
   getAdditionalData(userId: string): Observable<any> {

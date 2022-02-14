@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {userSelector} from "../../../../store/selectors/auth";
+import {Subscription} from "rxjs";
+import {Store} from "@ngrx/store";
+import {AuthService} from "../../../../authentication/view/auth.service";
 
 @Component({
   selector: 'app-profile-info',
@@ -8,27 +12,35 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class ProfileInfoComponent implements OnInit {
   form: FormGroup;
+  private userSub: Subscription;
+  docID: string;
 
-  constructor() {}
+  constructor(private store: Store, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      firstName: new FormControl('', [
+      name: new FormControl('', [
         Validators.required
       ]),
-      lastName: new FormControl('', [
-        Validators.required
-      ]),
+      lastName: new FormControl(''),
       age: new FormControl('', [
-        Validators.required,
         Validators.min(1),
       ]),
     });
-    // console.log(this.form);
+    this.userSub = this.store.select(userSelector).subscribe((user: any): void => {
+      this.form.patchValue({name: user.name});
+      this.form.patchValue({lastName: user.lastName});
+      this.form.patchValue({age: user.age});
+      this.docID = user.docID;
+    })
   }
 
   submit() {
-    const formData = {...this.form.value}
-    // console.log(formData);
+    const formData = {...this.form.value};
+    console.log('formData', formData);
+    console.log('this.docID', this.docID);
+    this.authService.updateUserProfileInfo(formData, this.docID).subscribe((data) => {
+      console.log('profile info data', data);// returns undefined
+    });
   }
 }
