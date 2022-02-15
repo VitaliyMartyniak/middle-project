@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../../../authentication/view/auth.service";
+import {AuthService} from "../../../authentication/services/auth.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {userSelector} from "../../../store/selectors/auth";
+import {setUser} from "../../../store/actions/auth";
 
 @Component({
   selector: 'app-portal-landing',
@@ -17,15 +18,16 @@ export class PortalLandingComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private store: Store) { }
 
   ngOnInit(): void {
+    this.authService.autoLogin();
     this.userSub = this.store.select(userSelector).subscribe((user: any): void => {
       this.user = user;
-      console.log('user in component', this.user);
     })
   }
 
   logout(event: Event) {
     event.preventDefault();
     this.authService.logout().subscribe(() => {
+      this.authService.logout();
       this.router.navigate(['login']);
     });
   }

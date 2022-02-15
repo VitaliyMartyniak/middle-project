@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../auth.service";
+import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {setUser} from "../../../store/actions/auth";
@@ -31,19 +31,9 @@ export class LoginComponent implements OnInit {
   loginByEmail() {
     const loginData = {...this.form.value};
     this.authService.login(loginData).subscribe(response => {
-      const user = {
-        email: response.user.email,
-        uid: response.user.uid,
-        registrationType: response.user.providerId,
-      }
-      this.authService.getAdditionalData(user.uid).subscribe(response => {
-        const userWithAllData = {
-          ...user,
-          name: response.name,
-          age: response.age,
-          docID: response.docID,
-        };
-        this.store.dispatch(setUser({user: userWithAllData}));
+      this.authService.getAdditionalData(response.user.uid).subscribe(usersData => {
+        localStorage.setItem('userID', usersData.uid);
+        this.authService.setToken(+response._tokenResponse.expiresIn, response._tokenResponse.idToken);
         this.form.reset();
         this.router.navigate(['portal', 'dashboard']);
       });

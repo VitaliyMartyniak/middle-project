@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomValidators} from "../../../shared/custom-validators";
-import {AuthService} from "../auth.service";
+import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import {Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-sign-up',
@@ -12,7 +13,7 @@ import {Router} from "@angular/router";
 export class SignUpComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private store: Store) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -56,6 +57,8 @@ export class SignUpComponent implements OnInit {
       }
       this.authService.setAdditionalData(usersData).subscribe((id) => {
         this.authService.saveDocumentID(id).subscribe(() => {
+          localStorage.setItem('userID', usersData.uid);
+          this.authService.setToken(+data._tokenResponse.expiresIn, data._tokenResponse.idToken);
           this.form.reset();
           this.router.navigate(['portal', 'dashboard']);
         })

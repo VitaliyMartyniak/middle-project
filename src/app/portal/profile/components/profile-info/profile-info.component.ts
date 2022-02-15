@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {userSelector} from "../../../../store/selectors/auth";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
-import {AuthService} from "../../../../authentication/view/auth.service";
+import {AuthService} from "../../../../authentication/services/auth.service";
 
 @Component({
   selector: 'app-profile-info',
@@ -37,8 +37,6 @@ export class ProfileInfoComponent implements OnInit {
 
   submit() {
     const formData = {...this.form.value};
-    console.log('formData', formData);
-    console.log('this.docID', this.docID);
     this.authService.updateUserProfileInfo(formData, this.docID).subscribe((data) => {
       console.log('profile info data', data);// returns undefined
     });
