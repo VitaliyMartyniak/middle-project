@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {userSelector} from "../../../store/selectors/auth";
-import {setUser} from "../../../store/actions/auth";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-portal-landing',
@@ -15,10 +15,9 @@ export class PortalLandingComponent implements OnInit {
   private userSub: Subscription;
   user: any = null;
 
-  constructor(private authService: AuthService, private router: Router, private store: Store) { }
+  constructor(private authService: AuthService, private router: Router, private store: Store, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.authService.autoLogin();
     this.userSub = this.store.select(userSelector).subscribe((user: any): void => {
       this.user = user;
     })

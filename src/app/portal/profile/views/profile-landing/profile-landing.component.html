@@ -1,4 +1,4 @@
-<section class="profile">
+<section class="profile" *ngIf="user">
   <h2>Manage your account</h2>
 
   <mat-tab-group animationDuration="0ms">
@@ -6,7 +6,7 @@
       <app-profile-info></app-profile-info>
     </mat-tab>
     <mat-tab label="User Avatar">
-      <app-profile-avatar></app-profile-avatar>
+      <app-profile-avatar [docID]="user['docID']"></app-profile-avatar>
     </mat-tab>
     <mat-tab label="Change Password">
       <app-profile-password></app-profile-password>

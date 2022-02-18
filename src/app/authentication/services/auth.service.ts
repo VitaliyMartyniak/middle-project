@@ -58,11 +58,8 @@ export class AuthService {
 
   updateUserProfileInfo(usersData: any, id: string) {
     const docRef = doc(this.db, 'usersData', id);
-    return from(updateDoc(docRef, {
-      name: usersData.name,
-      lastName: usersData.lastName,
-      age: usersData.age,
-    }).then(r => r));
+    console.log('usersData', usersData);
+    return from(updateDoc(docRef, usersData).then(r => r));
   }
 
   getAdditionalData(userId: string): Observable<any> {

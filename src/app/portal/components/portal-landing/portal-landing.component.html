@@ -12,7 +12,9 @@
         </mat-form-field>
       </section>
       <section class="profile">
-        <div class="profile-photo"></div>
+        <div class="profile-photo" *ngIf="user">
+          <img [src]="user.photoUrl" alt="User avatar"/>
+        </div>
         <span class="profile-name">{{user ? user.name : ''}}</span>
         <button class="profile-dropdown" mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>keyboard_arrow_down</mat-icon>
@@ -22,7 +24,6 @@
             <a routerLink="/portal/profile">Edit profile</a>
           </button>
         </mat-menu>
-<!--        <mat-icon class="profile-dropdown">keyboard_arrow_down</mat-icon>-->
       </section>
     </section>
   </section>

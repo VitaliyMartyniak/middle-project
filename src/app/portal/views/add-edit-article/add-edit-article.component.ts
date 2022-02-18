@@ -32,9 +32,9 @@ export class AddEditArticleComponent {
     // console.log(formData);
   }
 
-  updateFile(file: FileHandle | null) {
+  updateFile(base64File: string) {
     // console.log(file);
-    this.form.patchValue({photo: file});
-    this.form.get('photo')?.markAsTouched();
+    // this.form.patchValue({photo: file});
+    // this.form.get('photo')?.markAsTouched();
   }
 }

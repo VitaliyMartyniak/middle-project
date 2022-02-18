@@ -2,10 +2,10 @@
   <h3>Change your photo</h3>
   <p>Drag and drop file below</p>
 
-  <app-photo-dnd [containerHeight]="'256px'"></app-photo-dnd>
+  <app-photo-dnd [containerHeight]="'256px'" (updateFile)="updateFile($event)"></app-photo-dnd>
 
   <section class="form-actions">
     <a class="btn-regular btn-small" mat-button routerLink="portal/dashboard">Cancel</a>
-    <button class="btn-primary btn-small" mat-button>Save</button>
+    <button class="btn-primary btn-small" mat-button (click)="updateAvatar()">Save</button>
   </section>
 </section>
