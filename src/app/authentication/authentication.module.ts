@@ -8,6 +8,7 @@ import {AuthLandingComponent} from './components/auth-landing/auth-landing.compo
 import { TermsComponent } from './view/terms/terms.component';
 import {SharedModule} from "../shared/shared.module";
 import {AuthService} from "./services/auth.service";
+import { AuthAlternativeComponent } from './components/auth-alternative/auth-alternative.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import {AuthService} from "./services/auth.service";
     ForgotPasswordComponent,
     SignUpComponent,
     TermsComponent,
+    AuthAlternativeComponent,
   ],
   providers: [AuthService]
 })

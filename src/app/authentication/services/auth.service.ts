@@ -32,10 +32,13 @@ export class AuthService {
 
   autoLogin() {
     const userID = localStorage.getItem('userID');
+    const alternativeUser = localStorage.getItem('alternativeUser');
     if (userID) {
       this.getAdditionalData(userID).subscribe(user => {
         this.store.dispatch(setUser({user}));
       })
+    } else if (alternativeUser) {
+      this.store.dispatch(setUser({user: JSON.parse(alternativeUser)}));
     }
   }
 

@@ -35,14 +35,7 @@
     <div class="line"></div>
   </div>
 
-  <section class="auth-alternative">
-    <button mat-button (click)="loginByGoogle()">
-      <img src="assets/img/logos/google.svg" alt="Google">
-    </button>
-    <button mat-button (click)="loginByFacebook()">
-      <img src="assets/img/logos/facebook.svg" alt="Facebook">
-    </button>
-  </section>
+  <app-auth-alternative></app-auth-alternative>
 
   <span class="sign-up-message">Don’t have an account? <a routerLink="/register">Sign Up</a></span>
 </section>

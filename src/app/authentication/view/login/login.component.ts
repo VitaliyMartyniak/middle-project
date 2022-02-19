@@ -39,23 +39,4 @@ export class LoginComponent implements OnInit {
       });
     });
   }
-
-  loginByGoogle() {
-    this.authService.googleLogin().subscribe(response => {
-      const clonedResponse = JSON.parse(JSON.stringify(response));
-      const googleUser = {
-        name: clonedResponse.user.displayName,
-        email: clonedResponse.user.email,
-        photoURL: clonedResponse.user.photoURL,
-        uid: clonedResponse.user.uid,
-        registrationType: clonedResponse.providerId,
-      }
-      this.store.dispatch(setUser({user: googleUser}));
-      this.router.navigate(['portal', 'dashboard']);
-    })
-  }
-
-  loginByFacebook() {
-    this.authService.facebookLogin();
-  }
 }
