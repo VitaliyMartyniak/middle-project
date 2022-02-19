@@ -14,6 +14,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {AuthGuard} from "./guards/auth.guard";
+import {ProfileGuard} from "./guards/profile.guard";
 
 @NgModule({
   imports: [
@@ -51,7 +52,7 @@ import {AuthGuard} from "./guards/auth.guard";
     PhotoDndDirective,
     PhotoDndComponent
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, ProfileGuard],
 })
 export class SharedModule {
 

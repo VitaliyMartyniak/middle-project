@@ -11,12 +11,12 @@
           <input matInput placeholder="Find articles...">
         </mat-form-field>
       </section>
-      <section class="profile">
-        <div class="profile-photo" *ngIf="user">
+      <section class="profile" *ngIf="user">
+        <div class="profile-photo">
           <img [src]="user.photoUrl" alt="User avatar"/>
         </div>
         <span class="profile-name">{{user ? user.name : ''}}</span>
-        <button class="profile-dropdown" mat-icon-button [matMenuTriggerFor]="menu">
+        <button *ngIf="user.registrationType === 'firebase'" class="profile-dropdown" mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

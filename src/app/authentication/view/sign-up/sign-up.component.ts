@@ -53,7 +53,8 @@ export class SignUpComponent implements OnInit {
         name: signUpData.name,
         lastName: '',
         age: signUpData.age,
-        uid: data.user.uid
+        uid: data.user.uid,
+        registrationType: 'firebase',
       }
       this.authService.setAdditionalData(usersData).subscribe((id) => {
         this.authService.saveDocumentID(id).subscribe(() => {

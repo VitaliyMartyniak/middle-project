@@ -7,6 +7,7 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { ArticlesComponent } from './components/articles/articles.component';
 import { WeatherWidgetComponent } from './components/weather-widget/weather-widget.component';
 import { AddEditArticleComponent } from './views/add-edit-article/add-edit-article.component';
+import {ProfileGuard} from "../shared/guards/profile.guard";
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { AddEditArticleComponent } from './views/add-edit-article/add-edit-artic
           {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
           {path: 'dashboard', component: DashboardComponent},
           {path: 'article', component: AddEditArticleComponent},
-          {path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)}
+          {path: 'profile', canActivate: [ProfileGuard], loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)}
         ],
       },
       {path: '**', redirectTo: '/portal'},
