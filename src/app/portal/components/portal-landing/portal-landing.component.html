@@ -13,9 +13,10 @@
       </section>
       <section class="profile" *ngIf="user">
         <div class="profile-photo">
-          <img [src]="user.photoUrl" alt="User avatar"/>
+          <img *ngIf="user.photoUrl" [src]="user.photoUrl" alt="User avatar"/>
+          <img *ngIf="!user.photoUrl" src="assets/img/unknown-user.png" alt="User avatar"/>
         </div>
-        <span class="profile-name">{{user ? user.name : ''}}</span>
+        <span class="profile-name">{{user.name}} {{user.lastName}}</span>
         <button *ngIf="user.registrationType === 'firebase'" class="profile-dropdown" mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
