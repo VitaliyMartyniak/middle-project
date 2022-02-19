@@ -5,13 +5,16 @@ import {ProfileService} from "../../profile.service";
 import {getAuth} from "@angular/fire/auth";
 import {debounceTime, distinctUntilChanged, fromEvent} from "rxjs";
 import { ChangeDetectorRef } from '@angular/core';
+import firebase from "firebase/compat/app";
+import EmailAuthProvider = firebase.auth.EmailAuthProvider;
+import User = firebase.User;
 
 @Component({
   selector: 'app-profile-password',
   templateUrl: './profile-password.component.html',
   styleUrls: ['./profile-password.component.scss']
 })
-export class ProfilePasswordComponent implements OnInit, AfterViewInit {
+export class ProfilePasswordComponent implements OnInit {
   @ViewChild('oldPassword') oldPassword: ElementRef;
 
   private auth = getAuth();
@@ -32,31 +35,27 @@ export class ProfilePasswordComponent implements OnInit, AfterViewInit {
         Validators.required,
       ]),
       // @ts-ignore
-    }, [CustomValidators.passwordMatchValidator, CustomValidators.passwordNotMatchValidator, CustomValidators.oldPasswordValidator(this.profileService, this.auth)]);
-    // console.log(this.form);
+    }, [CustomValidators.passwordMatchValidator, CustomValidators.passwordNotMatchValidator]);
   }
 
-  ngAfterViewInit() {
-    // this.fieldOne.valueChanges
-    //   .pipe(debounceTime(300))
-    //   .subscribe(value => {
-    //     this.formGroup.get('fieldOne').setValue(value);
-    //   });
-    let oldPassword$ = fromEvent(this.oldPassword.nativeElement, 'keyup').pipe(
-      debounceTime(3000),
-      distinctUntilChanged()
-    )
-    .subscribe((elem: any) => {
-      const oldPassword = elem.target.value;
-      this.form.patchValue({oldPassword});
-      this.form.get('oldPassword')!.markAsDirty();
-      this.form.get('oldPassword')!.markAsTouched();
-      // this.form.get('oldPassword')!.setErrors({ required: true });
-      oldPassword === '' ? this.form.get('oldPassword')!.setErrors({ required: true }) : this.form.get('oldPassword')!.setErrors({ required: false })
-      // console.log('control', this.form.get('oldPassword'));
-      // this.ref.detectChanges();
-    });
-  }
+  // ngAfterViewInit() {
+  //   // this.fieldOne.valueChanges
+  //   //   .pipe(debounceTime(300))
+  //   //   .subscribe(value => {
+  //   //     this.formGroup.get('fieldOne').setValue(value);
+  //   //   });
+  //   let oldPassword$ = fromEvent(this.oldPassword.nativeElement, 'keyup').pipe(
+  //     debounceTime(3000),
+  //     distinctUntilChanged()
+  //   )
+  //   .subscribe((elem: any) => {
+  //     const oldPassword = elem.target.value;
+  //     this.form.patchValue({oldPassword});
+  //     this.form.get('oldPassword')!.markAsDirty();
+  //     this.form.get('oldPassword')!.markAsTouched();
+  //     oldPassword === '' ? this.form.get('oldPassword')!.setErrors({ required: true }) : this.form.get('oldPassword')!.setErrors({ required: false })
+  //   });
+  // }
 
   // get oldPasswordRequiredErrors() {
   //   // @ts-ignore
@@ -66,7 +65,22 @@ export class ProfilePasswordComponent implements OnInit, AfterViewInit {
   // }
 
   submit() {
-    const formData = {...this.form.value}
-    // console.log(formData);
+    const formData = {...this.form.value};
+    const user: any = this.auth.currentUser!;
+    if (!user || !user.email) return
+    const credential = EmailAuthProvider.credential(
+      user.email,
+      formData.oldPassword
+    );
+    this.profileService.checkOldPassword(user, credential).subscribe(result => {
+      console.log('old password is correct');
+      this.profileService.updatePassword(user, formData.password).subscribe(data => {
+        console.log('new password is set');
+      })
+    },(e => {
+      console.log('old password is not correct');
+      return e
+    }));
+    console.log(formData);
   }
 }
