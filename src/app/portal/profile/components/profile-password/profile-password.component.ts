@@ -20,7 +20,7 @@ export class ProfilePasswordComponent implements OnInit {
   private auth = getAuth();
   form: FormGroup;
 
-  constructor(private profileService: ProfileService, private ref: ChangeDetectorRef) {}
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -64,7 +64,7 @@ export class ProfilePasswordComponent implements OnInit {
   //   return this.form.get('oldPassword')!.errors['required'];
   // }
 
-  submit() {
+  updatePassword(): void {
     const formData = {...this.form.value};
     const user: any = this.auth.currentUser!;
     if (!user || !user.email) return
@@ -72,15 +72,14 @@ export class ProfilePasswordComponent implements OnInit {
       user.email,
       formData.oldPassword
     );
-    this.profileService.checkOldPassword(user, credential).subscribe(result => {
+    this.profileService.checkOldPassword(user, credential).subscribe(() => {
       console.log('old password is correct');
-      this.profileService.updatePassword(user, formData.password).subscribe(data => {
+      this.profileService.updatePassword(user, formData.password).subscribe(() => {
         console.log('new password is set');
       })
     },(e => {
       console.log('old password is not correct');
       return e
     }));
-    console.log(formData);
   }
 }

@@ -19,17 +19,17 @@ export class PhotoDndDirective {
 
   constructor(private sanitizer: DomSanitizer) { }
 
-  @HostListener("dragover", ["$event"]) public onDragOver(evt: DragEvent) {
+  @HostListener("dragover", ["$event"]) public onDragOver(evt: DragEvent): void {
     evt.preventDefault();
     evt.stopPropagation();
   }
 
-  @HostListener("dragleave", ["$event"]) public onDragLeave(evt: DragEvent) {
+  @HostListener("dragleave", ["$event"]) public onDragLeave(evt: DragEvent): void {
     evt.preventDefault();
     evt.stopPropagation();
   }
 
-  @HostListener('drop', ['$event']) public onDrop(evt: DragEvent) {
+  @HostListener('drop', ['$event']) public onDrop(evt: DragEvent): void {
     evt.preventDefault();
     evt.stopPropagation();
 

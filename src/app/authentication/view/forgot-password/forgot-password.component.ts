@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CustomValidators} from "../../../shared/custom-validators";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 
@@ -23,7 +22,7 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  submit() {
+  sendResetPasswordRequest(): void {
     this.authService.forgotPasswordRequest(this.form.value.email).subscribe(() => {
       this.form.reset();
       this.router.navigate(['login']);

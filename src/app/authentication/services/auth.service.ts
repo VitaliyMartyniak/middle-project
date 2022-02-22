@@ -14,6 +14,9 @@ import {
 } from "@angular/fire/auth";
 import {setUser} from "../../store/actions/auth";
 import {Store} from "@ngrx/store";
+import firebase from "firebase/compat";
+import {AuthResponse, UserData} from "../../shared/interfaces";
+import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable()
 export class AuthService {
@@ -24,17 +27,22 @@ export class AuthService {
   constructor(private fireStore: AngularFirestore, private store: Store) {
   }
 
-  login(loginData: any): Observable<any> {
-    return from(signInWithEmailAndPassword(this.auth, loginData.email, loginData.password).then(r => {
-      return r;
+  login(email: string, password: string): Observable<AuthResponse> {
+    return from(signInWithEmailAndPassword(this.auth, email, password).then(r => {
+      const clonedResponse = JSON.parse(JSON.stringify(r));
+      return {
+        uid: clonedResponse.user.uid,
+        expiresIn: +clonedResponse._tokenResponse.expiresIn,
+        idToken: clonedResponse._tokenResponse.idToken
+      };
     }));
   }
 
-  autoLogin() {
+  autoLogin(): void {
     const userID = localStorage.getItem('userID');
     const alternativeUser = localStorage.getItem('alternativeUser');
     if (userID) {
-      this.getAdditionalData(userID).subscribe(user => {
+      this.getAdditionalData(userID).subscribe((user: DocumentData) => {
         this.store.dispatch(setUser({user}));
       })
     } else if (alternativeUser) {
@@ -42,46 +50,48 @@ export class AuthService {
     }
   }
 
-  signUpUser(signUpData: any): Observable<any> {
-    return from(createUserWithEmailAndPassword(this.auth, signUpData.email, signUpData.password).then(r => {
-        return r;
+  signUpUser(email: string, password: string): Observable<AuthResponse> {
+    return from(createUserWithEmailAndPassword(this.auth, email, password).then(r => {
+      const clonedResponse = JSON.parse(JSON.stringify(r));
+      return {
+        uid: clonedResponse.user.uid,
+        expiresIn: +clonedResponse._tokenResponse.expiresIn,
+        idToken: clonedResponse._tokenResponse.idToken
+      };
     }));
   }
 
-  setAdditionalData(userData: any) {
+  setAdditionalData(userData: UserData): Observable<string> {
     return from(addDoc(this.usersDataRef, userData).then(r => r.id));
   }
 
-  saveDocumentID(id: string) {
+  saveDocumentID(id: string): Observable<void> {
     const docRef = doc(this.db, 'usersData', id);
     return from(updateDoc(docRef, {
       docID: id
-    }).then(r => r));
+    }).then(() => undefined));
   }
 
-  updateUserProfileInfo(usersData: any, id: string) {
+  updateUserProfileInfo(usersData: any, id: string): Observable<void> {
     const docRef = doc(this.db, 'usersData', id);
-    console.log('usersData', usersData);
-    return from(updateDoc(docRef, usersData).then(r => r));
+    return from(updateDoc(docRef, usersData).then(() => undefined));
   }
 
-  getAdditionalData(userId: string): Observable<any> {
+  getAdditionalData(userId: string): Observable<DocumentData> {
     const q = query(this.usersDataRef, where('uid', '==', userId));
     return from(getDocs(q).then(r => {
       return {...r.docs[0].data()};
     }));
   }
 
-  forgotPasswordRequest(email: any): Observable<any> {
-    return from(sendPasswordResetEmail(this.auth, email).then(r => {
-      return r;
-    }));
+  forgotPasswordRequest(email: string): Observable<void> {
+    return from(sendPasswordResetEmail(this.auth, email).then(() => undefined));
   }
 
-  logout() {
+  logout(): Observable<void> {
     return from(signOut(this.auth).then(r => {
       localStorage.clear();
-      return r;
+      return undefined;
     }));
   }
 
@@ -99,7 +109,7 @@ export class AuthService {
     return localStorage.getItem('fb-token');
   }
 
-  setToken(expiresIn: number, idToken: string) {
+  setToken(expiresIn: number, idToken: string): void {
     const expDate = new Date(new Date().getTime() + expiresIn * 1000);
     localStorage.setItem('fb-token', idToken);
     localStorage.setItem('fb-token-exp', expDate.toString());

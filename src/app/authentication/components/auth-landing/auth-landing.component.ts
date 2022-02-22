@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { Router, NavigationStart, Event as NavigationEvent } from "@angular/router";
+import {Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
 import {Subscription} from "rxjs";
 
 @Component({

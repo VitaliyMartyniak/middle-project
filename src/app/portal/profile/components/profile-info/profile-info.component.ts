@@ -4,6 +4,7 @@ import {userSelector} from "../../../../store/selectors/auth";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AuthService} from "../../../../authentication/services/auth.service";
+import {UserData} from "../../../../shared/interfaces";
 
 @Component({
   selector: 'app-profile-info',
@@ -13,7 +14,7 @@ import {AuthService} from "../../../../authentication/services/auth.service";
 export class ProfileInfoComponent implements OnInit {
   form: FormGroup;
   private userSub: Subscription;
-  docID: string;
+  docID: string | undefined = '';
 
   constructor(private store: Store, private authService: AuthService) {}
 
@@ -27,7 +28,7 @@ export class ProfileInfoComponent implements OnInit {
         Validators.min(1),
       ]),
     });
-    this.userSub = this.store.select(userSelector).subscribe((user: any): void => {
+    this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
       this.form.patchValue({name: user.name});
       this.form.patchValue({lastName: user.lastName});
       this.form.patchValue({age: user.age});
@@ -35,10 +36,10 @@ export class ProfileInfoComponent implements OnInit {
     })
   }
 
-  submit() {
+  updateProfileInfo(): void {
     const formData = {...this.form.value};
-    this.authService.updateUserProfileInfo(formData, this.docID).subscribe((data) => {
-      console.log('profile info data', data);// returns undefined
+    this.authService.updateUserProfileInfo(formData, this.docID!).subscribe(() => {
+      // returns undefined
     });
   }
 }

@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {userSelector} from "../../../store/selectors/auth";
 import { DomSanitizer } from '@angular/platform-browser';
+import {UserData} from "../../../shared/interfaces";
 
 @Component({
   selector: 'app-portal-landing',
@@ -18,12 +19,12 @@ export class PortalLandingComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private store: Store, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.userSub = this.store.select(userSelector).subscribe((user: any): void => {
+    this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
       this.user = user;
     })
   }
 
-  logout(event: Event) {
+  logout(event: Event): void {
     event.preventDefault();
     this.authService.logout().subscribe(() => {
       this.authService.logout();

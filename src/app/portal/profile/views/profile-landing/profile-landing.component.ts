@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {userSelector} from "../../../../store/selectors/auth";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
+import {UserData} from "../../../../shared/interfaces";
 
 @Component({
   selector: 'app-profile-landing',
@@ -10,12 +11,12 @@ import {Store} from "@ngrx/store";
 })
 export class ProfileLandingComponent implements OnInit, OnDestroy {
   private userSub: Subscription;
-  user = null;
+  user: UserData;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.userSub = this.store.select(userSelector).subscribe((user: any): void => {
+    this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
       this.user = user;
     })
   }

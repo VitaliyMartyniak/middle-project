@@ -17,19 +17,20 @@ export class PhotoDndComponent {
 
   constructor(private sanitizer: DomSanitizer) { }
 
-  onFileDropped(fileHandle: FileHandle) {
+  onFileDropped(fileHandle: FileHandle): void {
     this.file = fileHandle.file;
     this.url = fileHandle.url;
     this.convertFileToBase64();
   }
 
-  fileBrowseHandler(event: any) {
-    this.file = event.target.files[0];
+  fileBrowseHandler(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.file = target.files![0];
     this.url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(this.file));
     this.convertFileToBase64();
   }
 
-  convertFileToBase64() {
+  convertFileToBase64(): void {
     let reader = new FileReader();
     reader.readAsDataURL(this.file as Blob);
     reader.onloadend = () => {
@@ -38,7 +39,7 @@ export class PhotoDndComponent {
     }
   }
 
-  deleteFile() {
+  deleteFile(): void {
     this.file = null;
     this.url = '';
     this.updateFile.emit('');

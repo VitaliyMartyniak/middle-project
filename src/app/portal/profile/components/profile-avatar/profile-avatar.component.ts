@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {FileHandle} from "../../../../shared/directives/photo-dnd.directive";
 import {AuthService} from "../../../../authentication/services/auth.service";
 
 @Component({
@@ -8,19 +7,19 @@ import {AuthService} from "../../../../authentication/services/auth.service";
   styleUrls: ['./profile-avatar.component.scss']
 })
 export class ProfileAvatarComponent {
-  @Input() docID = '';
+  @Input() docID: string | undefined;
 
   base64File = '';
 
   constructor(private authService: AuthService) { }
 
-  updateFile(base64File: string) {
+  updateFile(base64File: string): void {
     this.base64File = base64File;
   }
 
-  updateAvatar() {
-    this.authService.updateUserProfileInfo({photoUrl: this.base64File}, this.docID).subscribe((data) => {
-      console.log('profile info data', data);// returns undefined
+  updateAvatar(): void {
+    this.authService.updateUserProfileInfo({photoUrl: this.base64File}, this.docID!).subscribe(() => {
+      // returns undefined
     });
   }
 }

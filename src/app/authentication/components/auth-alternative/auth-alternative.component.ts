@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {setUser} from "../../../store/actions/auth";
+import { Component } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {Store} from "@ngrx/store";
 import {Router} from "@angular/router";
+import {UserData} from "../../../shared/interfaces";
 
 @Component({
   selector: 'app-auth-alternative',
@@ -13,12 +13,11 @@ export class AuthAlternativeComponent {
 
   constructor(private authService: AuthService, private store: Store, private router: Router) { }
 
-  loginByGoogle() {
+  loginByGoogle(): void {
     this.authService.googleLogin().subscribe(response => {
       const clonedResponse = JSON.parse(JSON.stringify(response));
-      const usersData = {
+      const usersData: UserData = {
         name: clonedResponse.user.displayName,
-        email: clonedResponse.user.email,
         photoUrl: clonedResponse.user.photoURL,
         uid: clonedResponse.user.uid,
         registrationType: clonedResponse.providerId,
@@ -29,7 +28,7 @@ export class AuthAlternativeComponent {
     })
   }
 
-  loginByFacebook() {
+  loginByFacebook(): void {
     this.authService.facebookLogin();
   }
 

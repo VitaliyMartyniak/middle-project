@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
-import {setUser} from "../../../store/actions/auth";
+import {AuthResponse} from "../../../shared/interfaces";
+import firebase from "firebase/compat";
+import DocumentData = firebase.firestore.DocumentData;
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import {setUser} from "../../../store/actions/auth";
 export class LoginComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router, private store: Store) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -28,12 +29,12 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  loginByEmail() {
+  loginByEmail(): void {
     const loginData = {...this.form.value};
-    this.authService.login(loginData).subscribe(response => {
-      this.authService.getAdditionalData(response.user.uid).subscribe(usersData => {
-        localStorage.setItem('userID', usersData.uid);
-        this.authService.setToken(+response._tokenResponse.expiresIn, response._tokenResponse.idToken);
+    this.authService.login(loginData.email, loginData.password).subscribe((response: AuthResponse) => {
+      this.authService.getAdditionalData(response.uid).subscribe((usersData: DocumentData) => {
+        localStorage.setItem('userID', usersData['uid']);
+        this.authService.setToken(response.expiresIn, response.idToken);
         this.form.reset();
         this.router.navigate(['portal', 'dashboard']);
       });

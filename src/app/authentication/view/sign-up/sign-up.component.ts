@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomValidators} from "../../../shared/custom-validators";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
+import {AuthResponse, UserData} from "../../../shared/interfaces";
 
 @Component({
   selector: 'app-sign-up',
@@ -13,7 +13,7 @@ import {Store} from "@ngrx/store";
 export class SignUpComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router, private store: Store) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -42,24 +42,20 @@ export class SignUpComponent implements OnInit {
     }, CustomValidators.passwordMatchValidator);
   }
 
-  submit() {
+  signUpUser(): void {
     const signUpData = {...this.form.value}
-    const firebaseSignUpData = {
-      email: signUpData.email,
-      password: signUpData.password
-    };
-    this.authService.signUpUser(firebaseSignUpData).subscribe((data) => {
-      const usersData = {
+    this.authService.signUpUser(signUpData.email, signUpData.password).subscribe((response: AuthResponse) => {
+      const usersData: UserData = {
         name: signUpData.name,
         lastName: '',
         age: signUpData.age,
-        uid: data.user.uid,
+        uid: response.uid,
         registrationType: 'firebase',
       }
-      this.authService.setAdditionalData(usersData).subscribe((id) => {
+      this.authService.setAdditionalData(usersData).subscribe((id: string) => {
         this.authService.saveDocumentID(id).subscribe(() => {
           localStorage.setItem('userID', usersData.uid);
-          this.authService.setToken(+data._tokenResponse.expiresIn, data._tokenResponse.idToken);
+          this.authService.setToken(response.expiresIn, response.idToken);
           this.form.reset();
           this.router.navigate(['portal', 'dashboard']);
         })
