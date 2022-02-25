@@ -18,12 +18,13 @@ export interface AuthResponse {
   expiresIn: number,
   idToken: string,
 }
+
 export interface Article {
   photo: string,
   category: string,
-  date: string,
+  date: number | string,
   title: string,
   text: string,
-  authorAvatar?: string,
+  authorAvatar?: string | null,
   authorName: string,
 }

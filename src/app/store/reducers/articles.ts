@@ -1,5 +1,5 @@
 import {createReducer, on} from "@ngrx/store";
-import {setArticles} from "../actions/articles";
+import {addNewArticle, setArticles} from "../actions/articles";
 import {Article} from "../../shared/interfaces";
 
 export interface ArticlesState {
@@ -33,6 +33,12 @@ export const articlesReducer = createReducer(
     return {
       ...state,
       articles
+    }
+  }),
+  on(addNewArticle, (state, {article}) => {
+    return {
+      ...state,
+      articles: [...state.articles, article]
     }
   }),
 );

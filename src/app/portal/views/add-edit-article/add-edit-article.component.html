@@ -12,6 +12,18 @@
       </mat-error>
     </mat-form-field>
 
+    <label for="category">Category</label>
+    <mat-form-field appearance="fill">
+      <mat-select id="category" placeholder="Choose category" formControlName="category">
+        <mat-option value="PRODUCTIVITY">PRODUCTIVITY</mat-option>
+        <mat-option value="MEDIA">MEDIA</mat-option>
+        <mat-option value="BUSINESS">BUSINESS</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('category')!.invalid && form.get('category')!.touched">
+        <span *ngIf="form.get('category')!.errors!['required']">Enter category</span>
+      </mat-error>
+    </mat-form-field>
+
     <label for="text">Text</label>
     <mat-form-field appearance="fill">
       <textarea id="text" matInput placeholder="Enter your text copy" formControlName="text"></textarea>
