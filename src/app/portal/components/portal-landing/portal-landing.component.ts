@@ -4,8 +4,9 @@ import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {userSelector} from "../../../store/selectors/auth";
-import { DomSanitizer } from '@angular/platform-browser';
-import {UserData} from "../../../shared/interfaces";
+import {Article, UserData} from "../../../shared/interfaces";
+import {PortalService} from "../../portal.service";
+import {setArticles} from "../../../store/actions/articles";
 
 @Component({
   selector: 'app-portal-landing',
@@ -14,11 +15,16 @@ import {UserData} from "../../../shared/interfaces";
 })
 export class PortalLandingComponent implements OnInit {
   private userSub: Subscription;
+  private articlesSub: Subscription;
   user: any = null;
 
-  constructor(private authService: AuthService, private router: Router, private store: Store, private sanitizer: DomSanitizer) { }
+  constructor(private authService: AuthService, private portalService: PortalService, private router: Router,
+              private store: Store) { }
 
   ngOnInit(): void {
+    this.articlesSub = this.portalService.getArticles().subscribe((articles: Article[]) => {
+      this.store.dispatch(setArticles({articles}));
+    });
     this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
       this.user = user;
     })

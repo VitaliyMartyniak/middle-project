@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Article} from "../shared/interfaces";
 import {from, Observable} from "rxjs";
-import {addDoc, collection, doc, getFirestore, updateDoc} from "@angular/fire/firestore";
+import {addDoc, collection, doc, getDocs, getFirestore, updateDoc} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +21,15 @@ export class PortalService {
     return from(updateDoc(docRef, {
       docID: id
     }).then(() => undefined));
+  }
+
+  getArticles(): Observable<Article[]> {
+    return from(getDocs(this.articlesRef).then(r => {
+      const articles: Article[] = [];
+      r.docs.forEach((article: any) => {
+        articles.push({...article.data()});
+      })
+      return articles;
+    }));
   }
 }
