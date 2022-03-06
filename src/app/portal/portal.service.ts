@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Article} from "../shared/interfaces";
 import {from, Observable} from "rxjs";
-import {addDoc, collection, doc, getDocs, getFirestore, updateDoc} from "@angular/fire/firestore";
+import {addDoc, collection, deleteDoc, doc, getDocs, getFirestore, updateDoc} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +36,10 @@ export class PortalService {
   updateArticle(articleData: any, id: string): Observable<void> {
     const docRef = doc(this.db, 'articles', id);
     return from(updateDoc(docRef, articleData).then(() => undefined));
+  }
+
+  deleteArticle(id: string): Observable<void> {
+    const docRef = doc(this.db, 'articles', id);
+    return from(deleteDoc(docRef).then(() => undefined));
   }
 }

@@ -1,5 +1,5 @@
 import {createReducer, on} from "@ngrx/store";
-import {addNewArticle, setArticles, updateArticle} from "../actions/articles";
+import {addNewArticle, removeArticle, setArticles, updateArticle} from "../actions/articles";
 import {Article} from "../../shared/interfaces";
 
 export interface ArticlesState {
@@ -51,6 +51,12 @@ export const articlesReducer = createReducer(
         category: articleData.category,
         photo: articleData.photo,
       }: article),
+    }
+  }),
+  on(removeArticle, (state, {docID}) => {
+    return {
+      ...state,
+      articles: state.articles.filter((article: Article) => article.docID !== docID),
     }
   }),
 );

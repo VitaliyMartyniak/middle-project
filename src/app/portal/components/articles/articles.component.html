@@ -9,7 +9,7 @@
         <a routerLink="/portal/article" [queryParams]="{docID: article.docID}" mat-menu-item>
           <span>Edit</span>
         </a>
-        <button mat-menu-item>
+        <button (click)="deleteArticle(article.docID!)" mat-menu-item>
           <span>Delete</span>
         </button>
       </mat-menu>
