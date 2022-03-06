@@ -1,5 +1,5 @@
 import {createReducer, on} from "@ngrx/store";
-import {addNewArticle, setArticles} from "../actions/articles";
+import {addNewArticle, setArticles, updateArticle} from "../actions/articles";
 import {Article} from "../../shared/interfaces";
 
 export interface ArticlesState {
@@ -39,6 +39,18 @@ export const articlesReducer = createReducer(
     return {
       ...state,
       articles: [...state.articles, article]
+    }
+  }),
+  on(updateArticle, (state, {articleData, docID}) => {
+    return {
+      ...state,
+      articles: state.articles.map((article: Article) => article.docID === docID ? {
+        ...article,
+        title: articleData.title,
+        text: articleData.text,
+        category: articleData.category,
+        photo: articleData.photo,
+      }: article),
     }
   }),
 );

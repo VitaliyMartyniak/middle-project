@@ -8,3 +8,7 @@ export const setArticles = createAction('[ARTICLES] set articles',
 export const addNewArticle = createAction('[ARTICLES] add new article',
   props<{article: Article}>()
 );
+
+export const updateArticle = createAction('[ARTICLES] update article',
+  props<{articleData: any, docID: string}>()
+);

@@ -1,5 +1,5 @@
 <section class="add-edit">
-  <h2>Add new article</h2>
+  <h2><span>{{docID ? 'Edit' : 'Add new'}}</span> article</h2>
 
   <div class="line"></div>
 
@@ -33,10 +33,10 @@
     </mat-form-field>
 
     <section class="add-photo">
-      <h3>Add cover photo</h3>
+      <h3><span>{{docID ? 'Edit' : 'Add'}}</span> cover photo</h3>
       <p>Drag and drop file below</p>
 
-      <app-photo-dnd [containerHeight]="'180px'" (updateFile)="updateFile($event)"></app-photo-dnd>
+      <app-photo-dnd [url]="form.get('photo')!.value" [containerHeight]="'180px'" (updateFile)="updateFile($event)"></app-photo-dnd>
       <mat-error *ngIf="form.get('photo')!.invalid && form.get('photo')!.touched">
         <span *ngIf="form.get('photo')!.errors!['required']">Add photo</span>
       </mat-error>

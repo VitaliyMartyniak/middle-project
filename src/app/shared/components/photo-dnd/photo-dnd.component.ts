@@ -10,29 +10,28 @@ import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 export class PhotoDndComponent {
 
   @Input() containerHeight: string = '';
+  @Input() url: SafeUrl = '';
   @Output() updateFile = new EventEmitter<string>();
 
-  file: Blob | null | undefined;
-  url: SafeUrl;
+  // file: Blob | null | undefined;
 
   constructor(private sanitizer: DomSanitizer) { }
 
   onFileDropped(fileHandle: FileHandle): void {
-    this.file = fileHandle.file;
     this.url = fileHandle.url;
-    this.convertFileToBase64();
+    this.convertFileToBase64(fileHandle.file);
   }
 
   fileBrowseHandler(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.file = target.files![0];
-    this.url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(this.file));
-    this.convertFileToBase64();
+    const file = target.files![0];
+    this.url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
+    this.convertFileToBase64(file);
   }
 
-  convertFileToBase64(): void {
+  convertFileToBase64(file: Blob | undefined): void {
     let reader = new FileReader();
-    reader.readAsDataURL(this.file as Blob);
+    reader.readAsDataURL(file as Blob);
     reader.onloadend = () => {
       const base64File = reader.result as string;
       this.updateFile.emit(base64File);
@@ -40,7 +39,7 @@ export class PhotoDndComponent {
   }
 
   deleteFile(): void {
-    this.file = null;
+    // this.file = null;
     this.url = '';
     this.updateFile.emit('');
   }

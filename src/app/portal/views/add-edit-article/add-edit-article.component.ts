@@ -5,8 +5,9 @@ import {userSelector} from "../../../store/selectors/auth";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {PortalService} from "../../portal.service";
-import {addNewArticle} from "../../../store/actions/articles";
-import {Router} from "@angular/router";
+import {addNewArticle, updateArticle} from "../../../store/actions/articles";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {articlesSelector} from "../../../store/selectors/articles";
 
 @Component({
   selector: 'app-add-edit-article',
@@ -16,9 +17,13 @@ import {Router} from "@angular/router";
 export class AddEditArticleComponent {
   form: FormGroup;
   private userSub: Subscription;
+  private articlesSub: Subscription;
   user: UserData;
+  mode: string;
+  docID: string;
+  // article: Article | undefined;
 
-  constructor(private portalService: PortalService, private store: Store, private router: Router) {}
+  constructor(private portalService: PortalService, private store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -35,6 +40,21 @@ export class AddEditArticleComponent {
         Validators.required,
       ]),
     });
+    this.route.queryParams.subscribe((params: Params) => {
+      if (params['docID']) {
+        this.articlesSub = this.store.select(articlesSelector).subscribe((articles: Article[]): void => {
+          this.docID = params['docID'];
+          const article = articles.find(article => article.docID === this.docID);
+          console.log('article', article);
+          if (article) {
+            this.form.patchValue({title: article.title});
+            this.form.patchValue({text: article.text});
+            this.form.patchValue({category: article.category});
+            this.form.patchValue({photo: article.photo});
+          }
+        });
+      }
+    });
     this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
       this.user = user;
     });
@@ -46,6 +66,14 @@ export class AddEditArticleComponent {
   }
 
   submit() {
+    if (this.docID) {
+      this.updateArticleData();
+    } else {
+      this.createNewArticle();
+    }
+  }
+
+  createNewArticle(): void {
     const formData = {...this.form.value};
     const newArticle: Article = {
       photo: formData.photo,
@@ -65,6 +93,14 @@ export class AddEditArticleComponent {
         this.store.dispatch(addNewArticle({article: newArticleWithDocID}));
         this.router.navigate(['portal', 'dashboard']);
       })
+    });
+  }
+
+  updateArticleData(): void {
+    const updatedArticleInfo = {...this.form.value};
+    this.portalService.updateArticle(updatedArticleInfo, this.docID).subscribe(() => {
+      this.store.dispatch(updateArticle({articleData: updatedArticleInfo, docID: this.docID}));
+      this.router.navigate(['portal', 'dashboard']);
     });
   }
 }

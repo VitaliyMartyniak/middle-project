@@ -26,5 +26,6 @@ export interface Article {
   title: string,
   text: string,
   authorAvatar?: string | null,
+  docID?: string,
   authorName: string,
 }

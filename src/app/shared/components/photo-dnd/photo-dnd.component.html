@@ -5,8 +5,8 @@
 
   <p class="hint">You can also upload files by</p>
   <label for="fileDropRef">clicking here</label>
-  <section [ngClass]="{'file-image-hidden': !!!file, 'file-image-show': !!file}">
-    <img class="uploaded-image" *ngIf="!!file" [src]="url" alt="Uploaded image"/>
+  <section [ngClass]="{'file-image-hidden': !url, 'file-image-show': url}">
+    <img class="uploaded-image" *ngIf="url" [src]="url" alt="Uploaded image"/>
   </section>
-  <button *ngIf="!!file" (click)="deleteFile()">X</button>
+  <button *ngIf="url" (click)="deleteFile()">X</button>
 </div>

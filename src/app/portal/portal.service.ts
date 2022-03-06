@@ -32,4 +32,9 @@ export class PortalService {
       return articles;
     }));
   }
+
+  updateArticle(articleData: any, id: string): Observable<void> {
+    const docRef = doc(this.db, 'articles', id);
+    return from(updateDoc(docRef, articleData).then(() => undefined));
+  }
 }
