@@ -4,7 +4,7 @@ import {Article, UserData} from "../../../shared/interfaces";
 import {userSelector} from "../../../store/selectors/auth";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
-import {PortalService} from "../../portal.service";
+import {PortalService} from "../../services/portal.service";
 import {addNewArticle, updateArticle} from "../../../store/actions/articles";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {articlesSelector} from "../../../store/selectors/articles";

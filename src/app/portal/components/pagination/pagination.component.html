@@ -1,0 +1,5 @@
+<mat-paginator [length]="length"
+               [pageSize]="10"
+               [pageIndex]="pageIndex$ | async"
+               (page)="handlePageEvent($event)">
+</mat-paginator>

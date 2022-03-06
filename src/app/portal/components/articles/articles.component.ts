@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Article} from "../../../shared/interfaces";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
-import {articlesSelector} from "../../../store/selectors/articles";
-import {PortalService} from "../../portal.service";
+import {PortalService} from "../../services/portal.service";
 import {removeArticle, updateArticle} from "../../../store/actions/articles";
+import {paginatedArticlesSelector} from "../../../store/selectors/pagination";
 
 @Component({
   selector: 'app-articles',
@@ -18,8 +18,11 @@ export class ArticlesComponent implements OnInit {
   constructor(private store: Store, private portalService: PortalService) { }
 
   ngOnInit(): void {
-    this.articlesSub = this.store.select(articlesSelector).subscribe((articles: Article[]): void => {
-      this.articles = articles;
+    this.articlesSub = this.store.select(paginatedArticlesSelector).subscribe((articles: Article[]): void => {
+      console.log('articles', articles);
+      if (articles) {
+        this.articles = articles;
+      }
     })
   }
 

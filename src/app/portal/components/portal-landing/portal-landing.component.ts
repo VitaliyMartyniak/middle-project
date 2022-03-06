@@ -5,7 +5,7 @@ import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {userSelector} from "../../../store/selectors/auth";
 import {Article, UserData} from "../../../shared/interfaces";
-import {PortalService} from "../../portal.service";
+import {PortalService} from "../../services/portal.service";
 import {setArticles} from "../../../store/actions/articles";
 
 @Component({

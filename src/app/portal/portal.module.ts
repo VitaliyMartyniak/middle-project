@@ -8,23 +8,30 @@ import { ArticlesComponent } from './components/articles/articles.component';
 import { WeatherWidgetComponent } from './components/weather-widget/weather-widget.component';
 import { AddEditArticleComponent } from './views/add-edit-article/add-edit-article.component';
 import {ProfileGuard} from "../shared/guards/profile.guard";
+import { PaginationComponent } from './components/pagination/pagination.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild([
-      {
-        path: '', component: PortalLandingComponent, children: [
-          {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-          {path: 'dashboard', component: DashboardComponent},
-          {path: 'article', component: AddEditArticleComponent},
-          {path: 'profile', canActivate: [ProfileGuard], loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)}
-        ],
-      },
-      {path: '**', redirectTo: '/portal'},
-    ]),
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        RouterModule.forChild([
+            {
+                path: '', component: PortalLandingComponent, children: [
+                    {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+                    {path: 'dashboard', component: DashboardComponent},
+                    {path: 'article', component: AddEditArticleComponent},
+                    {
+                        path: 'profile',
+                        canActivate: [ProfileGuard],
+                        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
+                    }
+                ],
+            },
+            {path: '**', redirectTo: '/portal'},
+        ]),
+        MatPaginatorModule,
+    ],
   exports: [RouterModule],
   declarations: [
     PortalLandingComponent,
@@ -32,6 +39,7 @@ import {ProfileGuard} from "../shared/guards/profile.guard";
     ArticlesComponent,
     WeatherWidgetComponent,
     AddEditArticleComponent,
+    PaginationComponent,
   ]
 })
 export class PortalModule { }
