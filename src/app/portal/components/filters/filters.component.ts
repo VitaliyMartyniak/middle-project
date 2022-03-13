@@ -41,12 +41,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   changeCategory(category: string) {
     this.store.dispatch(setCategory({category}));
-    console.log('category', category);
   }
 
   changeOrder(order: string) {
     this.store.dispatch(setOrder({order}));
-    console.log('order', order);
   }
 
   ngOnDestroy(): void {

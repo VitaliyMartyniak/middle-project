@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Observable} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {searchSelector} from "../../../store/selectors/filters";
-import {setSearch} from "../../../store/actions/filters";
+import {debounceInput} from "../../../store/actions/filters";
 
 @Component({
   selector: 'app-article-search',
@@ -18,6 +18,6 @@ export class ArticleSearchComponent implements OnInit {
   }
 
   searchArticles(search: string) {
-    this.store.dispatch(setSearch({search}));
+    this.store.dispatch(debounceInput({value: search}));
   }
 }

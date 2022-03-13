@@ -10,6 +10,8 @@ import { environment } from '../environments/environment';
 import {AngularFireModule} from "@angular/fire/compat";
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store';
+import {EffectsModule} from "@ngrx/effects";
+import {FiltersEffects} from "./store/effects/filters";
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { reducers, metaReducers } from './store';
     StoreModule.forRoot(reducers, {
       metaReducers
     }),
+    EffectsModule.forRoot([FiltersEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]
