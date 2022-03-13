@@ -1,0 +1,21 @@
+<section class="filters">
+  <h2>Articles Dashboard</h2>
+  <section class="categories-select">
+    <span>Show:</span>
+    <mat-select [(value)]="category" (selectionChange)="changeCategory($event.value)">
+      <mat-option *ngFor="let category of categories" [value]="category">
+        {{category}}
+      </mat-option>
+    </mat-select>
+  </section>
+  <section class="order-select">
+    <mat-form-field appearance="fill">
+      <span matPrefix>Sort by:</span>
+      <mat-select [(value)]="order" (selectionChange)="changeOrder($event.value)">
+        <mat-option *ngFor="let order of orders" [value]="order.value">
+          {{order.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+</section>

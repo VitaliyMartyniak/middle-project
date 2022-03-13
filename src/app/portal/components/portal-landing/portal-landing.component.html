@@ -5,12 +5,9 @@
 
   <section class="searcher-and-profile">
     <section class="searcher-and-profile-container">
-      <section class="searcher">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-icon matPrefix><img src="assets/img/icons/search.svg" alt="Search icon"></mat-icon>
-          <input matInput placeholder="Find articles...">
-        </mat-form-field>
-      </section>
+
+      <app-article-search></app-article-search>
+
       <section class="profile" *ngIf="user">
         <div class="profile-photo">
           <img *ngIf="user.photoUrl" [src]="user.photoUrl" alt="User avatar"/>

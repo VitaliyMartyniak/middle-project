@@ -1,29 +1,6 @@
 <section class="dashboard">
   <section class="filters-and-articles">
-    <section class="filters">
-      <h2>Articles Dashboard</h2>
-      <section class="categories-select">
-        <span>Show:</span>
-        <mat-select [value]="'All Categories'">
-          <!--          <mat-option *ngFor="let food of foods" [value]="food.value">-->
-          <!--            {{food.viewValue}}-->
-          <!--          </mat-option>-->
-          <mat-option>
-            All Categories
-          </mat-option>
-        </mat-select>
-      </section>
-      <section class="order-select">
-        <mat-form-field appearance="fill">
-          <span matPrefix>Sort by:</span>
-          <mat-select>
-            <mat-option>
-              Ascending
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </section>
-    </section>
+    <app-filters></app-filters>
 
     <app-articles></app-articles>
   </section>

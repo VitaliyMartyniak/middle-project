@@ -21,12 +21,6 @@ export class PaginationService {
       return
     }
 
-    // this.store.select(filteredProductsSelector).subscribe((articles: Article[]): void => {
-    //   this.filteredArticles = articles;
-    //   if (this.isInit) {
-    //     this.store.dispatch(updatePage({pageIndex: 0}));
-    //   }
-    // });
     this.store.select(articlesSelector).subscribe((articles: Article[]): void => {
       this.filteredArticles = articles;
       if (this.isInit) {
@@ -45,8 +39,11 @@ export class PaginationService {
   }
 
   setPaginatedArticles(filteredArticles: Article[] = this.filteredArticles): void {
-    const articles = _.chunk(filteredArticles, 10)
-    const paginatedArticles = articles[this.pageIndex];
+    const articles = _.chunk(filteredArticles, 10);
+    let paginatedArticles: Article[] = [];
+    if (articles.length) {
+      paginatedArticles = articles[this.pageIndex];
+    }
     this.store.dispatch(setPaginatedArticles({paginatedArticles}));
   }
 }

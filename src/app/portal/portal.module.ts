@@ -10,6 +10,8 @@ import { AddEditArticleComponent } from './views/add-edit-article/add-edit-artic
 import {ProfileGuard} from "../shared/guards/profile.guard";
 import { PaginationComponent } from './components/pagination/pagination.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { ArticleSearchComponent } from './components/article-search/article-search.component';
+import { FiltersComponent } from './components/filters/filters.component';
 
 @NgModule({
     imports: [
@@ -40,6 +42,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     WeatherWidgetComponent,
     AddEditArticleComponent,
     PaginationComponent,
+    ArticleSearchComponent,
+    FiltersComponent,
   ]
 })
 export class PortalModule { }

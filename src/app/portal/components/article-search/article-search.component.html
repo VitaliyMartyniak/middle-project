@@ -1,0 +1,6 @@
+<section>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-icon matPrefix><img src="assets/img/icons/search.svg" alt="Search icon"></mat-icon>
+    <input #articleSearchField matInput placeholder="Find Articles..." [value]="search$ | async" (input)="searchArticles(articleSearchField.value)">
+  </mat-form-field>
+</section>

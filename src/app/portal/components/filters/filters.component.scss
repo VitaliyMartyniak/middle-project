@@ -1,0 +1,43 @@
+.filters {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+
+  h2 {
+    margin-right: 30px;
+    margin-bottom: 0;
+  }
+
+  span {
+    color: rgba(111, 124, 139, 0.5);
+  }
+
+  .categories-select {
+    display: flex;
+    min-width: 160px;
+  }
+
+  .order-select {
+    margin-left: auto;
+
+    ::ng-deep .mat-form-field-flex {
+      width: 174px !important;
+      height: 38px !important;
+      font-size: 14px !important;
+      padding: 0 !important;
+      padding-left: 10px !important;
+    }
+
+    ::ng-deep .mat-form-field-wrapper {
+      padding: 0 !important;
+    }
+
+    ::ng-deep .mat-form-field-prefix {
+      transform: translateY(-3px) !important;
+    }
+
+    ::ng-deep .mat-select-arrow-wrapper {
+      transform: translateY(-4px) !important;
+    }
+  }
+}
