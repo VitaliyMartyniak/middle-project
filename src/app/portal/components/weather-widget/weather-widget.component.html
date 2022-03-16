@@ -1,4 +1,4 @@
-<section class="weather-widget">
+<section class="weather-widget" *ngIf="!isLoading">
   <header>
     <span>WEATHER WIDGET</span>
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -20,14 +20,16 @@
     </mat-menu>
   </header>
   <main>
-    <p class="date">June 12</p>
-    <span>Wednesday</span>
+    <p class="date">{{monthNames[currentDay.getMonth()]}} {{currentDay.getDate()}}</p>
+    <span>{{dayNames[currentDay.getDay()]}}</span>
     <section class="temperature-info">
       <div>
-        <p class="temperature">-27</p>
-        <p class="location">Lviv, Ukraine</p>
+        <p class="temperature">{{temp}}</p>
+        <p class="location">{{city}}, {{country}}</p>
       </div>
-      <img src="assets/img/icons/cloud-weather.svg" alt="Weather Icon" />
+      <img src="http://openweathermap.org/img/wn/{{weatherIcon}}@2x.png" alt="Weather Icon" />
     </section>
   </main>
 </section>
+
+<span *ngIf="isLoading">Loading...</span>
