@@ -21,7 +21,6 @@ export class AddEditArticleComponent {
   user: UserData;
   mode: string;
   docID: string;
-  // article: Article | undefined;
 
   constructor(private portalService: PortalService, private store: Store, private router: Router, private route: ActivatedRoute) {}
 
@@ -45,7 +44,6 @@ export class AddEditArticleComponent {
         this.articlesSub = this.store.select(articlesSelector).subscribe((articles: Article[]): void => {
           this.docID = params['docID'];
           const article = articles.find(article => article.docID === this.docID);
-          console.log('article', article);
           if (article) {
             this.form.patchValue({title: article.title});
             this.form.patchValue({text: article.text});
@@ -83,6 +81,7 @@ export class AddEditArticleComponent {
       text: formData.text,
       authorAvatar: this.user.photoUrl ? this.user.photoUrl : null,
       authorName: `${this.user.name} ${this.user.lastName}`,
+      authorUID: this.user.uid,
     };
     this.portalService.addNewArticle(newArticle).subscribe(docID => {
       this.portalService.saveDocumentID(docID).subscribe(() => {
