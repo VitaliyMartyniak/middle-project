@@ -16,3 +16,7 @@ export const updateArticle = createAction('[ARTICLES] update article',
 export const removeArticle = createAction('[ARTICLES] remove article',
   props<{docID: string}>()
 );
+
+export const setArticlesLoading = createAction('[ARTICLES] set articles loading',
+  props<{isLoading: boolean}>()
+);

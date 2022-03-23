@@ -1,12 +1,14 @@
 import {createReducer, on} from "@ngrx/store";
-import {setUser} from "../actions/auth";
+import {setAuthLoading, setUser} from "../actions/auth";
 
 export interface AuthState {
   user: any,
+  isLoading: boolean,
 }
 
 export const initialState: AuthState = {
   user: null,
+  isLoading: false,
 }
 
 export const authReducer = createReducer(
@@ -15,6 +17,12 @@ export const authReducer = createReducer(
     return {
       ...state,
       user
+    }
+  }),
+  on(setAuthLoading, (state, {isLoading}) => {
+    return {
+      ...state,
+      isLoading,
     }
   }),
 );

@@ -6,3 +6,8 @@ export const articlesSelector = createSelector(
   featureSelector,
   state => state.articles
 );
+
+export const articlesLoadingSelector = createSelector(
+  featureSelector,
+  state => state.isLoading
+);

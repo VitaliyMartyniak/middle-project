@@ -15,6 +15,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {AuthGuard} from "./guards/auth.guard";
 import {ProfileGuard} from "./guards/profile.guard";
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   imports: [
@@ -32,25 +33,27 @@ import {ProfileGuard} from "./guards/profile.guard";
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  exports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatSelectModule,
-    MatCardModule,
-    MatMenuModule,
-    PhotoDndDirective,
-    PhotoDndComponent,
-    MatTabsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-  ],
+    exports: [
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatIconModule,
+        MatSelectModule,
+        MatCardModule,
+        MatMenuModule,
+        PhotoDndDirective,
+        PhotoDndComponent,
+        MatTabsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        LoaderComponent,
+    ],
   declarations: [
     PhotoDndDirective,
-    PhotoDndComponent
+    PhotoDndComponent,
+    LoaderComponent
   ],
   providers: [AuthGuard, ProfileGuard],
 })

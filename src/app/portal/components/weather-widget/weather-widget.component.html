@@ -1,5 +1,5 @@
-<section class="weather-widget" *ngIf="!isLoading">
-  <header>
+<section class="weather-widget">
+  <header *ngIf="!isLoading">
     <span>WEATHER WIDGET</span>
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
       <mat-icon>more_horiz</mat-icon>
@@ -19,7 +19,7 @@
       </button>
     </mat-menu>
   </header>
-  <main>
+  <main *ngIf="!isLoading">
     <p class="date">{{monthNames[currentDay.getMonth()]}} {{currentDay.getDate()}}</p>
     <span>{{dayNames[currentDay.getDay()]}}</span>
     <section class="temperature-info">
@@ -30,6 +30,5 @@
       <img src="http://openweathermap.org/img/wn/{{weatherIcon}}@2x.png" alt="Weather Icon" />
     </section>
   </main>
+  <app-loader class="loader" *ngIf="isLoading"></app-loader>
 </section>
-
-<span *ngIf="isLoading">Loading...</span>

@@ -1,4 +1,4 @@
-<section *ngIf="articles" class="articles">
+<section *ngIf="articles && !isLoading" class="articles">
   <mat-card class="article" *ngFor="let article of articles">
     <img mat-card-image [src]="article.photo" alt="Article photo">
     <mat-card-content>
@@ -33,4 +33,6 @@
   </mat-card>
 </section>
 
-<app-pagination></app-pagination>
+<app-loader *ngIf="isLoading"></app-loader>
+
+<app-pagination *ngIf="!isLoading"></app-pagination>

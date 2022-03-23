@@ -6,3 +6,8 @@ export const userSelector = createSelector(
   featureSelector,
   state => state.user
 );
+
+export const authLoadingSelector = createSelector(
+  featureSelector,
+  state => state.isLoading
+);

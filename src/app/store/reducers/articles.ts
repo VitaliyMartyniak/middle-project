@@ -1,30 +1,21 @@
 import {createReducer, on} from "@ngrx/store";
-import {addNewArticle, removeArticle, setArticles, updateArticle} from "../actions/articles";
+import {
+  addNewArticle,
+  removeArticle,
+  setArticles,
+  setArticlesLoading,
+  updateArticle
+} from "../actions/articles";
 import {Article} from "../../shared/interfaces";
 
 export interface ArticlesState {
   articles: Article[],
+  isLoading: boolean,
 }
 
 export const initialState: ArticlesState = {
-  articles: [
-    // {
-    //   photo: 'string',
-    //   category: 'PRODUCTIVITY',
-    //   date: '4 days ago',
-    //   title: '7 Skills of Highly Effective Programmers',
-    //   text: 'Our team was inspired by the seven skills of highly effective programmers created by the TechLead. We wanted to provide our own take on the topic...',
-    //   authorName: 'Glen Williams',
-    // },
-    // {
-    //   photo: 'string',
-    //   category: 'PRODUCTIVITY',
-    //   date: '4 days ago',
-    //   title: '7 Skills of Highly Effective Programmers',
-    //   text: 'Our team was inspired by the seven skills of highly effective programmers created by the TechLead. We wanted to provide our own take on the topic...',
-    //   authorName: 'Glen Williams',
-    // }
-  ],
+  articles: [],
+  isLoading: false,
 }
 
 export const articlesReducer = createReducer(
@@ -57,6 +48,12 @@ export const articlesReducer = createReducer(
     return {
       ...state,
       articles: state.articles.filter((article: Article) => article.docID !== docID),
+    }
+  }),
+  on(setArticlesLoading, (state, {isLoading}) => {
+    return {
+      ...state,
+      isLoading,
     }
   }),
 );
