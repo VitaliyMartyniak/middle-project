@@ -80,7 +80,7 @@ export class AddEditArticleComponent {
       title: formData.title,
       text: formData.text,
       authorAvatar: this.user.photoUrl ? this.user.photoUrl : null,
-      authorName: `${this.user.name} ${this.user.lastName}`,
+      authorName: `${this.user.name} ${this.user.lastName ? this.user.lastName : ''}`,
       authorUID: this.user.uid,
     };
     this.portalService.addNewArticle(newArticle).subscribe(docID => {

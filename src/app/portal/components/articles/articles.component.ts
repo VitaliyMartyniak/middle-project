@@ -29,7 +29,6 @@ export class ArticlesComponent implements OnInit {
     this.articlesSub = this.store.select(paginatedArticlesSelector).subscribe((articles: Article[]): void => {
       if (articles) {
         this.articles = articles;
-        console.log('article', this.articles[0]);
       }
     })
     this.usersSub = this.store.select(userSelector).subscribe((user: User): void => {
