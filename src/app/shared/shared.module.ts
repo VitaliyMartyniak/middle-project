@@ -16,6 +16,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {AuthGuard} from "./guards/auth.guard";
 import {ProfileGuard} from "./guards/profile.guard";
 import { LoaderComponent } from './components/loader/loader.component';
+import { DatePipe } from './pipes/date.pipe';
 
 @NgModule({
   imports: [
@@ -49,11 +50,13 @@ import { LoaderComponent } from './components/loader/loader.component';
         ReactiveFormsModule,
         HttpClientModule,
         LoaderComponent,
+        DatePipe,
     ],
   declarations: [
     PhotoDndDirective,
     PhotoDndComponent,
-    LoaderComponent
+    LoaderComponent,
+    DatePipe
   ],
   providers: [AuthGuard, ProfileGuard],
 })

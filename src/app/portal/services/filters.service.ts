@@ -60,9 +60,9 @@ export class FiltersService {
   }
 
   private filterByOrder(): void {
-    if (this.order === 'asc') {
+    if (this.order === 'desc') {
       this.filteredArticles = this.filteredArticles.sort((a, b) => +a.date - +b.date);
-    } else if (this.order === 'desc') {
+    } else if (this.order === 'asc') {
       this.filteredArticles = this.filteredArticles.sort((a, b) => +b.date - +a.date);
     }
   }

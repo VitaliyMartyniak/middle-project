@@ -33,7 +33,6 @@ export class ArticlesComponent implements OnInit {
     })
     this.usersSub = this.store.select(userSelector).subscribe((user: User): void => {
       this.user = user;
-      console.log('user', this.user);
     })
     this.isLoadingSub = this.store.select(articlesLoadingSelector).subscribe((isLoading: boolean): void => {
       this.isLoading = isLoading;
