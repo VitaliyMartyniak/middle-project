@@ -1,13 +1,12 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomValidators} from "../../../../shared/custom-validators";
 import {ProfileService} from "../../profile.service";
 import {getAuth} from "@angular/fire/auth";
-import {debounceTime, distinctUntilChanged, fromEvent} from "rxjs";
-import { ChangeDetectorRef } from '@angular/core';
 import firebase from "firebase/compat/app";
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
-import User = firebase.User;
+import {setProfileLoading} from "../../../../store/actions/profile";
+import {Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-profile-password',
@@ -20,7 +19,7 @@ export class ProfilePasswordComponent implements OnInit {
   private auth = getAuth();
   form: FormGroup;
 
-  constructor(private profileService: ProfileService) {}
+  constructor(private profileService: ProfileService, private store: Store) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -72,10 +71,12 @@ export class ProfilePasswordComponent implements OnInit {
       user.email,
       formData.oldPassword
     );
+    this.store.dispatch(setProfileLoading({isLoading: true}));
     this.profileService.checkOldPassword(user, credential).subscribe(() => {
       console.log('old password is correct');
       this.profileService.updatePassword(user, formData.password).subscribe(() => {
         console.log('new password is set');
+        this.store.dispatch(setProfileLoading({isLoading: false}));
       })
     },(e => {
       console.log('old password is not correct');

@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AuthService} from "../../../../authentication/services/auth.service";
 import {UserData} from "../../../../shared/interfaces";
+import {setProfileLoading} from "../../../../store/actions/profile";
 
 @Component({
   selector: 'app-profile-info',
@@ -38,8 +39,10 @@ export class ProfileInfoComponent implements OnInit {
 
   updateProfileInfo(): void {
     const formData = {...this.form.value};
+    this.store.dispatch(setProfileLoading({isLoading: true}));
     this.authService.updateUserProfileInfo(formData, this.docID!).subscribe(() => {
       // returns undefined
+      this.store.dispatch(setProfileLoading({isLoading: false}));
     });
   }
 }
