@@ -9,6 +9,8 @@ import {articlesLoadingSelector} from "../../../store/selectors/articles";
 import {userSelector} from "../../../store/selectors/auth";
 import firebase from "firebase/compat";
 import User = firebase.User;
+import {MatDialog} from "@angular/material/dialog";
+import {ReadMoreArticleModalComponent} from "../read-more-article-modal/read-more-article-modal.component";
 
 @Component({
   selector: 'app-articles',
@@ -23,7 +25,7 @@ export class ArticlesComponent implements OnInit {
   articlesSub: Subscription;
   isLoadingSub: Subscription;
 
-  constructor(private store: Store, private portalService: PortalService) { }
+  constructor(private store: Store, private portalService: PortalService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.articlesSub = this.store.select(paginatedArticlesSelector).subscribe((articles: Article[]): void => {
@@ -42,6 +44,20 @@ export class ArticlesComponent implements OnInit {
   deleteArticle(docID: string): void {
     this.portalService.deleteArticle(docID).subscribe(() => {
       this.store.dispatch(removeArticle({docID}));
+    });
+  }
+
+  openModal(article: Article) {
+    this.dialog.open(ReadMoreArticleModalComponent, {
+      data: {
+        photo: article.photo,
+        category: article.category,
+        data: article.date,
+        title: article.title,
+        text: article.text,
+        authorAvatar: article.authorAvatar,
+        authorName: article.authorName,
+      },
     });
   }
 }

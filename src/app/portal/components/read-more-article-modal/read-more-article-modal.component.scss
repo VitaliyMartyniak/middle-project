@@ -1,0 +1,95 @@
+.article, h2 {
+  word-break: break-word;
+}
+
+h2 {
+  width: 500px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.article {
+  width: 600px;
+
+  img {
+    height: 300px;
+  }
+
+  ::ng-deep .mat-card-image {
+    margin-bottom: 10px !important;
+  }
+
+  .mat-card-content {
+    display: flex;
+    flex-direction: column;
+
+    button {
+      position: absolute;
+      top: 0;
+      right: 5px;
+      z-index: 2;
+    }
+
+    ::ng-deep .mat-card-content {
+      margin-bottom: 0 !important;
+    }
+
+    span {
+      font-size: 13px;
+      color: #374A59;
+    }
+
+    .category-and-data {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+
+      span {
+        color: #6E798C;
+      }
+    }
+
+    .title {
+      font-size: 21px;
+      color: #081F32;
+      line-height: 25px;
+      margin-bottom: 5px;
+    }
+
+    .additional-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+
+      .photo {
+        display: block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+
+        img {
+          height: 32px;
+          width: 32px;
+          border-radius: 50%;
+        }
+      }
+
+      span {
+        margin-right: auto;
+        margin-left: 8px;
+      }
+
+      a {
+        cursor: pointer;
+        font-size: 11px;
+
+        mat-icon {
+          font-size: 11px;
+          height: 11px;
+          transform: translateY(1.5px);
+        }
+      }
+    }
+  }
+}

@@ -9,9 +9,9 @@ import { WeatherWidgetComponent } from './components/weather-widget/weather-widg
 import { AddEditArticleComponent } from './views/add-edit-article/add-edit-article.component';
 import {ProfileGuard} from "../shared/guards/profile.guard";
 import { PaginationComponent } from './components/pagination/pagination.component';
-import {MatPaginatorModule} from "@angular/material/paginator";
 import { ArticleSearchComponent } from './components/article-search/article-search.component';
 import { FiltersComponent } from './components/filters/filters.component';
+import { ReadMoreArticleModalComponent } from './components/read-more-article-modal/read-more-article-modal.component';
 
 @NgModule({
     imports: [
@@ -32,7 +32,6 @@ import { FiltersComponent } from './components/filters/filters.component';
             },
             {path: '**', redirectTo: '/portal'},
         ]),
-        MatPaginatorModule,
     ],
   exports: [RouterModule],
   declarations: [
@@ -44,6 +43,7 @@ import { FiltersComponent } from './components/filters/filters.component';
     PaginationComponent,
     ArticleSearchComponent,
     FiltersComponent,
+    ReadMoreArticleModalComponent,
   ]
 })
 export class PortalModule { }

@@ -7,6 +7,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCardModule} from "@angular/material/card";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatDialogModule} from "@angular/material/dialog";
 import { PhotoDndDirective } from './directives/photo-dnd.directive';
 import { PhotoDndComponent } from './components/photo-dnd/photo-dnd.component';
 import {CommonModule} from "@angular/common";
@@ -17,6 +18,7 @@ import {AuthGuard} from "./guards/auth.guard";
 import {ProfileGuard} from "./guards/profile.guard";
 import { LoaderComponent } from './components/loader/loader.component';
 import { DatePipe } from './pipes/date.pipe';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   imports: [
@@ -29,28 +31,32 @@ import { DatePipe } from './pipes/date.pipe';
     MatSelectModule,
     MatCardModule,
     MatMenuModule,
+    MatDialogModule,
     MatTabsModule,
+    MatPaginatorModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
   ],
     exports: [
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatSelectModule,
-        MatCardModule,
-        MatMenuModule,
-        PhotoDndDirective,
-        PhotoDndComponent,
-        MatTabsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        LoaderComponent,
-        DatePipe,
+      MatFormFieldModule,
+      MatInputModule,
+      MatButtonModule,
+      MatCheckboxModule,
+      MatIconModule,
+      MatSelectModule,
+      MatCardModule,
+      MatMenuModule,
+      MatDialogModule,
+      MatPaginatorModule,
+      PhotoDndDirective,
+      PhotoDndComponent,
+      MatTabsModule,
+      FormsModule,
+      ReactiveFormsModule,
+      HttpClientModule,
+      LoaderComponent,
+      DatePipe,
     ],
   declarations: [
     PhotoDndDirective,

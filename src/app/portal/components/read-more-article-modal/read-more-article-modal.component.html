@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>{{article.title}}</h2>
+<mat-dialog-content class="article">
+  <mat-card>
+    <img mat-card-image [src]="article.photo" alt="Article photo">
+    <mat-card-content>
+      <section class="category-and-data">
+        <span>{{article.category}}</span>
+        <span>{{+article.data | date}}</span>
+      </section>
+
+      <section class="main-info">
+        <span class="content">{{article.text}}</span>
+      </section>
+
+      <section class="additional-info">
+        <div class="photo">
+          <img *ngIf="article.authorAvatar" [src]="article.authorAvatar" alt="Author avatar"/>
+          <img *ngIf="!article.authorAvatar" src="assets/img/unknown-user.png" alt="Author avatar"/>
+        </div>
+        <span>{{article.authorName}}</span>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

@@ -29,7 +29,7 @@
           <img *ngIf="!article.authorAvatar" src="assets/img/unknown-user.png" alt="Author avatar"/>
         </div>
         <span>{{article.authorName}}</span>
-        <a>Read more <mat-icon>arrow_forward</mat-icon></a>
+        <a (click)="openModal(article)">Read more <mat-icon>arrow_forward</mat-icon></a>
       </section>
     </mat-card-content>
   </mat-card>
