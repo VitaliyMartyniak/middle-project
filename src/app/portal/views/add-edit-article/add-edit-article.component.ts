@@ -5,9 +5,9 @@ import {userSelector} from "../../../store/selectors/auth";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {PortalService} from "../../services/portal.service";
-import {addNewArticle, updateArticle} from "../../../store/actions/articles";
+import {addNewArticle, setArticlesLoading, updateArticle} from "../../../store/actions/articles";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {articlesSelector} from "../../../store/selectors/articles";
+import {articlesLoadingSelector, articlesSelector} from "../../../store/selectors/articles";
 
 @Component({
   selector: 'app-add-edit-article',
@@ -18,6 +18,8 @@ export class AddEditArticleComponent {
   form: FormGroup;
   private userSub: Subscription;
   private articlesSub: Subscription;
+  private isLoadingSub: Subscription;
+  isLoading = false;
   user: UserData;
   mode: string;
   docID: string;
@@ -56,6 +58,9 @@ export class AddEditArticleComponent {
     this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
       this.user = user;
     });
+    this.isLoadingSub = this.store.select(articlesLoadingSelector).subscribe((isLoading: boolean): void => {
+      this.isLoading = isLoading;
+    });
   }
 
   updateFile(base64File: string) {
@@ -64,6 +69,7 @@ export class AddEditArticleComponent {
   }
 
   submit() {
+    this.store.dispatch(setArticlesLoading({isLoading: true}));
     if (this.docID) {
       this.updateArticleData();
     } else {
@@ -90,6 +96,7 @@ export class AddEditArticleComponent {
           docID
         };
         this.store.dispatch(addNewArticle({article: newArticleWithDocID}));
+        this.store.dispatch(setArticlesLoading({isLoading: false}));
         this.router.navigate(['portal', 'dashboard']);
       })
     });
@@ -99,6 +106,7 @@ export class AddEditArticleComponent {
     const updatedArticleInfo = {...this.form.value};
     this.portalService.updateArticle(updatedArticleInfo, this.docID).subscribe(() => {
       this.store.dispatch(updateArticle({articleData: updatedArticleInfo, docID: this.docID}));
+      this.store.dispatch(setArticlesLoading({isLoading: false}));
       this.router.navigate(['portal', 'dashboard']);
     });
   }

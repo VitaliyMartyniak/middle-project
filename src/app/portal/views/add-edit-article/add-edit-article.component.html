@@ -47,4 +47,8 @@
       <button class="btn-primary btn-small" mat-button type="submit" [disabled]="form.invalid">Publish</button>
     </section>
   </form>
+
+  <section *ngIf="isLoading" class="loader-background">
+    <app-loader></app-loader>
+  </section>
 </section>

@@ -5,6 +5,7 @@
   box-shadow: 0 24px 64px 0 rgba(0, 0, 0, 0.03);
   border-radius: 6px;
   padding: 30px 35px;
+  position: relative;
 
   h2 {
     font-size: 21px;
@@ -56,4 +57,7 @@
     }
   }
 
+  .loader-background {
+    background-color: transparent;
+  }
 }
