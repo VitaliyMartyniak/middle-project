@@ -6,4 +6,8 @@
   <section class="component-container">
     <router-outlet></router-outlet>
   </section>
+
+  <section *ngIf="isLoading" class="loader-background">
+    <app-loader></app-loader>
+  </section>
 </section>
