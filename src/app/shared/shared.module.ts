@@ -19,6 +19,8 @@ import {ProfileGuard} from "./guards/profile.guard";
 import { LoaderComponent } from './components/loader/loader.component';
 import { DatePipe } from './pipes/date.pipe';
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   imports: [
@@ -34,35 +36,39 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatDialogModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
   ],
-    exports: [
-      MatFormFieldModule,
-      MatInputModule,
-      MatButtonModule,
-      MatCheckboxModule,
-      MatIconModule,
-      MatSelectModule,
-      MatCardModule,
-      MatMenuModule,
-      MatDialogModule,
-      MatPaginatorModule,
-      PhotoDndDirective,
-      PhotoDndComponent,
-      MatTabsModule,
-      FormsModule,
-      ReactiveFormsModule,
-      HttpClientModule,
-      LoaderComponent,
-      DatePipe,
-    ],
+  exports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatSelectModule,
+    MatCardModule,
+    MatMenuModule,
+    MatDialogModule,
+    MatPaginatorModule,
+    MatSnackBarModule,
+    PhotoDndDirective,
+    PhotoDndComponent,
+    MatTabsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    LoaderComponent,
+    DatePipe,
+    SnackbarComponent,
+  ],
   declarations: [
     PhotoDndDirective,
     PhotoDndComponent,
     LoaderComponent,
-    DatePipe
+    DatePipe,
+    SnackbarComponent
   ],
   providers: [AuthGuard, ProfileGuard],
 })

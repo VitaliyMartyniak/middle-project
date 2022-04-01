@@ -5,6 +5,7 @@ import {articlesReducer, ArticlesState} from "./reducers/articles";
 import {paginationReducer, PaginationState} from "./reducers/pagination";
 import {filtersReducer, FiltersState} from "./reducers/filters";
 import {profileReducer, ProfileState} from "./reducers/profile";
+import {notificationsReducer, NotificationsState} from "./reducers/notifications";
 
 export interface State {
   auth: AuthState,
@@ -12,6 +13,7 @@ export interface State {
   pagination: PaginationState,
   filters: FiltersState,
   profile: ProfileState,
+  notifications: NotificationsState,
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -20,6 +22,7 @@ export const reducers: ActionReducerMap<State> = {
   pagination: paginationReducer,
   filters: filtersReducer,
   profile: profileReducer,
+  notifications: notificationsReducer,
 }
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

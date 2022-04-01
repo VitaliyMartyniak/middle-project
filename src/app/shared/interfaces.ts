@@ -30,3 +30,8 @@ export interface Article {
   authorName: string,
   authorUID: string,
 }
+
+export interface Snackbar {
+  text: string,
+  snackbarType: string,
+}
