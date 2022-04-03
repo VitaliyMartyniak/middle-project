@@ -52,9 +52,9 @@ export class FiltersService {
 
   filterArticles(): void {
     this.filteredArticles = [...this.articles];
+    this.filterBySearch();
     this.filterByCategory();
     this.filterByOrder();
-    this.filterBySearch();
     this.store.dispatch(setFilteredArticles({filteredArticles: this.filteredArticles}));
     this.paginationService.setPaginatedArticles(this.filteredArticles);
   }
@@ -72,7 +72,6 @@ export class FiltersService {
       return
     }
     this.filteredArticles = this.filteredArticles.filter((article: Article) => article.category === this.category)
-    console.log('filteredArticles', this.filteredArticles);
   }
 
   private filterBySearch(): void {
