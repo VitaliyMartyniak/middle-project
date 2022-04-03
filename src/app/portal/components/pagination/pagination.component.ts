@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {PageEvent} from "@angular/material/paginator";
 import {Observable, Subscription} from "rxjs";
-import {pageIndexSelector, paginatedArticlesSelector} from "../../../store/selectors/pagination";
+import {pageIndexSelector} from "../../../store/selectors/pagination";
 import {PaginationService} from "../../services/pagination.service";
 import {Article} from "../../../shared/interfaces";
 import {updatePage} from "../../../store/actions/pagination";
-import {articlesSelector} from "../../../store/selectors/articles";
+import {filteredArticlesSelector} from "../../../store/selectors/filters";
 
 @Component({
   selector: 'app-pagination',
@@ -22,10 +22,7 @@ export class PaginationComponent implements OnInit {
   constructor(private store: Store, private paginationService: PaginationService) { }
 
   ngOnInit(): void {
-    // this.filteredProductsSub = this.store.select(filteredArticlesSelector).subscribe((products: Product[]): void => {
-    //   this.length = products.length;
-    // });
-    this.filteredProductsSub = this.store.select(articlesSelector).subscribe((articles: Article[]): void => {
+    this.filteredProductsSub = this.store.select(filteredArticlesSelector).subscribe((articles: Article[]): void => {
       this.length = articles.length;
     });
     this.paginationService.init();

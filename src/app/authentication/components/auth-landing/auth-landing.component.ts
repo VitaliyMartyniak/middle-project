@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, NavigationStart, Event as NavigationEvent} from "@angular/router";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {authLoadingSelector} from "../../../store/selectors/auth";
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-auth-landing',
@@ -11,9 +11,8 @@ import {Store} from "@ngrx/store";
 })
 export class AuthLandingComponent implements OnInit, OnDestroy {
   currentRoute = '';
-  isLoading = false;
   routerSub: Subscription;
-  isLoadingSub: Subscription;
+  isLoading$: Observable<boolean> = this.store.pipe(select(authLoadingSelector));
 
   constructor(private router: Router, private store: Store) { }
 
@@ -26,9 +25,6 @@ export class AuthLandingComponent implements OnInit, OnDestroy {
             this.currentRoute = event.url;
           }
         });
-    this.isLoadingSub = this.store.select(authLoadingSelector).subscribe((isLoading: boolean): void => {
-      this.isLoading = isLoading;
-    })
   }
 
   ngOnDestroy(): void {

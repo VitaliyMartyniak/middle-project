@@ -2,6 +2,8 @@ import {Component, Input} from '@angular/core';
 import {AuthService} from "../../../../authentication/services/auth.service";
 import {Store} from "@ngrx/store";
 import {setProfileLoading} from "../../../../store/actions/profile";
+import {catchError, finalize} from "rxjs";
+import {setSnackbar} from "../../../../store/actions/notifications";
 
 @Component({
   selector: 'app-profile-avatar',
@@ -21,9 +23,13 @@ export class ProfileAvatarComponent {
 
   updateAvatar(): void {
     this.store.dispatch(setProfileLoading({isLoading: true}));
-    this.authService.updateUserProfileInfo({photoUrl: this.base64File}, this.docID!).subscribe(() => {
-      // returns undefined
-      this.store.dispatch(setProfileLoading({isLoading: false}));
-    });
+    this.authService.updateUserProfileInfo({photoUrl: this.base64File}, this.docID!).pipe(
+      finalize(() => {
+        this.store.dispatch(setProfileLoading({isLoading: false}));
+      }),
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe();
   }
 }

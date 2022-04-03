@@ -3,6 +3,9 @@ import {AuthService} from "../../services/auth.service";
 import {Store} from "@ngrx/store";
 import {Router} from "@angular/router";
 import {UserData} from "../../../shared/interfaces";
+import {catchError, finalize} from "rxjs";
+import {setProfileLoading} from "../../../store/actions/profile";
+import {setSnackbar} from "../../../store/actions/notifications";
 
 @Component({
   selector: 'app-auth-alternative',
@@ -14,7 +17,11 @@ export class AuthAlternativeComponent {
   constructor(private authService: AuthService, private store: Store, private router: Router) { }
 
   loginByGoogle(): void {
-    this.authService.googleLogin().subscribe(response => {
+    this.authService.googleLogin().pipe(
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe(response => {
       const clonedResponse = JSON.parse(JSON.stringify(response));
       const usersData: UserData = {
         name: clonedResponse.user.displayName,

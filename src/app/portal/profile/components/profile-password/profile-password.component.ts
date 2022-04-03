@@ -7,6 +7,8 @@ import firebase from "firebase/compat/app";
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 import {setProfileLoading} from "../../../../store/actions/profile";
 import {Store} from "@ngrx/store";
+import {catchError, finalize, mergeMap} from "rxjs";
+import {setSnackbar} from "../../../../store/actions/notifications";
 
 @Component({
   selector: 'app-profile-password',
@@ -72,15 +74,29 @@ export class ProfilePasswordComponent implements OnInit {
       formData.oldPassword
     );
     this.store.dispatch(setProfileLoading({isLoading: true}));
-    this.profileService.checkOldPassword(user, credential).subscribe(() => {
-      console.log('old password is correct');
-      this.profileService.updatePassword(user, formData.password).subscribe(() => {
-        console.log('new password is set');
+    // this.profileService.checkOldPassword(user, credential).subscribe(() => {
+    //   console.log('old password is correct');
+    //   this.profileService.updatePassword(user, formData.password).subscribe(() => {
+    //     console.log('new password is set');
+    //     this.store.dispatch(setProfileLoading({isLoading: false}));
+    //   })
+    // },(e => {
+    //   console.log('old password is not correct');
+    //   return e
+    // }));
+    this.profileService.checkOldPassword(user, credential).pipe(
+      mergeMap(() => {
+        return this.profileService.updatePassword(user, formData.password)
+      }),
+      finalize(() => {
+        this.form.reset();
         this.store.dispatch(setProfileLoading({isLoading: false}));
-      })
-    },(e => {
-      console.log('old password is not correct');
-      return e
-    }));
+      }),
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe(() => {
+      this.store.dispatch(setSnackbar({text: 'Password successfully updated!', snackbarType: 'success'}));
+    });
   }
 }

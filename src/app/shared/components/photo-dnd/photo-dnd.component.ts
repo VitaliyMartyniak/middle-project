@@ -13,8 +13,6 @@ export class PhotoDndComponent {
   @Input() url: SafeUrl = '';
   @Output() updateFile = new EventEmitter<string>();
 
-  // file: Blob | null | undefined;
-
   constructor(private sanitizer: DomSanitizer) { }
 
   onFileDropped(fileHandle: FileHandle): void {
@@ -39,7 +37,6 @@ export class PhotoDndComponent {
   }
 
   deleteFile(): void {
-    // this.file = null;
     this.url = '';
     this.updateFile.emit('');
   }

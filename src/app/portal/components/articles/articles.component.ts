@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Article} from "../../../shared/interfaces";
-import {Subscription} from "rxjs";
-import {Store} from "@ngrx/store";
+import {Observable, Subscription} from "rxjs";
+import {select, Store} from "@ngrx/store";
 import {PortalService} from "../../services/portal.service";
 import {removeArticle} from "../../../store/actions/articles";
 import {paginatedArticlesSelector} from "../../../store/selectors/pagination";
@@ -18,21 +18,15 @@ import {ReadMoreArticleModalComponent} from "../read-more-article-modal/read-mor
   styleUrls: ['./articles.component.scss']
 })
 export class ArticlesComponent implements OnInit {
-  articles: Article[] = [];
   isLoading = false;
   user: User;
   usersSub: Subscription;
-  articlesSub: Subscription;
   isLoadingSub: Subscription;
+  articles$: Observable<Article[]> = this.store.pipe(select(paginatedArticlesSelector));
 
   constructor(private store: Store, private portalService: PortalService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.articlesSub = this.store.select(paginatedArticlesSelector).subscribe((articles: Article[]): void => {
-      if (articles) {
-        this.articles = articles;
-      }
-    })
     this.usersSub = this.store.select(userSelector).subscribe((user: User): void => {
       this.user = user;
     })

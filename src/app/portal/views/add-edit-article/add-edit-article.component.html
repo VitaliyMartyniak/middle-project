@@ -48,7 +48,7 @@
     </section>
   </form>
 
-  <section *ngIf="isLoading" class="loader-background">
+  <section *ngIf="isLoading$ | async" class="loader-background">
     <app-loader></app-loader>
   </section>
 </section>

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {WeatherService} from "../../services/weather.service";
+import {catchError, finalize} from "rxjs";
+import {setProfileLoading} from "../../../store/actions/profile";
+import {setSnackbar} from "../../../store/actions/notifications";
+import {Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-weather-widget',
@@ -17,7 +21,7 @@ export class WeatherWidgetComponent implements OnInit {
   dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   weatherIcon: string;
 
-  constructor(private weatherService: WeatherService) { }
+  constructor(private weatherService: WeatherService, private store: Store) { }
 
   ngOnInit(): void {
     if (navigator.geolocation) {
@@ -32,11 +36,21 @@ export class WeatherWidgetComponent implements OnInit {
   }
 
   load(longitude: number, latitude: number) {
-    this.weatherService.getLocation(longitude, latitude).subscribe((data: any) => {
+    this.weatherService.getLocation(longitude, latitude).pipe(
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: 'Error during getting location', snackbarType: 'error'}));
+        this.isLoading = false;
+      }),
+    ).subscribe((data: any) => {
       this.country = data.countryName;
       this.city = data.city;
     });
-    this.weatherService.getCurrentWeather(longitude, latitude).subscribe((data: any) => {
+    this.weatherService.getCurrentWeather(longitude, latitude).pipe(
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: 'Error during getting weather', snackbarType: 'error'}));
+        this.isLoading = false;
+      }),
+    ).subscribe((data: any) => {
       this.temp = Math.round(data.current.temp);
       this.weatherIcon = data.current.weather[0].icon;
       this.isLoading = false;

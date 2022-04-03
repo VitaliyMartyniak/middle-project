@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Article, UserData} from "../../../shared/interfaces";
 import {userSelector} from "../../../store/selectors/auth";
-import {Subscription} from "rxjs";
-import {Store} from "@ngrx/store";
+import {catchError, finalize, mergeMap, Observable, of, Subscription} from "rxjs";
+import {select, Store} from "@ngrx/store";
 import {PortalService} from "../../services/portal.service";
 import {addNewArticle, setArticlesLoading, updateArticle} from "../../../store/actions/articles";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {articlesLoadingSelector, articlesSelector} from "../../../store/selectors/articles";
+import {setSnackbar} from "../../../store/actions/notifications";
 
 @Component({
   selector: 'app-add-edit-article',
@@ -17,9 +18,8 @@ import {articlesLoadingSelector, articlesSelector} from "../../../store/selector
 export class AddEditArticleComponent {
   form: FormGroup;
   private userSub: Subscription;
-  private articlesSub: Subscription;
-  private isLoadingSub: Subscription;
-  isLoading = false;
+  // private articlesSub: Subscription; todo test
+  isLoading$: Observable<boolean> = this.store.pipe(select(articlesLoadingSelector));
   user: UserData;
   mode: string;
   docID: string;
@@ -41,25 +41,41 @@ export class AddEditArticleComponent {
         Validators.required,
       ]),
     });
-    this.route.queryParams.subscribe((params: Params) => {
-      if (params['docID']) {
-        this.articlesSub = this.store.select(articlesSelector).subscribe((articles: Article[]): void => {
+    // this.route.queryParams.subscribe((params: Params) => {
+    //   if (params['docID']) {
+    //     this.articlesSub = this.store.select(articlesSelector).subscribe((articles: Article[]): void => {
+    //       this.docID = params['docID'];
+    //       const article = articles.find(article => article.docID === this.docID);
+    //       if (article) {
+    //         this.form.patchValue({title: article.title});
+    //         this.form.patchValue({text: article.text});
+    //         this.form.patchValue({category: article.category});
+    //         this.form.patchValue({photo: article.photo});
+    //       }
+    //     });
+    //   }
+    // });
+    this.route.queryParams.pipe(
+      mergeMap((params: Params): Observable<Article[]> | Observable<undefined> => {
+        if (params['docID']) {
           this.docID = params['docID'];
-          const article = articles.find(article => article.docID === this.docID);
-          if (article) {
-            this.form.patchValue({title: article.title});
-            this.form.patchValue({text: article.text});
-            this.form.patchValue({category: article.category});
-            this.form.patchValue({photo: article.photo});
-          }
-        });
+          return this.store.select(articlesSelector)
+        }
+        return of(undefined)
+      })
+    ).subscribe((articles: Article[] | undefined) => {
+      if (articles) {
+        const article = articles.find(article => article.docID === this.docID);
+        if (article) {
+          this.form.patchValue({title: article.title});
+          this.form.patchValue({text: article.text});
+          this.form.patchValue({category: article.category});
+          this.form.patchValue({photo: article.photo});
+        }
       }
-    });
+    })
     this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
       this.user = user;
-    });
-    this.isLoadingSub = this.store.select(articlesLoadingSelector).subscribe((isLoading: boolean): void => {
-      this.isLoading = isLoading;
     });
   }
 
@@ -89,24 +105,49 @@ export class AddEditArticleComponent {
       authorName: `${this.user.name} ${this.user.lastName ? this.user.lastName : ''}`,
       authorUID: this.user.uid,
     };
-    this.portalService.addNewArticle(newArticle).subscribe(docID => {
-      this.portalService.saveDocumentID(docID).subscribe(() => {
-        const newArticleWithDocID = {
-          ...newArticle,
-          docID
-        };
-        this.store.dispatch(addNewArticle({article: newArticleWithDocID}));
+    // this.portalService.addNewArticle(newArticle).subscribe(docID => {
+    //   this.portalService.saveDocumentID(docID).subscribe(() => {
+    //     const newArticleWithDocID = {
+    //       ...newArticle,
+    //       docID
+    //     };
+    //     this.store.dispatch(addNewArticle({article: newArticleWithDocID}));
+    //     this.store.dispatch(setArticlesLoading({isLoading: false}));
+    //     this.router.navigate(['portal', 'dashboard']);
+    //   })
+    // });
+    this.portalService.addNewArticle(newArticle).pipe(
+      mergeMap((docId: string) => {
+        this.docID = docId;
+        return this.portalService.saveDocumentID(this.docID)
+      }),
+      finalize((): void => {
         this.store.dispatch(setArticlesLoading({isLoading: false}));
-        this.router.navigate(['portal', 'dashboard']);
-      })
+      }),
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe(() => {
+      const newArticleWithDocID = {
+        ...newArticle,
+        docID: this.docID,
+      };
+      this.store.dispatch(addNewArticle({article: newArticleWithDocID}));
+      this.router.navigate(['portal', 'dashboard']);
     });
   }
 
   updateArticleData(): void {
     const updatedArticleInfo = {...this.form.value};
-    this.portalService.updateArticle(updatedArticleInfo, this.docID).subscribe(() => {
+    this.portalService.updateArticle(updatedArticleInfo, this.docID).pipe(
+      finalize((): void => {
+        this.store.dispatch(setArticlesLoading({isLoading: false}));
+      }),
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe(() => {
       this.store.dispatch(updateArticle({articleData: updatedArticleInfo, docID: this.docID}));
-      this.store.dispatch(setArticlesLoading({isLoading: false}));
       this.router.navigate(['portal', 'dashboard']);
     });
   }

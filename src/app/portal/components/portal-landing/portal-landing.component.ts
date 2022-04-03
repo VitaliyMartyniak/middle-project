@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../../authentication/services/auth.service";
 import {Router} from "@angular/router";
-import {Subscription} from "rxjs";
+import {catchError, finalize, Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {authLoadingSelector, userSelector} from "../../../store/selectors/auth";
 import {Article, UserData} from "../../../shared/interfaces";
 import {PortalService} from "../../services/portal.service";
 import {setArticles, setArticlesLoading} from "../../../store/actions/articles";
 import {setAuthLoading} from "../../../store/actions/auth";
+import {setProfileLoading} from "../../../store/actions/profile";
+import {setSnackbar} from "../../../store/actions/notifications";
 
 @Component({
   selector: 'app-portal-landing',
@@ -27,9 +29,15 @@ export class PortalLandingComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(setArticlesLoading({isLoading: true}));
     this.store.dispatch(setAuthLoading({isLoading: true}));
-    this.articlesSub = this.portalService.getArticles().subscribe((articles: Article[]) => {
+    this.articlesSub = this.portalService.getArticles().pipe(
+      finalize((): void => {
+        this.store.dispatch(setArticlesLoading({isLoading: false}));
+      }),
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe((articles: any) => {
       this.store.dispatch(setArticles({articles}));
-      this.store.dispatch(setArticlesLoading({isLoading: false}));
     });
     this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
       this.user = user;
