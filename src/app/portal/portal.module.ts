@@ -12,6 +12,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { ArticleSearchComponent } from './components/article-search/article-search.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { ReadMoreArticleModalComponent } from './components/read-more-article-modal/read-more-article-modal.component';
+import { WeatherWidgetsComponent } from './components/weather-widgets/weather-widgets.component';
+import { LocationSearchModalComponent } from './components/location-search-modal/location-search-modal.component';
 
 @NgModule({
     imports: [
@@ -44,6 +46,8 @@ import { ReadMoreArticleModalComponent } from './components/read-more-article-mo
     ArticleSearchComponent,
     FiltersComponent,
     ReadMoreArticleModalComponent,
+    WeatherWidgetsComponent,
+    LocationSearchModalComponent,
   ]
 })
 export class PortalModule { }

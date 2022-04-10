@@ -1,0 +1,7 @@
+<section class="weather-widgets">
+  <app-weather-widget [baseWeather]="true" [hideMenu]="!!weathers.length" ></app-weather-widget>
+
+  <ng-container *ngIf="weathers.length">
+    <app-weather-widget *ngFor="let weather of weathers" [weather]="weather"></app-weather-widget>
+  </ng-container>
+</section>

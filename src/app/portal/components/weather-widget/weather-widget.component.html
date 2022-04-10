@@ -1,21 +1,15 @@
 <section class="weather-widget">
   <header *ngIf="!isLoading">
     <span>WEATHER WIDGET</span>
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-      <mat-icon>more_horiz</mat-icon>
+    <button *ngIf="!hideMenu" mat-icon-button [matMenuTriggerFor]="weatherMenu" aria-label="Widget options">
+      <mat-icon class="article-icon">more_horiz</mat-icon>
     </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>dialpad</mat-icon>
-        <span>Redial</span>
-      </button>
-      <button mat-menu-item disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voice mail</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>notifications_off</mat-icon>
-        <span>Disable alerts</span>
+    <mat-menu #weatherMenu="matMenu">
+      <a (click)="openModal()" mat-menu-item>
+        <span>Add</span>
+      </a>
+      <button *ngIf="!baseWeather" (click)="deleteWidget()" mat-menu-item>
+        <span>Delete</span>
       </button>
     </mat-menu>
   </header>

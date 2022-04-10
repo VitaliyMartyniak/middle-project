@@ -35,3 +35,10 @@ export interface Snackbar {
   text: string,
   snackbarType: string,
 }
+
+export interface LocationCoordinates {
+  lat: number,
+  lon: number,
+  uid: string,
+  docID?: string,
+}

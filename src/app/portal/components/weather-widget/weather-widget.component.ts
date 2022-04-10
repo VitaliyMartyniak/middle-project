@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {WeatherService} from "../../services/weather.service";
-import {catchError, finalize} from "rxjs";
-import {setProfileLoading} from "../../../store/actions/profile";
-import {setSnackbar} from "../../../store/actions/notifications";
 import {Store} from "@ngrx/store";
+import {MatDialog} from "@angular/material/dialog";
+import {catchError} from "rxjs";
+import {setSnackbar} from "../../../store/actions/notifications";
+import {LocationSearchModalComponent} from "../location-search-modal/location-search-modal.component";
+import {LocationCoordinates} from "../../../shared/interfaces";
+import {removeWeather} from "../../../store/actions/weathers";
 
 @Component({
   selector: 'app-weather-widget',
@@ -11,6 +14,10 @@ import {Store} from "@ngrx/store";
   styleUrls: ['./weather-widget.component.scss']
 })
 export class WeatherWidgetComponent implements OnInit {
+  @Input() weather: LocationCoordinates;
+  @Input() hideMenu: boolean;
+  @Input() baseWeather: boolean;
+
   isLoading = true;
   city: string;
   country: string;
@@ -21,10 +28,12 @@ export class WeatherWidgetComponent implements OnInit {
   dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   weatherIcon: string;
 
-  constructor(private weatherService: WeatherService, private store: Store) { }
+  constructor(private weatherService: WeatherService, private store: Store, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    if (navigator.geolocation) {
+    if (this.weather) {
+      this.load(this.weather.lon, this.weather.lat);
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position)=>{
         const longitude = position.coords.longitude;
         const latitude = position.coords.latitude;
@@ -54,6 +63,18 @@ export class WeatherWidgetComponent implements OnInit {
       this.temp = Math.round(data.current.temp);
       this.weatherIcon = data.current.weather[0].icon;
       this.isLoading = false;
+    });
+  }
+
+  openModal() {
+    this.dialog.open(LocationSearchModalComponent);
+  }
+
+  deleteWidget() {
+    this.isLoading = true;
+    this.weatherService.deleteWeather(this.weather.docID!).subscribe(() => {
+      this.isLoading = false;
+      this.store.dispatch(removeWeather({docID: this.weather.docID!}));
     });
   }
 }

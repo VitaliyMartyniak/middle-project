@@ -68,7 +68,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     PhotoDndComponent,
     LoaderComponent,
     DatePipe,
-    SnackbarComponent
+    SnackbarComponent,
   ],
   providers: [AuthGuard, ProfileGuard],
 })

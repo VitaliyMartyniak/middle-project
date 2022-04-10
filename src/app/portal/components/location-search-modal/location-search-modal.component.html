@@ -1,0 +1,32 @@
+<section class="location-search-modal">
+  <mat-dialog-content class="mat-typography">
+    <form class="locatiob-search-form" [formGroup]="form" (ngSubmit)="addNewWeather()">
+      <div class="country-input">
+        <label for="country">Country</label>
+        <mat-form-field appearance="fill">
+          <input id="country" matInput placeholder="Country" formControlName="country">
+          <mat-error *ngIf="form.get('country')!.invalid && form.get('country')!.touched">
+            <span *ngIf="form.get('country')!.errors!['required']">Enter country</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="name-input">
+        <label for="city">City</label>
+        <mat-form-field appearance="fill">
+          <input id="city" matInput placeholder="City" formControlName="city">
+          <mat-error *ngIf="form.get('city')!.invalid && form.get('city')!.touched">
+            <span *ngIf="form.get('city')!.errors!['required']">Enter city</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <section class="actions">
+        <button class="btn btn-primary" [disabled]="form.invalid" type="submit" mat-button>Add new widget</button>
+        <button mat-button mat-dialog-close>Cancel</button>
+      </section>
+    </form>
+  </mat-dialog-content>
+
+  <app-loader *ngIf="isLoading$ | async"></app-loader>
+</section>
