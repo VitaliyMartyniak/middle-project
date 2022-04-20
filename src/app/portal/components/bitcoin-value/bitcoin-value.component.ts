@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {webSocket} from "rxjs/webSocket";
+import {webSocket, WebSocketSubject} from "rxjs/webSocket";
 
 @Component({
   selector: 'app-bitcoin-value',
@@ -7,13 +7,13 @@ import {webSocket} from "rxjs/webSocket";
   styleUrls: ['./bitcoin-value.component.scss']
 })
 export class BitcoinValueComponent implements OnInit, OnDestroy {
-  subject: any;
+  subject: WebSocketSubject<any>;
   bitcoinValue: number;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.subject = webSocket("wss://streamer.cryptocompare.com/v2?api_key=7326454d789bf44612f11e66aa2c57b83d3ad5add0fd1b32c4c518fa22a4e77d");
+    this.subject = new WebSocketSubject("wss://streamer.cryptocompare.com/v2?api_key=7326454d789bf44612f11e66aa2c57b83d3ad5add0fd1b32c4c518fa22a4e77d");
     this.subject.next({
       action: "SubAdd",
       subs: ["5~CCCAGG~BTC~USD",]
