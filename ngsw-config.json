@@ -39,6 +39,42 @@
         "timeout": "10s",
         "strategy": "freshness"
       }
+    },
+    {
+      "name": "weather",
+      "urls": [
+        "https://api.openweathermap.org/*"
+      ],
+      "cacheConfig": {
+        "maxSize": 10000,
+        "maxAge": "6h",
+        "timeout": "10s",
+        "strategy": "freshness"
+      }
+    },
+    {
+      "name": "location coordinates",
+      "urls": [
+        "https://api.bigdatacloud.net/*"
+      ],
+      "cacheConfig": {
+        "maxSize": 10000,
+        "maxAge": "6h",
+        "timeout": "10s",
+        "strategy": "freshness"
+      }
+    },
+    {
+      "name": "bitcoin websocket",
+      "urls": [
+        "wss://streamer.cryptocompare.com/*"
+      ],
+      "cacheConfig": {
+        "maxSize": 10000,
+        "maxAge": "6h",
+        "timeout": "10s",
+        "strategy": "freshness"
+      }
     }
   ]
 }

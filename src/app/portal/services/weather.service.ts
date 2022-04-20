@@ -51,7 +51,7 @@ export class WeatherService {
   }
 
   getCoordinates(country: string, city: string) {
-    return this.http.get(`http://api.openweathermap.org/geo/1.0/direct?q=${city},,${country}&limit=1&appid=00643ccdad413631edbc5bda6b3c9439`)
+    return this.http.get(`https://api.openweathermap.org/geo/1.0/direct?q=${city},,${country}&limit=1&appid=00643ccdad413631edbc5bda6b3c9439`)
   }
 
   getCurrentWeather(lon: number, lat: number) {
