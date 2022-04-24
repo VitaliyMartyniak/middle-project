@@ -4,11 +4,10 @@ import {Router} from "@angular/router";
 import {catchError, finalize, Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {authLoadingSelector, userSelector} from "../../../store/selectors/auth";
-import {Article, UserData} from "../../../shared/interfaces";
+import {UserData} from "../../../shared/interfaces";
 import {PortalService} from "../../services/portal.service";
 import {setArticles, setArticlesLoading} from "../../../store/actions/articles";
 import {setAuthLoading} from "../../../store/actions/auth";
-import {setProfileLoading} from "../../../store/actions/profile";
 import {setSnackbar} from "../../../store/actions/notifications";
 
 @Component({

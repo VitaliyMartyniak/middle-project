@@ -34,7 +34,7 @@
         "https://firestore.googleapis.com/*"
       ],
       "cacheConfig": {
-        "maxSize": 10000,
+        "maxSize": 100,
         "maxAge": "6h",
         "timeout": "10s",
         "strategy": "freshness"
@@ -46,7 +46,7 @@
         "https://api.openweathermap.org/*"
       ],
       "cacheConfig": {
-        "maxSize": 10000,
+        "maxSize": 100,
         "maxAge": "6h",
         "timeout": "10s",
         "strategy": "freshness"
@@ -58,7 +58,7 @@
         "https://api.bigdatacloud.net/*"
       ],
       "cacheConfig": {
-        "maxSize": 10000,
+        "maxSize": 100,
         "maxAge": "6h",
         "timeout": "10s",
         "strategy": "freshness"
@@ -70,7 +70,7 @@
         "wss://streamer.cryptocompare.com/*"
       ],
       "cacheConfig": {
-        "maxSize": 10000,
+        "maxSize": 100,
         "maxAge": "6h",
         "timeout": "10s",
         "strategy": "freshness"

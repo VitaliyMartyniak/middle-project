@@ -3,8 +3,7 @@ import {AuthService} from "../../services/auth.service";
 import {Store} from "@ngrx/store";
 import {Router} from "@angular/router";
 import {UserData} from "../../../shared/interfaces";
-import {catchError, finalize} from "rxjs";
-import {setProfileLoading} from "../../../store/actions/profile";
+import {catchError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 
 @Component({
@@ -22,21 +21,30 @@ export class AuthAlternativeComponent {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
       }),
     ).subscribe(response => {
-      const clonedResponse = JSON.parse(JSON.stringify(response));
-      const usersData: UserData = {
-        name: clonedResponse.user.displayName,
-        photoUrl: clonedResponse.user.photoURL,
-        uid: clonedResponse.user.uid,
-        registrationType: clonedResponse.providerId,
-      }
-      localStorage.setItem('alternativeUser', JSON.stringify(usersData));
-      this.authService.setToken(+clonedResponse._tokenResponse.expiresIn, clonedResponse._tokenResponse.idToken);
-      this.router.navigate(['portal', 'dashboard']);
+      this.processUser(response);
     })
   }
 
   loginByFacebook(): void {
-    this.authService.facebookLogin();
+    this.authService.facebookLogin().pipe(
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe(response => {
+      this.processUser(response);
+    });
   }
 
+  processUser(response: any): void {
+    const clonedResponse = JSON.parse(JSON.stringify(response));
+    const usersData: UserData = {
+      name: clonedResponse.user.displayName,
+      photoUrl: clonedResponse.user.photoURL,
+      uid: clonedResponse.user.uid,
+      registrationType: clonedResponse.providerId,
+    }
+    localStorage.setItem('alternativeUser', JSON.stringify(usersData));
+    this.authService.setToken(+clonedResponse._tokenResponse.expiresIn, clonedResponse._tokenResponse.idToken);
+    this.router.navigate(['portal', 'dashboard']);
+  }
 }

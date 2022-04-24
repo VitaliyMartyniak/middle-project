@@ -123,6 +123,6 @@ export class AuthService {
 
   facebookLogin() {
     const provider = new FacebookAuthProvider();
-    signInWithPopup(this.auth, provider).then(r => console.log(r));
+    return from(signInWithPopup(this.auth, provider).then(r => r));
   }
 }
