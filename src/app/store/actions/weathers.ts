@@ -1,15 +1,15 @@
 import {createAction, props} from "@ngrx/store";
 import {LocationCoordinates} from "../../shared/interfaces";
 
-export const setWeathers = createAction('[WEATHERS] set weathers',
-  props<{weathers: LocationCoordinates[]}>()
+export const setWeatherLocations = createAction('[WEATHERS] set weather locations',
+  props<{weatherLocations: LocationCoordinates[]}>()
 );
 
-export const addNewWeather = createAction('[WEATHERS] add new weather',
-  props<{weather: LocationCoordinates}>()
+export const addNewWeatherLocation = createAction('[WEATHERS] add new weather location',
+  props<{weatherLocation: LocationCoordinates}>()
 );
 
-export const removeWeather = createAction('[WEATHERS] remove weather',
+export const removeWeatherLocation = createAction('[WEATHERS] remove weather location',
   props<{docID: string}>()
 );
 

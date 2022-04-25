@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {WeatherService} from "../../services/weather.service";
-import {catchError, finalize, mergeMap, Observable, Subscription} from "rxjs";
+import {catchError, finalize, mergeMap, Observable, Subscription, tap} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {select, Store} from "@ngrx/store";
-import {authLoadingSelector, userSelector} from "../../../store/selectors/auth";
+import {userSelector} from "../../../store/selectors/auth";
 import {LocationCoordinates, UserData} from "../../../shared/interfaces";
-import {addNewWeather, setWeathersLoading} from "../../../store/actions/weathers";
+import {addNewWeatherLocation, setWeathersLoading} from "../../../store/actions/weathers";
 import {MatDialogRef} from "@angular/material/dialog";
 import {weathersLoadingSelector} from "../../../store/selectors/weathers";
 
@@ -18,7 +18,7 @@ import {weathersLoadingSelector} from "../../../store/selectors/weathers";
 export class LocationSearchModalComponent implements OnInit {
   form: FormGroup;
   private userSub: Subscription; //todo mb refactor and replace higher
-  user: any = null;
+  user: UserData;
   docID: string;
   isLoading$: Observable<boolean> = this.store.pipe(select(weathersLoadingSelector));
 
@@ -43,7 +43,8 @@ export class LocationSearchModalComponent implements OnInit {
     const formData = {...this.form.value}
     let coordinates: LocationCoordinates;
     this.weatherService.getCoordinates(formData.country, formData.city).pipe(
-      mergeMap((data: any): any => {
+      //todo LocationCoordinates замість any
+      mergeMap((data: any): Observable<string> => {
         coordinates = {
           lat: data[0].lat,
           lon: data[0].lon,
@@ -51,7 +52,7 @@ export class LocationSearchModalComponent implements OnInit {
         };
         return this.weatherService.addNewWeather(coordinates);
       }),
-      mergeMap((docID: any) => {
+      mergeMap((docID: string) => {
         this.docID = docID;
         return this.weatherService.saveDocumentID(this.docID)
       }),
@@ -63,7 +64,7 @@ export class LocationSearchModalComponent implements OnInit {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
       }),
     ).subscribe((): void => {
-      this.store.dispatch(addNewWeather({weather: coordinates}));
+      this.store.dispatch(addNewWeatherLocation({weatherLocation: coordinates}));
       this.dialogRef.close();
     });
   }

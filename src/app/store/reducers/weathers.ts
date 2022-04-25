@@ -1,35 +1,40 @@
 import {createReducer, on} from "@ngrx/store";
-import {addNewWeather, removeWeather, setWeathers, setWeathersLoading} from "../actions/weathers";
+import {
+  addNewWeatherLocation,
+  removeWeatherLocation,
+  setWeatherLocations,
+  setWeathersLoading
+} from "../actions/weathers";
 import {LocationCoordinates} from "../../shared/interfaces";
 
 export interface WeathersState {
-  weathers: LocationCoordinates[],
+  weatherLocations: LocationCoordinates[],
   isLoading: boolean,
 }
 
 export const initialState: WeathersState = {
-  weathers: [],
+  weatherLocations: [],
   isLoading: false,
 }
 
 export const weathersReducer = createReducer(
   initialState,
-  on(setWeathers, (state, {weathers}) => {
+  on(setWeatherLocations, (state, {weatherLocations}) => {
     return {
       ...state,
-      weathers
+      weatherLocations
     }
   }),
-  on(addNewWeather, (state, {weather}) => {
+  on(addNewWeatherLocation, (state, {weatherLocation}) => {
     return {
       ...state,
-      weathers: [...state.weathers, weather]
+      weatherLocations: [...state.weatherLocations, weatherLocation]
     }
   }),
-  on(removeWeather, (state, {docID}) => {
+  on(removeWeatherLocation, (state, {docID}) => {
     return {
       ...state,
-      weathers: state.weathers.filter((weather: LocationCoordinates) => (weather.docID !== docID)),
+      weatherLocations: state.weatherLocations.filter((weatherLocation: LocationCoordinates) => (weatherLocation.docID !== docID)),
     }
   }),
   on(setWeathersLoading, (state, {isLoading}) => {

@@ -39,11 +39,11 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this.filtersService.init();
   }
 
-  changeCategory(category: string) {
+  changeCategory(category: string): void {
     this.store.dispatch(setCategory({category}));
   }
 
-  changeOrder(order: string) {
+  changeOrder(order: string): void {
     this.store.dispatch(setOrder({order}));
   }
 

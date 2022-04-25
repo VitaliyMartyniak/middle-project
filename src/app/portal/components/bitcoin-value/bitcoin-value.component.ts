@@ -22,7 +22,6 @@ export class BitcoinValueComponent implements OnInit, OnDestroy {
     this.subject.subscribe(
       (data: any) => {
         if (data && data.PRICE) {
-          console.log('message received: ', data);
           this.bitcoinValue = data.PRICE;
         }
       }, // Called whenever there is a message from the server.

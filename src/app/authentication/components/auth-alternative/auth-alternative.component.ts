@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {Store} from "@ngrx/store";
 import {Router} from "@angular/router";
-import {UserData} from "../../../shared/interfaces";
+import {OAuthResponse} from "../../../shared/interfaces";
 import {catchError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 
@@ -20,7 +20,7 @@ export class AuthAlternativeComponent {
       catchError((e): any => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
       }),
-    ).subscribe(response => {
+    ).subscribe((response: any) => {
       this.processUser(response);
     })
   }
@@ -30,21 +30,14 @@ export class AuthAlternativeComponent {
       catchError((e): any => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
       }),
-    ).subscribe(response => {
+    ).subscribe((response: any) => {
       this.processUser(response);
     });
   }
 
-  processUser(response: any): void {
-    const clonedResponse = JSON.parse(JSON.stringify(response));
-    const usersData: UserData = {
-      name: clonedResponse.user.displayName,
-      photoUrl: clonedResponse.user.photoURL,
-      uid: clonedResponse.user.uid,
-      registrationType: clonedResponse.providerId,
-    }
-    localStorage.setItem('alternativeUser', JSON.stringify(usersData));
-    this.authService.setToken(+clonedResponse._tokenResponse.expiresIn, clonedResponse._tokenResponse.idToken);
+  processUser(response: OAuthResponse): void {
+    localStorage.setItem('alternativeUser', JSON.stringify(response.user));
+    this.authService.setToken(response.token.expiresIn, response.token.idToken);
     this.router.navigate(['portal', 'dashboard']);
   }
 }

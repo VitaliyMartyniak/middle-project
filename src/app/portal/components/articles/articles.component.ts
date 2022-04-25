@@ -41,12 +41,12 @@ export class ArticlesComponent implements OnInit {
     });
   }
 
-  openModal(article: Article) {
+  openModal(article: Article): void {
     this.dialog.open(ReadMoreArticleModalComponent, {
       data: {
         photo: article.photo,
         category: article.category,
-        data: article.date,
+        date: article.date,
         title: article.title,
         text: article.text,
         authorAvatar: article.authorAvatar,

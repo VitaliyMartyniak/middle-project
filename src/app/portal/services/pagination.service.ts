@@ -39,7 +39,7 @@ export class PaginationService {
   }
 
   setPaginatedArticles(filteredArticles: Article[] = this.filteredArticles): void {
-    const articles = _.chunk(filteredArticles, 10);
+    const articles: Article[][] = _.chunk(filteredArticles, 10);
     let paginatedArticles: Article[] = [];
     if (articles.length) {
       paginatedArticles = articles[this.pageIndex];

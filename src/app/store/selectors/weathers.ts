@@ -2,9 +2,9 @@ import {createFeatureSelector, createSelector} from "@ngrx/store";
 import {WeathersState} from "../reducers/weathers";
 
 export const featureSelector = createFeatureSelector<WeathersState>('weathers');
-export const weathersSelector = createSelector(
+export const weatherLocationsSelector = createSelector(
   featureSelector,
-  state => state.weathers
+  state => state.weatherLocations
 );
 
 export const weathersLoadingSelector = createSelector(

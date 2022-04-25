@@ -41,7 +41,6 @@ export class ProfileInfoComponent implements OnInit {
     const formData = {...this.form.value};
     this.store.dispatch(setProfileLoading({isLoading: true}));
     this.authService.updateUserProfileInfo(formData, this.docID!).subscribe(() => {
-      // returns undefined
       this.store.dispatch(setProfileLoading({isLoading: false}));
     });
   }

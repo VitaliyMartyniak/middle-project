@@ -17,7 +17,7 @@ export class ArticleSearchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  searchArticles(search: string) {
+  searchArticles(search: string): void {
     this.store.dispatch(debounceInput({value: search}));
   }
 }

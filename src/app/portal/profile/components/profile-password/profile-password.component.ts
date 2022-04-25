@@ -39,32 +39,6 @@ export class ProfilePasswordComponent implements OnInit {
     }, [CustomValidators.passwordMatchValidator, CustomValidators.passwordNotMatchValidator]);
   }
 
-  // ngAfterViewInit() {
-  //   // this.fieldOne.valueChanges
-  //   //   .pipe(debounceTime(300))
-  //   //   .subscribe(value => {
-  //   //     this.formGroup.get('fieldOne').setValue(value);
-  //   //   });
-  //   let oldPassword$ = fromEvent(this.oldPassword.nativeElement, 'keyup').pipe(
-  //     debounceTime(3000),
-  //     distinctUntilChanged()
-  //   )
-  //   .subscribe((elem: any) => {
-  //     const oldPassword = elem.target.value;
-  //     this.form.patchValue({oldPassword});
-  //     this.form.get('oldPassword')!.markAsDirty();
-  //     this.form.get('oldPassword')!.markAsTouched();
-  //     oldPassword === '' ? this.form.get('oldPassword')!.setErrors({ required: true }) : this.form.get('oldPassword')!.setErrors({ required: false })
-  //   });
-  // }
-
-  // get oldPasswordRequiredErrors() {
-  //   // @ts-ignore
-  //   console.log('this.form.get(\'oldPassword\')!.errors[\'required\']', this.form.get('oldPassword')!.errors['required']);
-  //   // @ts-ignore
-  //   return this.form.get('oldPassword')!.errors['required'];
-  // }
-
   updatePassword(): void {
     const formData = {...this.form.value};
     const user: any = this.auth.currentUser!;
@@ -74,16 +48,6 @@ export class ProfilePasswordComponent implements OnInit {
       formData.oldPassword
     );
     this.store.dispatch(setProfileLoading({isLoading: true}));
-    // this.profileService.checkOldPassword(user, credential).subscribe(() => {
-    //   console.log('old password is correct');
-    //   this.profileService.updatePassword(user, formData.password).subscribe(() => {
-    //     console.log('new password is set');
-    //     this.store.dispatch(setProfileLoading({isLoading: false}));
-    //   })
-    // },(e => {
-    //   console.log('old password is not correct');
-    //   return e
-    // }));
     this.profileService.checkOldPassword(user, credential).pipe(
       mergeMap(() => {
         return this.profileService.updatePassword(user, formData.password)

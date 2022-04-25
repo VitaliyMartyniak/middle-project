@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {from, Observable} from "rxjs";
+import {from, Observable, ObservedValueOf} from "rxjs";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {addDoc, collection, doc, getDocs, getFirestore, query, updateDoc, where} from "@angular/fire/firestore";
 import {
@@ -15,8 +15,11 @@ import {
 import {setUser} from "../../store/actions/auth";
 import {Store} from "@ngrx/store";
 import firebase from "firebase/compat";
-import {AuthResponse, UserData} from "../../shared/interfaces";
+import {AuthResponse, OAuthResponse, Token, UserData} from "../../shared/interfaces";
 import DocumentData = firebase.firestore.DocumentData;
+import User = firebase.User;
+import UserCredential = firebase.auth.UserCredential;
+import GoogleUser = gapi.auth2.GoogleUser;
 
 @Injectable()
 export class AuthService {
@@ -32,8 +35,10 @@ export class AuthService {
       const clonedResponse = JSON.parse(JSON.stringify(r));
       return {
         uid: clonedResponse.user.uid,
-        expiresIn: +clonedResponse._tokenResponse.expiresIn,
-        idToken: clonedResponse._tokenResponse.idToken
+        token: {
+          expiresIn: +clonedResponse._tokenResponse.expiresIn,
+          idToken: clonedResponse._tokenResponse.idToken
+        },
       };
     }));
   }
@@ -55,8 +60,10 @@ export class AuthService {
       const clonedResponse = JSON.parse(JSON.stringify(r));
       return {
         uid: clonedResponse.user.uid,
-        expiresIn: +clonedResponse._tokenResponse.expiresIn,
-        idToken: clonedResponse._tokenResponse.idToken
+        token: {
+          expiresIn: +clonedResponse._tokenResponse.expiresIn,
+          idToken: clonedResponse._tokenResponse.idToken
+        },
       };
     }));
   }
@@ -115,14 +122,31 @@ export class AuthService {
     localStorage.setItem('fb-token-exp', expDate.toString());
   }
 
-  //Google sign in
-  googleLogin() {
+  googleLogin(): Observable<OAuthResponse> {
     const provider = new GoogleAuthProvider();
-    return from(signInWithPopup(this.auth, provider).then(r => r));
+    return from(signInWithPopup(this.auth, provider).then(response => AuthService.processOAuthResponse(response)));
   }
 
-  facebookLogin() {
+  facebookLogin(): Observable<OAuthResponse> {
     const provider = new FacebookAuthProvider();
-    return from(signInWithPopup(this.auth, provider).then(r => r));
+    return from(signInWithPopup(this.auth, provider).then(response => AuthService.processOAuthResponse(response)));
+  }
+
+  private static processOAuthResponse(response: any): OAuthResponse {
+    const clonedResponse = JSON.parse(JSON.stringify(response));
+    const user: UserData = {
+      name: clonedResponse.user.displayName,
+      photoUrl: clonedResponse.user.photoURL,
+      uid: clonedResponse.user.uid,
+      registrationType: clonedResponse.providerId,
+    }
+    const token: Token = {
+      idToken: clonedResponse._tokenResponse.idToken,
+      expiresIn: +clonedResponse._tokenResponse.expiresIn
+    }
+    return {
+      user,
+      token
+    }
   }
 }

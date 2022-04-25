@@ -1,24 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {catchError, finalize, Subscription} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {WeatherService} from "../../services/weather.service";
 import {Store} from "@ngrx/store";
-import {setWeathers, setWeathersLoading} from "../../../store/actions/weathers";
+import {setWeatherLocations, setWeathersLoading} from "../../../store/actions/weathers";
 import {userSelector} from "../../../store/selectors/auth";
 import {LocationCoordinates, UserData} from "../../../shared/interfaces";
-import {weathersSelector} from "../../../store/selectors/weathers";
+import {weatherLocationsSelector} from "../../../store/selectors/weathers";
 
 @Component({
   selector: 'app-weather-widgets',
   templateUrl: './weather-widgets.component.html',
   styleUrls: ['./weather-widgets.component.scss']
 })
-export class WeatherWidgetsComponent implements OnInit {
-  getWeathersSub: Subscription;
-  weathersSub: Subscription;
-  weathers: LocationCoordinates[] = [];
+export class WeatherWidgetsComponent implements OnInit, OnDestroy {
+  getWeatherLocationsSub: Subscription;
+  weatherLocationsSub: Subscription;
+  weatherLocations: LocationCoordinates[] = [];
   private userSub: Subscription; //todo mb refactor and replace higher
-  user: any = null;
+  user: UserData;
 
   constructor(private weatherService: WeatherService, private store: Store) {
   }
@@ -27,25 +27,30 @@ export class WeatherWidgetsComponent implements OnInit {
     this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
       this.user = user;
       if (this.user) {
-        this.getWeathers();
+        this.getWeatherLocations();
       }
     });
-    this.weathersSub = this.store.select(weathersSelector).subscribe((weathers: LocationCoordinates[]): void => {
-      this.weathers = weathers;
+    this.weatherLocationsSub = this.store.select(weatherLocationsSelector).subscribe((weatherLocations: LocationCoordinates[]): void => {
+      console.log('weatherLocations', weatherLocations);
+      this.weatherLocations = weatherLocations;
     })
   }
 
-  getWeathers(): void {
-    this.getWeathersSub = this.weatherService.getWeathers(this.user.uid).pipe(
+  getWeatherLocations(): void {
+    this.getWeatherLocationsSub = this.weatherService.getWeatherLocations(this.user.uid).pipe(
       finalize((): void => {
         this.store.dispatch(setWeathersLoading({isLoading: false}));
       }),
       catchError((e): any => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
       }),
-    ).subscribe((weathers: any) => {
-      this.store.dispatch(setWeathers({weathers}));
+    ).subscribe((weatherLocations: any) => {
+      this.store.dispatch(setWeatherLocations({weatherLocations}));
     });
+  }
+
+  ngOnDestroy(): void {
+    this.getWeatherLocationsSub.unsubscribe();
   }
 
 }

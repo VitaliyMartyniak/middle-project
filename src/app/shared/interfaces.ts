@@ -1,7 +1,12 @@
-// export interface FirebaseAuthResponse {
-//   idToken: string,
-//   expiresIn: string
-// }
+export interface OAuthResponse {
+  token: Token,
+  user: UserData
+}
+
+export interface Token {
+  idToken: string,
+  expiresIn: number
+}
 
 export interface UserData {
   name: string,
@@ -15,8 +20,7 @@ export interface UserData {
 
 export interface AuthResponse {
   uid: string,
-  expiresIn: number,
-  idToken: string,
+  token: Token,
 }
 
 export interface Article {
@@ -39,6 +43,11 @@ export interface Snackbar {
 export interface LocationCoordinates {
   lat: number,
   lon: number,
-  uid: string,
+  uid?: string,
   docID?: string,
+}
+
+export interface Location {
+  city: string,
+  country: string,
 }

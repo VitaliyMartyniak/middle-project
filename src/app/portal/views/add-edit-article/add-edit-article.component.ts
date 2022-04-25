@@ -41,20 +41,6 @@ export class AddEditArticleComponent {
         Validators.required,
       ]),
     });
-    // this.route.queryParams.subscribe((params: Params) => {
-    //   if (params['docID']) {
-    //     this.articlesSub = this.store.select(articlesSelector).subscribe((articles: Article[]): void => {
-    //       this.docID = params['docID'];
-    //       const article = articles.find(article => article.docID === this.docID);
-    //       if (article) {
-    //         this.form.patchValue({title: article.title});
-    //         this.form.patchValue({text: article.text});
-    //         this.form.patchValue({category: article.category});
-    //         this.form.patchValue({photo: article.photo});
-    //       }
-    //     });
-    //   }
-    // });
     this.route.queryParams.pipe(
       mergeMap((params: Params): Observable<Article[]> | Observable<undefined> => {
         if (params['docID']) {
@@ -79,12 +65,12 @@ export class AddEditArticleComponent {
     });
   }
 
-  updateFile(base64File: string) {
+  updateFile(base64File: string): void {
     this.form.patchValue({photo: base64File});
     this.form.get('photo')?.markAsTouched();
   }
 
-  submit() {
+  submit(): void {
     this.store.dispatch(setArticlesLoading({isLoading: true}));
     if (this.docID) {
       this.updateArticleData();
@@ -105,19 +91,8 @@ export class AddEditArticleComponent {
       authorName: `${this.user.name} ${this.user.lastName ? this.user.lastName : ''}`,
       authorUID: this.user.uid,
     };
-    // this.portalService.addNewArticle(newArticle).subscribe(docID => {
-    //   this.portalService.saveDocumentID(docID).subscribe(() => {
-    //     const newArticleWithDocID = {
-    //       ...newArticle,
-    //       docID
-    //     };
-    //     this.store.dispatch(addNewArticle({article: newArticleWithDocID}));
-    //     this.store.dispatch(setArticlesLoading({isLoading: false}));
-    //     this.router.navigate(['portal', 'dashboard']);
-    //   })
-    // });
     this.portalService.addNewArticle(newArticle).pipe(
-      mergeMap((docId: string) => {
+      mergeMap((docId: string): Observable<void> => {
         this.docID = docId;
         return this.portalService.saveDocumentID(this.docID)
       }),

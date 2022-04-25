@@ -19,7 +19,7 @@ export class PortalLandingComponent implements OnInit {
   private userSub: Subscription;
   private articlesSub: Subscription;
   private isLoadingSub: Subscription;
-  user: any = null;
+  user: UserData;
   isLoading = true;
 
   constructor(private authService: AuthService, private portalService: PortalService, private router: Router,
