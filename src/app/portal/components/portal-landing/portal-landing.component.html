@@ -8,8 +8,6 @@
 
       <app-article-search></app-article-search>
 
-<!--      <app-bitcoin-value></app-bitcoin-value>-->
-
       <section class="profile-wrapper">
         <section class="profile" *ngIf="user && !isLoading; else elseBlock">
           <div class="profile-photo">
@@ -49,6 +47,8 @@
     </nav>
 
     <div class="line"></div>
+
+    <app-bitcoin-value></app-bitcoin-value>
 
     <button mat-button (click)="logout($event)"><img src="assets/img/icons/logout.svg" alt="Logout">Logout</button>
   </aside>
