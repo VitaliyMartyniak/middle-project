@@ -20,6 +20,15 @@
 
   ::ng-deep {
 
+    .categories-select:hover .mat-select-arrow, .order-select:hover .mat-select-arrow {
+      border-color: var(--primary-color) !important;
+    }
+
+    .mat-select[aria-expanded='true'] .mat-select-arrow {
+      transform: rotate(-45deg) translate(-3px, 1px);
+      border-color: var(--primary-color) !important;
+    }
+
     .mat-select-arrow {
       display: inline-block;
       margin-top: 0;
@@ -91,4 +100,8 @@
     right: 20px;
     color: var(--white-color) !important;
   }
+}
+
+::ng-deep .mat-select-panel-wrap {
+  transform: translateY(40px) !important;
 }

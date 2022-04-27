@@ -29,6 +29,26 @@
     ::ng-deep label[for="category"] + mat-form-field .mat-form-field-flex:hover {
       background-color: var(--white-color) !important;
       color: var(--primary-color) !important;
+
+      .mat-select-arrow  {
+        border-color: var(--primary-color) !important;
+      }
+    }
+
+    ::ng-deep .mat-select[aria-expanded='true'] .mat-select-arrow {
+      transform: translate(-9px, 10px) rotate(-45deg) !important;
+      border-color: var(--primary-color) !important;
+    }
+
+    ::ng-deep .mat-select-arrow  {
+      display: inline-block !important;
+      margin-top: 0 !important;
+      width: 9px !important;
+      height: 9px !important;
+      border-left: 0 !important;
+      border-top: 1.5px solid #8E94A7 !important;
+      border-right: 1.5px solid #8E94A7 !important;
+      transform: rotate(135deg) translate(10px, 3px) !important;
     }
 
     ::ng-deep .mat-input-element {
@@ -85,4 +105,8 @@
     right: 20px;
     color: var(--white-color) !important;
   }
+}
+
+::ng-deep .mat-select-panel-wrap {
+  transform: translateY(40px) !important;
 }
