@@ -3,21 +3,21 @@
   <section class="categories-select">
     <span>Show:</span>
     <mat-select [(value)]="category" (selectionChange)="changeCategory($event.value)">
-      <mat-option *ngFor="let category of categories" [value]="category">
-        {{category}}
-      </mat-option>
+      <div class="option-container" *ngFor="let categoryOption of categories">
+        <mat-option [value]="categoryOption">{{categoryOption}}</mat-option>
+        <mat-icon *ngIf="categoryOption === category">check</mat-icon>
+      </div>
     </mat-select>
-<!--    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>-->
   </section>
   <section class="order-select">
     <mat-form-field appearance="fill">
       <span matPrefix>Sort by:</span>
       <mat-select [(value)]="order" (selectionChange)="changeOrder($event.value)">
-        <mat-option *ngFor="let order of orders" [value]="order.value">
-          {{order.viewValue}}
-        </mat-option>
+        <div class="option-container" *ngFor="let orderOption of orders">
+          <mat-option [value]="orderOption.value">{{orderOption.viewValue}}</mat-option>
+          <mat-icon *ngIf="orderOption.value === order">check</mat-icon>
+        </div>
       </mat-select>
-<!--      <mat-icon matSuffix>keyboard_arrow_down</mat-icon>-->
     </mat-form-field>
   </section>
 </section>

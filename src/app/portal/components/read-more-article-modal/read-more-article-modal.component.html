@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>{{article.title}}</h2>
 <mat-dialog-content class="article">
   <mat-card>
-    <img mat-card-image [src]="article.photo" alt="Article photo">
+    <img class="article-photo" mat-card-image [src]="article.photo" alt="Article photo">
     <mat-card-content>
       <section class="category-and-data">
         <span>{{article.category}}</span>
@@ -13,11 +13,13 @@
       </section>
 
       <section class="additional-info">
-        <div class="photo">
-          <img *ngIf="article.authorAvatar" [src]="article.authorAvatar" alt="Author avatar"/>
-          <img *ngIf="!article.authorAvatar" src="assets/img/unknown-user.png" alt="Author avatar"/>
+        <div class="author user">
+          <div class="user-photo">
+            <img *ngIf="article.authorAvatar" [src]="article.authorAvatar" alt="Author avatar"/>
+            <img *ngIf="!article.authorAvatar" src="assets/img/unknown-user.png" alt="Author avatar"/>
+          </div>
+          <span>{{article.authorName}}</span>
         </div>
-        <span>{{article.authorName}}</span>
       </section>
     </mat-card-content>
   </mat-card>

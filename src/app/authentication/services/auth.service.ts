@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {from, Observable, ObservedValueOf} from "rxjs";
+import {from, Observable} from "rxjs";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {addDoc, collection, doc, getDocs, getFirestore, query, updateDoc, where} from "@angular/fire/firestore";
 import {
@@ -17,9 +17,9 @@ import {Store} from "@ngrx/store";
 import firebase from "firebase/compat";
 import {AuthResponse, OAuthResponse, Token, UserData} from "../../shared/interfaces";
 import DocumentData = firebase.firestore.DocumentData;
-import User = firebase.User;
-import UserCredential = firebase.auth.UserCredential;
-import GoogleUser = gapi.auth2.GoogleUser;
+// import User = firebase.User;
+// import UserCredential = firebase.auth.UserCredential;
+// import GoogleUser = gapi.auth2.GoogleUser;
 
 @Injectable()
 export class AuthService {

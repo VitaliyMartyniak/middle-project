@@ -16,6 +16,7 @@ import {setSnackbar} from "../../../store/actions/notifications";
   styleUrls: ['./add-edit-article.component.scss']
 })
 export class AddEditArticleComponent {
+  categories = ['PRODUCTIVITY', 'MEDIA', 'BUSINESS'];
   form: FormGroup;
   private userSub: Subscription;
   // private articlesSub: Subscription; todo test

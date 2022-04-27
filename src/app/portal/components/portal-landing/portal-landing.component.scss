@@ -31,25 +31,42 @@ header {
         min-width: 150px;
         position: relative;
 
-        .profile {
+        .user {
           display: flex;
           align-items: center;
 
-          &-photo {
+          .user-photo {
             width: 48px;
             height: 48px;
-            border-radius: 50%;
             margin-right: 16px;
 
             img {
               height: 48px;
               width: 48px;
-              border-radius: 50%;
             }
           }
 
           &-name {
             color: var(--black-color);
+          }
+
+          &:hover {
+
+            & .user-name {
+              color: var(--primary-color);
+            }
+
+            & .user-photo:after {
+              content: '';
+              display: block;
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              border: 1px solid rgba(46, 91, 255, 0.6);
+              position: absolute;
+              top: -2px;
+              left: -2px;
+            }
           }
 
           mat-icon {

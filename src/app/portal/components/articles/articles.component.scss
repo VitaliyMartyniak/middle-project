@@ -12,7 +12,7 @@
     border-radius: 6px;
     word-break: break-word;
 
-    img {
+    .article-photo {
       height: 168px;
     }
 
@@ -76,23 +76,19 @@
         align-items: center;
         margin-top: auto;
 
-        .photo {
-          display: block;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
+        .author {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
 
-          img {
-            height: 32px;
-            width: 32px;
-            border-radius: 50%;
+          span {
+            margin-right: auto;
+            margin-left: 8px;
           }
-        }
 
-        span {
-          margin-right: auto;
-          margin-left: 8px;
-          color: var(--primary-color);
+          &:hover span {
+            color: var(--primary-color);
+          }
         }
 
         a {

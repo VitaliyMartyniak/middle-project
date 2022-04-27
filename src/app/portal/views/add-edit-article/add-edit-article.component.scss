@@ -62,16 +62,27 @@
   }
 }
 
+::ng-deep .mat-option:not(.mat-selected):hover {
+  background: rgba(46, 91, 255, .04) !important;
+  color: var(--status-color) !important;
+}
+
 ::ng-deep .mat-option.mat-selected {
   background: var(--status-color) !important;
   color: var(--white-color) !important;
 }
 
-::ng-deep .mat-option:hover:not(.mat-option-disabled) {
-  background: rgba(46, 91, 255, .04)!important;
-  color: var(--status-color) !important;
-}
-
 ::ng-deep .mat-option.mat-active {
   background-color: transparent;
+}
+
+.option-container {
+  position: relative;
+
+  ::ng-deep .mat-icon {
+    position: absolute !important;
+    top: 10px;
+    right: 20px;
+    color: var(--white-color) !important;
+  }
 }

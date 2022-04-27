@@ -11,7 +11,7 @@ h2 {
 .article {
   width: 600px;
 
-  img {
+  &-photo {
     height: 300px;
   }
 
@@ -62,16 +62,18 @@ h2 {
       align-items: center;
       margin-top: auto;
 
-      .photo {
-        display: block;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
+      .author {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-        img {
-          height: 32px;
-          width: 32px;
-          border-radius: 50%;
+        span {
+          margin-right: auto;
+          margin-left: 8px;
+        }
+
+        &:hover span {
+          color: var(--primary-color);
         }
       }
 
@@ -81,7 +83,6 @@ h2 {
       }
 
       a {
-        cursor: pointer;
         font-size: 11px;
 
         mat-icon {

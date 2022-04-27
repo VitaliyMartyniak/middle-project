@@ -129,6 +129,38 @@ label {
   }
 }
 
+.user {
+  .user-photo {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    position: relative;
+
+    img {
+      height: 32px;
+      width: 32px;
+      border-radius: 50%;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    & .user-photo:after {
+      content: '';
+      display: block;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(46, 91, 255, 0.6);
+      position: absolute;
+      top: -2px;
+      left: -2px;
+    }
+  }
+}
+
 /* Hiding arrows in input with type="number"*/
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
