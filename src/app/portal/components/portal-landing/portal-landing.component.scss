@@ -34,6 +34,7 @@ header {
         .user {
           display: flex;
           align-items: center;
+          cursor: auto;
 
           .user-photo {
             width: 48px;
@@ -72,6 +73,11 @@ header {
           mat-icon {
             transform: translateX(8px);
             color: #8E94A7;
+          }
+
+          [aria-controls] mat-icon {
+            color: var(--primary-color) !important;
+            transform: translateX(9px) rotate(180deg);
           }
 
           &-dropdown {
