@@ -1,6 +1,6 @@
 <section *ngIf="!isLoading" class="articles">
-  <ng-container *ngIf="articles$ | async">
-    <mat-card class="article" *ngFor="let article of articles$ | async">
+  <ng-container *ngIf="articles.length; else noArticles">
+    <mat-card class="article" *ngFor="let article of articles">
       <img mat-card-image [src]="article.photo" alt="Article photo">
       <mat-card-content>
         <button *ngIf="user.uid === article.authorUID" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Articles options">
@@ -35,8 +35,12 @@
       </mat-card-content>
     </mat-card>
   </ng-container>
+
+  <ng-template #noArticles>
+    <span>No articles!</span>
+  </ng-template>
 </section>
 
 <app-loader *ngIf="isLoading"></app-loader>
 
-<app-pagination *ngIf="!isLoading"></app-pagination>
+<app-pagination *ngIf="!isLoading && articles.length"></app-pagination>

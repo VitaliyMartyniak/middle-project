@@ -34,18 +34,13 @@ button {
   width: 47% !important;
 }
 
-//.email-input {
-//  margin-bottom: 18px;
-//
-//  ::ng-deep .mat-form-field-wrapper {
-//    padding-bottom: 0 !important;
-//  }
-//
-//  span {
-//    font-size: 13px;
-//    color: #6F7C8B;
-//  }
-//}
+label[for="password"] + .mat-form-field {
+  margin-bottom: 15px;
+}
+
+mat-hint {
+  padding: 0;
+}
 
 .login-message {
   display: block;
@@ -58,4 +53,8 @@ button {
   a {
     display: inline;
   }
+}
+
+.terms {
+  margin-bottom: 10px;
 }

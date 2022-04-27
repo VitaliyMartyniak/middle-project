@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Article} from "../../../shared/interfaces";
-import {Observable, Subscription} from "rxjs";
-import {select, Store} from "@ngrx/store";
+import {Subscription} from "rxjs";
+import {Store} from "@ngrx/store";
 import {PortalService} from "../../services/portal.service";
-import {removeArticle} from "../../../store/actions/articles";
+import {removeArticle, setArticlesLoading} from "../../../store/actions/articles";
 import {paginatedArticlesSelector} from "../../../store/selectors/pagination";
 import {articlesLoadingSelector} from "../../../store/selectors/articles";
 import {userSelector} from "../../../store/selectors/auth";
@@ -17,27 +17,33 @@ import {ReadMoreArticleModalComponent} from "../read-more-article-modal/read-mor
   templateUrl: './articles.component.html',
   styleUrls: ['./articles.component.scss']
 })
-export class ArticlesComponent implements OnInit {
+export class ArticlesComponent implements OnInit, OnDestroy {
   isLoading = false;
   user: User;
+  articles: Article[];
   usersSub: Subscription;
   isLoadingSub: Subscription;
-  articles$: Observable<Article[]> = this.store.pipe(select(paginatedArticlesSelector));
+  articlesSub: Subscription;
 
   constructor(private store: Store, private portalService: PortalService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.usersSub = this.store.select(userSelector).subscribe((user: User): void => {
       this.user = user;
-    })
+    });
     this.isLoadingSub = this.store.select(articlesLoadingSelector).subscribe((isLoading: boolean): void => {
       this.isLoading = isLoading;
+    });
+    this.articlesSub = this.store.select(paginatedArticlesSelector).subscribe((articles: Article[]): void => {
+      this.articles = articles;
     })
   }
 
   deleteArticle(docID: string): void {
+    this.store.dispatch(setArticlesLoading({isLoading: true}));
     this.portalService.deleteArticle(docID).subscribe(() => {
       this.store.dispatch(removeArticle({docID}));
+      this.store.dispatch(setArticlesLoading({isLoading: false}));
     });
   }
 
@@ -53,5 +59,11 @@ export class ArticlesComponent implements OnInit {
         authorName: article.authorName,
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.articlesSub.unsubscribe();
+    this.isLoadingSub.unsubscribe();
+    this.usersSub.unsubscribe();
   }
 }

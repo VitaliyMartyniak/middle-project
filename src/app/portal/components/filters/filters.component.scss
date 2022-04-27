@@ -10,6 +10,7 @@
 
   span {
     color: rgba(111, 124, 139, 0.5);
+    margin-right: 5px;
   }
 
   .categories-select {
@@ -17,27 +18,66 @@
     min-width: 160px;
   }
 
-  .order-select {
-    margin-left: auto;
+  ::ng-deep {
 
-    ::ng-deep .mat-form-field-flex {
-      width: 174px !important;
-      height: 38px !important;
-      font-size: 14px !important;
-      padding: 0 !important;
-      padding-left: 10px !important;
-    }
-
-    ::ng-deep .mat-form-field-wrapper {
-      padding: 0 !important;
-    }
-
-    ::ng-deep .mat-form-field-prefix {
-      transform: translateY(-3px) !important;
-    }
-
-    ::ng-deep .mat-select-arrow-wrapper {
-      transform: translateY(-4px) !important;
+    .mat-select-arrow {
+      display: inline-block;
+      margin-top: 0;
+      width: 9px;
+      height: 9px;
+      border-left: 0;
+      border-top: 1.5px solid #8E94A7;
+      border-right: 1.5px solid #8E94A7;
+      transform: rotate(135deg) translate(-1px, 3px);
     }
   }
+
+  .order-select {
+    margin-left: auto;
+    position: relative;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 20px;
+      width: 1px;
+      height: 38px;
+      background-color: #E7E9F0;
+    }
+
+    ::ng-deep {
+
+      .mat-form-field-flex {
+        width: 174px !important;
+        height: 38px !important;
+        font-size: 14px !important;
+        padding: 0 !important;
+        padding-left: 10px !important;
+      }
+
+      .mat-form-field-wrapper {
+        padding: 0 !important;
+      }
+
+      .mat-form-field-prefix, .mat-select-value, .mat-select-arrow-wrapper {
+        transform: translateY(-3px) !important;
+      }
+    }
+  }
+}
+
+::ng-deep .mat-option.mat-selected {
+  background: var(--status-color) !important;
+  color: var(--white-color) !important;
+}
+
+::ng-deep .mat-option:hover:not(.mat-option-disabled) {
+  background: rgba(46, 91, 255, .04)!important;
+  color: var(--status-color) !important;
+}
+
+::ng-deep .mat-option.mat-active {
+  background-color: transparent;
 }
