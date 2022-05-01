@@ -26,7 +26,7 @@ describe('FiltersService', () => {
       authorName: "string2",
       authorUID: "string2",
     }
-  ]
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
