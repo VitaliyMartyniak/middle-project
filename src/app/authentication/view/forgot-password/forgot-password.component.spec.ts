@@ -60,7 +60,7 @@ describe('ForgotPasswordComponent', () => {
     // @ts-ignore
     spyOn(authService, 'forgotPasswordRequest').and.callFake(() => {
       // @ts-ignore
-      return of(true)
+      return of('true')
     });
     component.sendResetPasswordRequest();
     // @ts-ignore
