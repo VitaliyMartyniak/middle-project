@@ -29,11 +29,13 @@ export class ProfileInfoComponent implements OnInit {
         Validators.min(1),
       ]),
     });
-    this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
-      this.form.patchValue({name: user.name});
-      this.form.patchValue({lastName: user.lastName});
-      this.form.patchValue({age: user.age});
-      this.docID = user.docID;
+    this.userSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
+      if (user) {
+        this.form.patchValue({name: user.name});
+        this.form.patchValue({lastName: user.lastName});
+        this.form.patchValue({age: user.age});
+        this.docID = user.docID;
+      }
     })
   }
 
