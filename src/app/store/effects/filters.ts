@@ -11,9 +11,6 @@ export class FiltersEffects {
     () => this.actions$.pipe(
       ofType(debounceInput),
       debounceTime(1000),
-      map(({value}) => {
-        console.log('value', value);
-        return setSearch({search: value})
-      }),
+      map(({value}) => setSearch({search: value})),
     ));
 }

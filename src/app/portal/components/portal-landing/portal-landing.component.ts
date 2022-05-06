@@ -38,9 +38,11 @@ export class PortalLandingComponent implements OnInit {
     ).subscribe((articles: any) => {
       this.store.dispatch(setArticles({articles}));
     });
-    this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
-      this.user = user;
-      this.store.dispatch(setAuthLoading({isLoading: false}));
+    this.userSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
+      if (user) {
+        this.user = user;
+        this.store.dispatch(setAuthLoading({isLoading: false}));
+      }
     })
     this.isLoadingSub = this.store.select(authLoadingSelector).subscribe((isLoading: boolean): void => {
       this.isLoading = isLoading;
@@ -50,7 +52,6 @@ export class PortalLandingComponent implements OnInit {
   logout(event: Event): void {
     event.preventDefault();
     this.authService.logout().subscribe(() => {
-      this.authService.logout();
       this.router.navigate(['login']);
     });
   }

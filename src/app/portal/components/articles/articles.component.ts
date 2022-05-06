@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Article} from "../../../shared/interfaces";
+import {Article, UserData} from "../../../shared/interfaces";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {PortalService} from "../../services/portal.service";
@@ -7,8 +7,6 @@ import {removeArticle, setArticlesLoading} from "../../../store/actions/articles
 import {paginatedArticlesSelector} from "../../../store/selectors/pagination";
 import {articlesLoadingSelector} from "../../../store/selectors/articles";
 import {userSelector} from "../../../store/selectors/auth";
-import firebase from "firebase/compat";
-import User = firebase.User;
 import {MatDialog} from "@angular/material/dialog";
 import {ReadMoreArticleModalComponent} from "../read-more-article-modal/read-more-article-modal.component";
 
@@ -19,7 +17,7 @@ import {ReadMoreArticleModalComponent} from "../read-more-article-modal/read-mor
 })
 export class ArticlesComponent implements OnInit, OnDestroy {
   isLoading = false;
-  user: User;
+  user: UserData;
   articles: Article[];
   usersSub: Subscription;
   isLoadingSub: Subscription;
@@ -28,8 +26,10 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private portalService: PortalService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.usersSub = this.store.select(userSelector).subscribe((user: User): void => {
-      this.user = user;
+    this.usersSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
+      if (user) {
+        this.user = user;
+      }
     });
     this.isLoadingSub = this.store.select(articlesLoadingSelector).subscribe((isLoading: boolean): void => {
       this.isLoading = isLoading;

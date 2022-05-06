@@ -12,6 +12,7 @@ import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -41,6 +42,8 @@ describe('LoginComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
         AngularFireModule.initializeApp(environment.firebase),
@@ -90,9 +93,9 @@ describe('LoginComponent', () => {
   it('should show error snackbar', () => {
     const method = spyOn(store, 'dispatch');
     // @ts-ignore
-    spyOn(authService, 'login').and.callFake(() => throwError("error"));
+    spyOn(authService, 'login').and.callFake(() => throwError(() => new Error("error")));
     component.loginByEmail();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'error', snackbarType: 'error'}));
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 });

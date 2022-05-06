@@ -24,14 +24,13 @@ export class WeatherWidgetsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
-      this.user = user;
-      if (this.user) {
+    this.userSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
+      if (user) {
+        this.user = user;
         this.getWeatherLocations();
       }
     });
     this.weatherLocationsSub = this.store.select(weatherLocationsSelector).subscribe((weatherLocations: LocationCoordinates[]): void => {
-      console.log('weatherLocations', weatherLocations);
       this.weatherLocations = weatherLocations;
     })
   }

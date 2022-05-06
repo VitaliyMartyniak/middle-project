@@ -4,7 +4,7 @@ import * as _ from "lodash";
 import {setPaginatedArticles, updatePage} from "../../store/actions/pagination";
 import {pageIndexSelector} from "../../store/selectors/pagination";
 import {Article} from "../../shared/interfaces";
-import {articlesSelector} from "../../store/selectors/articles";
+import {filteredArticlesSelector} from "../../store/selectors/filters";
 
 @Injectable({
   providedIn: "root"
@@ -21,7 +21,7 @@ export class PaginationService {
       return
     }
 
-    this.store.select(articlesSelector).subscribe((articles: Article[]): void => {
+    this.store.select(filteredArticlesSelector).subscribe((articles: Article[]): void => {
       this.filteredArticles = articles;
       if (this.isInit) {
         this.store.dispatch(updatePage({pageIndex: 0}));

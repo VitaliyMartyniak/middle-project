@@ -10,6 +10,7 @@ import {MatInputModule} from "@angular/material/input";
 import {ProfileService} from "../../profile.service";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../../store/actions/notifications";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 describe('ProfilePasswordComponent', () => {
   let component: ProfilePasswordComponent;
@@ -53,6 +54,8 @@ describe('ProfilePasswordComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
         MatInputModule,
         MatFormFieldModule,
         AngularFireModule.initializeApp(environment.firebase),
@@ -93,10 +96,10 @@ describe('ProfilePasswordComponent', () => {
     // @ts-ignore
     component.auth = authMock;
     const method = spyOn(store, 'dispatch')
-    spyOn(profileService, 'checkOldPassword').and.callFake(() => throwError("error"));
+    spyOn(profileService, 'checkOldPassword').and.callFake(() => throwError(() => new Error("error")));
     component.updatePassword();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'error', snackbarType: 'error'}));
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 
   it('should not update user password from profileService when updatePassword because of empty user', () => {

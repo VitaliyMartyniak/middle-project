@@ -6,7 +6,11 @@ describe('PortalService', () => {
   let service: PortalService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: PortalService, useValue: {} }
+      ]
+    });
     service = TestBed.inject(PortalService);
   });
 

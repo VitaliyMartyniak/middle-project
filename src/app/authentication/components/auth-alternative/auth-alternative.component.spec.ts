@@ -10,6 +10,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {SharedModule} from "../../../shared/shared.module";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 describe('AuthAlternativeComponent', () => {
   let component: AuthAlternativeComponent;
@@ -40,6 +41,8 @@ describe('AuthAlternativeComponent', () => {
       declarations: [ AuthAlternativeComponent ],
       imports: [
         SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(environment.firebase),
       ],
@@ -80,10 +83,10 @@ describe('AuthAlternativeComponent', () => {
   it('should show error snackbar when googleLogin fails', () => {
     const method = spyOn(store, 'dispatch');
     // @ts-ignore
-    spyOn(authService, 'googleLogin').and.callFake(() => throwError("error"));
+    spyOn(authService, 'googleLogin').and.callFake(() => throwError(() => new Error("error")));
     component.loginByGoogle();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'error', snackbarType: 'error'}));
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 
   it('should call facebookLogin in authService', () => {
@@ -101,10 +104,10 @@ describe('AuthAlternativeComponent', () => {
   it('should show error snackbar when facebookLogin fails', () => {
     const method = spyOn(store, 'dispatch');
     // @ts-ignore
-    spyOn(authService, 'facebookLogin').and.callFake(() => throwError("error"));
+    spyOn(authService, 'facebookLogin').and.callFake(() => throwError(() => new Error("error")));
     component.loginByFacebook();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'error', snackbarType: 'error'}));
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 
   it('should set user to localStorage when processUser', () => {

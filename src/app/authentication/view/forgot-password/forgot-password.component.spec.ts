@@ -70,9 +70,9 @@ describe('ForgotPasswordComponent', () => {
   it('should show error snackbar when send reset password request', () => {
     const method = spyOn(store, 'dispatch');
     // @ts-ignore
-    spyOn(authService, 'forgotPasswordRequest').and.callFake(() => throwError("error"));
+    spyOn(authService, 'forgotPasswordRequest').and.callFake(() => throwError(() => new Error("error")));
     component.sendResetPasswordRequest();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'error', snackbarType: 'error'}));
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 });

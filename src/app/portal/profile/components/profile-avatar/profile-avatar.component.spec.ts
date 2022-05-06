@@ -8,6 +8,7 @@ import {MockStore, provideMockStore} from "@ngrx/store/testing";
 import {PhotoDndComponent} from "../../../../shared/components/photo-dnd/photo-dnd.component";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../../store/actions/notifications";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 describe('ProfileAvatarComponent', () => {
   let component: ProfileAvatarComponent;
@@ -18,6 +19,8 @@ describe('ProfileAvatarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        FormsModule,
+        ReactiveFormsModule,
         AngularFireModule.initializeApp(environment.firebase),
       ],
       declarations: [
@@ -50,16 +53,16 @@ describe('ProfileAvatarComponent', () => {
   });
 
   it('should update user profile info from authService when updateAvatar', () => {
-    spyOn(authService, 'updateUserProfileInfo').and.returnValue(of());
+    spyOn(authService, 'updateUserProfileInfo').and.returnValue(of(undefined));
     component.updateAvatar();
     expect(authService.updateUserProfileInfo).toHaveBeenCalled();
   });
 
   it('should show error snackbar when updateAvatar', () => {
     const method = spyOn(store, 'dispatch');
-    spyOn(authService, 'updateUserProfileInfo').and.callFake(() => throwError('error'));
+    spyOn(authService, 'updateUserProfileInfo').and.callFake(() => throwError(() => new Error("error")));
     component.updateAvatar();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'error', snackbarType: 'error'}));
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 });

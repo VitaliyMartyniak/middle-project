@@ -40,6 +40,7 @@ export class WeatherWidgetComponent implements OnInit {
         this.load(longitude, latitude);
       });
     } else {
+      // load Lviv coordinates
       this.load(24.031111, 49.842957);
     }
   }

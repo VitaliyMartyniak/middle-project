@@ -61,8 +61,10 @@ export class AddEditArticleComponent {
         }
       }
     })
-    this.userSub = this.store.select(userSelector).subscribe((user: UserData): void => {
-      this.user = user;
+    this.userSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
+      if (user) {
+        this.user = user;
+      }
     });
   }
 

@@ -91,9 +91,9 @@ describe('SignUpComponent', () => {
   it('should show error snackbar when signup user', () => {
     const method = spyOn(store, 'dispatch');
     // @ts-ignore
-    spyOn(authService, 'signUpUser').and.callFake(() => throwError("error"));
+    spyOn(authService, 'signUpUser').and.callFake(() => throwError(() => new Error("error")));
     component.signUpUser();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'error', snackbarType: 'error'}));
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 });
