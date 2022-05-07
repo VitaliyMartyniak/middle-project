@@ -19,6 +19,13 @@ workflows:
           version: '16.10'
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
+
+jobs:
+  node/test:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - checkout
       - run:
           name: Install dependencies
           command: npm install
