@@ -8,8 +8,9 @@ import {environment} from "../../../../../environments/environment";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {EMPTY, of} from "rxjs";
+import {of, throwError} from "rxjs";
 import {setProfileLoading} from "../../../../store/actions/profile";
+import {setSnackbar} from "../../../../store/actions/notifications";
 
 describe('ProfileInfoComponent', () => {
   let component: ProfileInfoComponent;
@@ -63,5 +64,13 @@ describe('ProfileInfoComponent', () => {
     component.updateProfileInfo();
     // @ts-ignore
     expect(method).toHaveBeenCalledWith(setProfileLoading({isLoading: false}));
+  });
+
+  it('should not update user profile info from authService when updateProfileInfo', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'updateUserProfileInfo').and.callFake(() => throwError(() => new Error("error")));
+    component.updateProfileInfo();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 });

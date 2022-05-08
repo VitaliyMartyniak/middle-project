@@ -50,6 +50,7 @@ describe('WeatherWidgetComponent', () => {
     weatherService = TestBed.inject(WeatherService);
     fixture = TestBed.createComponent(WeatherWidgetComponent);
     component = fixture.componentInstance;
+    component.temp = 0;
     fixture.detectChanges();
   });
 
@@ -97,32 +98,45 @@ describe('WeatherWidgetComponent', () => {
 
 
 
-  // it('should not set temp in component from getCurrentWeather when load', () => {
-  //   spyOn(weatherService, 'getCurrentWeather').and.callFake(() => throwError(() => new Error("error")));
-  //   const method = spyOn(store, 'dispatch');
-  //   component.load(1,1);
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: 'Error during getting weather', snackbarType: 'error'}));
-  // });
-  //
-  // it('should open LocationSearchModalComponent when openModal', () => {
-  //   const method = spyOn(dialog, 'open');
-  //   component.openModal();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(LocationSearchModalComponent);
-  // });
-  //
-  // it('should remove weather location when deleteWidget', () => {
-  //   component.weatherLocation = {
-  //     lat: 1,
-  //     lon: 1,
-  //     docID: "docID"
-  //   }
-  //   const method = spyOn(store, 'dispatch');
-  //   spyOn(weatherService, 'deleteWeather').and.callFake(() => of(undefined));
-  //   component.deleteWidget();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(removeWeatherLocation({docID: component.weatherLocation.docID!}))
-  // });
+  it('should not set temp in component from getCurrentWeather when load', () => {
+    spyOn(weatherService, 'getCurrentWeather').and.callFake(() => throwError(() => new Error("error")));
+    const method = spyOn(store, 'dispatch');
+    component.load(1,1);
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'Error during getting weather', snackbarType: 'error'}));
+  });
+
+  it('should open LocationSearchModalComponent when openModal', () => {
+    const method = spyOn(dialog, 'open');
+    component.openModal();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(LocationSearchModalComponent);
+  });
+
+  it('should remove weather location when deleteWidget', () => {
+    component.weatherLocation = {
+      lat: 1,
+      lon: 1,
+      docID: "docID"
+    };
+    const method = spyOn(store, 'dispatch');
+    spyOn(weatherService, 'deleteWeather').and.callFake(() => of(undefined));
+    component.deleteWidget();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(removeWeatherLocation({docID: component.weatherLocation.docID!}))
+  });
+
+  it('should not remove weather location when deleteWidget', () => {
+    component.weatherLocation = {
+      lat: 1,
+      lon: 1,
+      docID: "docID"
+    };
+    const method = spyOn(store, 'dispatch');
+    spyOn(weatherService, 'deleteWeather').and.callFake(() => throwError(() => new Error("error")));
+    component.deleteWidget();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
 
 });

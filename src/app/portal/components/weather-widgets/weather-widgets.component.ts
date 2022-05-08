@@ -36,7 +36,7 @@ export class WeatherWidgetsComponent implements OnInit, OnDestroy {
   }
 
   getWeatherLocations(): void {
-    this.getWeatherLocationsSub = this.weatherService.getWeatherLocations(this.user.uid).pipe(
+    this.weatherService.getWeatherLocations(this.user.uid).pipe(
       finalize((): void => {
         this.store.dispatch(setWeathersLoading({isLoading: false}));
       }),
@@ -49,7 +49,8 @@ export class WeatherWidgetsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getWeatherLocationsSub.unsubscribe();
+    this.userSub.unsubscribe();
+    this.weatherLocationsSub.unsubscribe();
   }
 
 }

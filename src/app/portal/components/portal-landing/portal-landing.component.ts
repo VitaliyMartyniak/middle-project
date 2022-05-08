@@ -51,7 +51,11 @@ export class PortalLandingComponent implements OnInit {
 
   logout(event: Event): void {
     event.preventDefault();
-    this.authService.logout().subscribe(() => {
+    this.authService.logout().pipe(
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe(() => {
       this.router.navigate(['login']);
     });
   }

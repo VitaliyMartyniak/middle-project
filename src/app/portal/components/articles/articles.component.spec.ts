@@ -2,19 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ArticlesComponent } from './articles.component';
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
-import {environment} from "../../../../environments/environment";
 import {SharedModule} from "../../../shared/shared.module";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
-import {AngularFireModule} from "@angular/fire/compat";
-import {getAuth, provideAuth} from "@angular/fire/auth";
-import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import {PortalService} from "../../services/portal.service";
-import {AuthService} from "../../../authentication/services/auth.service";
-import {EMPTY, of} from "rxjs";
+import {of, throwError} from "rxjs";
 import {removeArticle} from "../../../store/actions/articles";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {ReadMoreArticleModalComponent} from "../read-more-article-modal/read-more-article-modal.component";
+import {setSnackbar} from "../../../store/actions/notifications";
 
 describe('ArticlesComponent', () => {
   let portalService: PortalService;
@@ -99,6 +94,14 @@ describe('ArticlesComponent', () => {
     component.deleteArticle('docID');
     // @ts-ignore
     expect(method).toHaveBeenCalledWith(removeArticle({docID: "docID"}));
+  });
+
+  it('should not delete when deleteArticle', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(portalService, 'deleteArticle').and.returnValue(throwError(() => new Error("error")));
+    component.deleteArticle('docID');
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 
   it('should open ReadMoreArticleModalComponent when openModal', () => {

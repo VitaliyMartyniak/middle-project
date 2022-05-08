@@ -30,6 +30,8 @@ export class ProfileAvatarComponent {
       catchError((e): any => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
       }),
-    ).subscribe();
+    ).subscribe(() => {
+      this.store.dispatch(setSnackbar({text: "Profile avatar successfully updated!", snackbarType: 'success'}));
+    });
   }
 }

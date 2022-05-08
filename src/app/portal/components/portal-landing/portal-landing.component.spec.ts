@@ -118,11 +118,19 @@ describe('PortalLandingComponent', () => {
     expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 
-  it('should get articles from portal service', () => {
+  it('should navigate to login page when logout', () => {
     const method = spyOn(router, 'navigate');
     spyOn(authService, 'logout').and.callFake(() => of(undefined));
     component.logout(event);
     // @ts-ignore
     expect(method).toHaveBeenCalledWith([ 'login' ]);
+  });
+
+  it('should not navigate to login page when logout', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'logout').and.callFake(() => throwError(() => new Error("error")));
+    component.logout(event);
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 });

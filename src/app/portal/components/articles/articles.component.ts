@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Article, UserData} from "../../../shared/interfaces";
-import {Subscription} from "rxjs";
+import {catchError, finalize, Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {PortalService} from "../../services/portal.service";
 import {removeArticle, setArticlesLoading} from "../../../store/actions/articles";
@@ -9,6 +9,7 @@ import {articlesLoadingSelector} from "../../../store/selectors/articles";
 import {userSelector} from "../../../store/selectors/auth";
 import {MatDialog} from "@angular/material/dialog";
 import {ReadMoreArticleModalComponent} from "../read-more-article-modal/read-more-article-modal.component";
+import {setSnackbar} from "../../../store/actions/notifications";
 
 @Component({
   selector: 'app-articles',
@@ -41,9 +42,15 @@ export class ArticlesComponent implements OnInit, OnDestroy {
 
   deleteArticle(docID: string): void {
     this.store.dispatch(setArticlesLoading({isLoading: true}));
-    this.portalService.deleteArticle(docID).subscribe(() => {
+    this.portalService.deleteArticle(docID).pipe(
+      finalize(() => {
+        this.store.dispatch(setArticlesLoading({isLoading: false}));
+      }),
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe(() => {
       this.store.dispatch(removeArticle({docID}));
-      this.store.dispatch(setArticlesLoading({isLoading: false}));
     });
   }
 

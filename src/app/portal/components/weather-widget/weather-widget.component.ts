@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {WeatherService} from "../../services/weather.service";
 import {Store} from "@ngrx/store";
 import {MatDialog} from "@angular/material/dialog";
-import {catchError, map} from "rxjs";
+import {catchError, finalize, map} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {LocationSearchModalComponent} from "../location-search-modal/location-search-modal.component";
 import {Location, LocationCoordinates} from "../../../shared/interfaces";
@@ -34,7 +34,7 @@ export class WeatherWidgetComponent implements OnInit {
     if (this.weatherLocation) {
       this.load(this.weatherLocation.lon, this.weatherLocation.lat);
     } else if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position: GeolocationPosition)=>{
+      navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
         const longitude = position.coords.longitude;
         const latitude = position.coords.latitude;
         this.load(longitude, latitude);
@@ -79,8 +79,14 @@ export class WeatherWidgetComponent implements OnInit {
 
   deleteWidget(): void {
     this.isLoading = true;
-    this.weatherService.deleteWeather(this.weatherLocation.docID!).subscribe(() => {
-      this.isLoading = false;
+    this.weatherService.deleteWeather(this.weatherLocation.docID!).pipe(
+      finalize(() => {
+        this.isLoading = false;
+      }),
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe(() => {
       this.store.dispatch(removeWeatherLocation({docID: this.weatherLocation.docID!}));
     });
   }

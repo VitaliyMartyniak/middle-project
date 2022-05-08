@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {userSelector} from "../../../../store/selectors/auth";
-import {Subscription} from "rxjs";
+import {catchError, finalize, Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AuthService} from "../../../../authentication/services/auth.service";
 import {UserData} from "../../../../shared/interfaces";
 import {setProfileLoading} from "../../../../store/actions/profile";
+import {setSnackbar} from "../../../../store/actions/notifications";
 
 @Component({
   selector: 'app-profile-info',
@@ -42,8 +43,15 @@ export class ProfileInfoComponent implements OnInit {
   updateProfileInfo(): void {
     const formData = {...this.form.value};
     this.store.dispatch(setProfileLoading({isLoading: true}));
-    this.authService.updateUserProfileInfo(formData, this.docID!).subscribe(() => {
-      this.store.dispatch(setProfileLoading({isLoading: false}));
+    this.authService.updateUserProfileInfo(formData, this.docID!).pipe(
+      finalize(() => {
+        this.store.dispatch(setProfileLoading({isLoading: false}));
+      }),
+      catchError((e): any => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+      }),
+    ).subscribe(() => {
+      this.store.dispatch(setSnackbar({text: "Profile info successfully updated!", snackbarType: 'success'}));
     });
   }
 }
