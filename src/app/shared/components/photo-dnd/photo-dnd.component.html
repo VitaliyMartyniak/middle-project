@@ -8,5 +8,7 @@
   <section [ngClass]="{'file-image-hidden': !url, 'file-image-show': url}">
     <img class="uploaded-image" *ngIf="url" [src]="url" alt="Uploaded image"/>
   </section>
-  <button *ngIf="url" (click)="deleteFile()">X</button>
+  <button *ngIf="url" (click)="deleteFile()">
+    <mat-icon>delete</mat-icon>
+  </button>
 </div>
