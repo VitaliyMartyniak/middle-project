@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {from, Observable} from "rxjs";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {
   addDoc,
   collection,
   doc,
+  Firestore,
   getDocs,
   getFirestore,
-  initializeFirestore,
   query,
   updateDoc,
   where
@@ -27,23 +26,14 @@ import {Store} from "@ngrx/store";
 import firebase from "firebase/compat";
 import {AuthResponse, OAuthResponse, Token, UserData} from "../../shared/interfaces";
 import DocumentData = firebase.firestore.DocumentData;
-import app = firebase.app;
-import {FirestoreSettings} from "@firebase/firestore";
-import {environment} from "../../../environments/environment";
-
-const firestoreSettings: FirestoreSettings = {
-  experimentalForceLongPolling: true
-};
 
 @Injectable()
 export class AuthService {
   private auth = getAuth();
   private db = getFirestore();
-  // @ts-ignore
-  // private db = initializeFirestore(firebase.app, firestoreSettings);
   private usersDataRef = collection(this.db, 'usersData');
 
-  constructor(private fireStore: AngularFirestore, private store: Store) {
+  constructor(private fireStore: Firestore, private store: Store) {
   }
 
   login(email: string, password: string): Observable<AuthResponse> {

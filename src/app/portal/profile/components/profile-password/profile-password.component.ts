@@ -4,7 +4,6 @@ import {CustomValidators} from "../../../../shared/custom-validators";
 import {ProfileService} from "../../profile.service";
 import {getAuth} from "@angular/fire/auth";
 import firebase from "firebase/compat/app";
-import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 import {setProfileLoading} from "../../../../store/actions/profile";
 import {Store} from "@ngrx/store";
 import {catchError, finalize, mergeMap} from "rxjs";
@@ -43,7 +42,8 @@ export class ProfilePasswordComponent implements OnInit {
     const formData = {...this.form.value};
     const user: any = this.auth.currentUser!;
     if (!user || !user.email) return
-    const credential = EmailAuthProvider.credential(
+    const provider = firebase.auth.EmailAuthProvider;
+    const credential = provider.credential(
       user.email,
       formData.oldPassword
     );

@@ -7,12 +7,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {SharedModule} from "./shared/shared.module";
 import { environment } from '../environments/environment';
-import {AngularFireModule} from "@angular/fire/compat";
+// import {AngularFireModule} from "@angular/fire/compat";
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store';
 import {EffectsModule} from "@ngrx/effects";
 import {FiltersEffects} from "./store/effects/filters";
 import { ServiceWorkerModule } from '@angular/service-worker';
+import {initializeFirestore, provideFirestore} from "@angular/fire/firestore";
+import {getApp, initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {getAuth, provideAuth} from "@angular/fire/auth";
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     BrowserAnimationsModule,
     AuthenticationModule,
     SharedModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => initializeFirestore(getApp(), { experimentalForceLongPolling: true })),
     StoreModule.forRoot(reducers, {
       metaReducers
     }),

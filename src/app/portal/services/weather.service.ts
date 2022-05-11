@@ -4,7 +4,7 @@ import {
   addDoc,
   collection,
   deleteDoc,
-  doc,
+  doc, Firestore,
   getDocs,
   getFirestore,
   query,
@@ -21,7 +21,7 @@ export class WeatherService {
   private db = getFirestore();
   private weathersRef = collection(this.db, 'weathers');
 
-  constructor(private http: HttpClient) { }
+  constructor(private fireStore: Firestore, private http: HttpClient) { }
 
   getWeatherLocations(userId: string): Observable<LocationCoordinates[]> {
     const q = query(this.weathersRef, where('uid', '==', userId));
