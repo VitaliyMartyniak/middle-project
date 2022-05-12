@@ -23,9 +23,9 @@ workflows:
 jobs:
   node/test:
     docker:
-      - image: circleci@d5592fd44e85:/$ which google-chrome /usr/bin/google-chrome
+      - image: circleci/node:9.5-browsers
         environment:
-          CHROME_BIN: /usr/bin/google-chrome karma start --single-run
+          CHROME_BIN: "/usr/bin/google-chrome karma start --single-run"
     steps:
       - checkout
       - run:
@@ -34,5 +34,3 @@ jobs:
       - run:
           name: Run tests
           command: ng test
-          environment:
-            CHROME_BIN: /usr/bin/google-chrome karma start --single-run
