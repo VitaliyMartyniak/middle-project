@@ -55,19 +55,19 @@ describe('ProfileInfoComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should update user profile info from authService when updateProfileInfo', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   spyOn(authService, 'updateUserProfileInfo').and.callFake(() => of(undefined));
-  //   component.updateProfileInfo();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setProfileLoading({isLoading: false}));
-  // });
-  //
-  // it('should not update user profile info from authService when updateProfileInfo', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   spyOn(authService, 'updateUserProfileInfo').and.callFake(() => throwError(() => new Error("error")));
-  //   component.updateProfileInfo();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
+  it('should update user profile info from authService when updateProfileInfo', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'updateUserProfileInfo').and.returnValue(of(undefined));
+    component.updateProfileInfo();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setProfileLoading({isLoading: false}));
+  });
+
+  it('should not update user profile info from authService when updateProfileInfo', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'updateUserProfileInfo').and.returnValue(throwError(() => new Error("error")));
+    component.updateProfileInfo();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
 });

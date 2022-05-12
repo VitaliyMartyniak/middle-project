@@ -38,13 +38,13 @@ describe('SnackbarComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
-  //
-  // it('should unsubscribe when ngOnDestroy', () => {
-  //   const method = spyOn(component.snackbarSub, 'unsubscribe');
-  //   component.ngOnDestroy();
-  //   expect(method).toHaveBeenCalled();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should unsubscribe when ngOnDestroy', () => {
+    const method = spyOn(component.snackbarSub, 'unsubscribe');
+    component.ngOnDestroy();
+    expect(method).toHaveBeenCalled();
+  });
 });

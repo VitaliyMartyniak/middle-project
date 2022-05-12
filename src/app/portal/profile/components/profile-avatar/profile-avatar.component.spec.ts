@@ -49,17 +49,17 @@ describe('ProfileAvatarComponent', () => {
     expect(component.base64File).toBe("string");
   });
 
-  // it('should update user profile info from authService when updateAvatar', () => {
-  //   spyOn(authService, 'updateUserProfileInfo').and.returnValue(of(undefined));
-  //   component.updateAvatar();
-  //   expect(authService.updateUserProfileInfo).toHaveBeenCalled();
-  // });
-  //
-  // it('should show error snackbar when updateAvatar', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   spyOn(authService, 'updateUserProfileInfo').and.callFake(() => throwError(() => new Error("error")));
-  //   component.updateAvatar();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
+  it('should update user profile info from authService when updateAvatar', () => {
+    spyOn(authService, 'updateUserProfileInfo').and.returnValue(of(undefined));
+    component.updateAvatar();
+    expect(authService.updateUserProfileInfo).toHaveBeenCalled();
+  });
+
+  it('should show error snackbar when updateAvatar', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'updateUserProfileInfo').and.returnValue(throwError(() => new Error("error")));
+    component.updateAvatar();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
 });

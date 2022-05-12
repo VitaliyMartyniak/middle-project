@@ -120,34 +120,34 @@ describe('AddEditArticleComponent', () => {
     expect(method).toHaveBeenCalled();
   });
 
-  // it('should dispatch create article on createNewArticle', () => {
-  //   spyOn(portalService, 'addNewArticle').and.callFake(() => of("docID"));
-  //   spyOn(portalService, 'saveDocumentID').and.callFake(() => of(undefined));
-  //   const method = spyOn(store, "dispatch");
-  //   component.createNewArticle();
-  //   expect(method).toHaveBeenCalled();
-  // });
-  //
-  // it('should not dispatch create article on createNewArticle', () => {
-  //   spyOn(portalService, 'addNewArticle').and.returnValue(throwError(() => new Error("error")));
-  //   const method = spyOn(store, "dispatch");
-  //   component.createNewArticle();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
-  //
-  // it('should dispatch update article on updateArticleData', () => {
-  //   spyOn(portalService, 'updateArticle').and.callFake(() => of(undefined));
-  //   const method = spyOn(store, "dispatch");
-  //   component.updateArticleData();
-  //   expect(method).toHaveBeenCalled();
-  // });
-  //
-  // it('should not dispatch update article on updateArticleData', () => {
-  //   spyOn(portalService, 'updateArticle').and.returnValue(throwError(() => new Error("error")));
-  //   const method = spyOn(store, "dispatch");
-  //   component.updateArticleData();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
+  it('should dispatch create article on createNewArticle', () => {
+    spyOn(portalService, 'addNewArticle').and.returnValue(of("docID"));
+    spyOn(portalService, 'saveDocumentID').and.returnValue(of(undefined));
+    const method = spyOn(store, "dispatch");
+    component.createNewArticle();
+    expect(method).toHaveBeenCalled();
+  });
+
+  it('should not dispatch create article on createNewArticle', () => {
+    spyOn(portalService, 'addNewArticle').and.returnValue(throwError(() => new Error("error")));
+    const method = spyOn(store, "dispatch");
+    component.createNewArticle();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
+
+  it('should dispatch update article on updateArticleData', () => {
+    spyOn(portalService, 'updateArticle').and.returnValue(of(undefined));
+    const method = spyOn(store, "dispatch");
+    component.updateArticleData();
+    expect(method).toHaveBeenCalled();
+  });
+
+  it('should not dispatch update article on updateArticleData', () => {
+    spyOn(portalService, 'updateArticle').and.returnValue(throwError(() => new Error("error")));
+    const method = spyOn(store, "dispatch");
+    component.updateArticleData();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
 });

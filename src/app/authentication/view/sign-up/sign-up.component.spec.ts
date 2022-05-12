@@ -35,7 +35,8 @@ describe('SignUpComponent', () => {
       age: 23,
       uid: "uid",
       registrationType: "firebase",
-    }
+    },
+    uid: "uid",
   };
 
   beforeEach(async () => {
@@ -57,6 +58,7 @@ describe('SignUpComponent', () => {
             signUpUser: () => {},
             setAdditionalData: () => {},
             saveDocumentID: () => {},
+            setToken: () => {},
           }
         },
         provideMockStore(),
@@ -78,25 +80,21 @@ describe('SignUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should signup user', () => {
-  //   // @ts-ignore
-  //   spyOn(authService, 'signUpUser').and.callFake(() => of(OAuthResponse));
-  //   // @ts-ignore
-  //   spyOn(authService, 'setAdditionalData').and.callFake(() => of('value'));
-  //   // @ts-ignore
-  //   spyOn(authService, 'saveDocumentID').and.callFake(() => of());
-  //   component.signUpUser();
-  //   expect(authService.signUpUser).toHaveBeenCalled();
-  //   expect(authService.setAdditionalData).toHaveBeenCalled();
-  //   expect(authService.saveDocumentID).toHaveBeenCalled();
-  // });
-  //
-  // it('should show error snackbar when signup user', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   // @ts-ignore
-  //   spyOn(authService, 'signUpUser').and.callFake(() => throwError(() => new Error("error")));
-  //   component.signUpUser();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
+  it('should signup user', () => {
+    spyOn(authService, 'signUpUser').and.returnValue(of(OAuthResponse));
+    spyOn(authService, 'setAdditionalData').and.returnValue(of('value'));
+    spyOn(authService, 'saveDocumentID').and.returnValue(of(undefined));
+    component.signUpUser();
+    expect(authService.signUpUser).toHaveBeenCalled();
+    expect(authService.setAdditionalData).toHaveBeenCalled();
+    expect(authService.saveDocumentID).toHaveBeenCalled();
+  });
+
+  it('should show error snackbar when signup user', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'signUpUser').and.returnValue(throwError(() => new Error("error")));
+    component.signUpUser();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
 });

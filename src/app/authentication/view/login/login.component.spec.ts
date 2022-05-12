@@ -13,6 +13,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import firebase from "firebase/compat";
+import DocumentData = firebase.firestore.DocumentData;
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -35,7 +37,8 @@ describe('LoginComponent', () => {
       name: "name",
       uid: "uid",
       registrationType: "string",
-    }
+    },
+    uid: "uid",
   };
 
   beforeEach(async () => {
@@ -80,28 +83,21 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should login user', () => {
-  //   const method = spyOn(authService, 'setToken');
-  //   // @ts-ignore
-  //   spyOn(authService, 'login').and.callFake(() => {
-  //     // @ts-ignore
-  //     return of(OAuthResponse)
-  //   });
-  //   // @ts-ignore
-  //   spyOn(authService, 'getAdditionalData').and.callFake(() => {
-  //     // @ts-ignore
-  //     return of('data')
-  //   });
-  //   component.loginByEmail();
-  //   expect(method).toHaveBeenCalled();
-  // });
-  //
-  // it('should show error snackbar', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   // @ts-ignore
-  //   spyOn(authService, 'login').and.callFake(() => throwError(() => new Error("error")));
-  //   component.loginByEmail();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
+  it('should login user', () => {
+    const method = spyOn(authService, 'setToken');
+    spyOn(authService, 'login').and.returnValue(of(OAuthResponse));
+    // @ts-ignore
+    const documentData: DocumentData = {};
+    spyOn(authService, 'getAdditionalData').and.returnValue(of(documentData));
+    component.loginByEmail();
+    expect(method).toHaveBeenCalled();
+  });
+
+  it('should show error snackbar', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'login').and.returnValue(throwError(() => new Error("error")));
+    component.loginByEmail();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
 });

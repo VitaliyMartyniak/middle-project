@@ -75,25 +75,25 @@ describe('PhotoDndComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
-  //
-  // it('should convertFileToBase64 when onFileDropped', () => {
-  //   const fileHandle: FileHandle = {
-  //     file: file,
-  //     url: "SafeUrl"
-  //   }
-  //   const method = spyOn(component, 'convertFileToBase64');
-  //   component.onFileDropped(fileHandle);
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(fileHandle.file);
-  //   expect(component.url).toBe(fileHandle.url);
-  // });
-  //
-  // it('should emit updateFile when deleteFile', () => {
-  //   const method = spyOn(component.updateFile, 'emit');
-  //   component.deleteFile();
-  //   expect(method).toHaveBeenCalled();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should convertFileToBase64 when onFileDropped', () => {
+    const fileHandle: FileHandle = {
+      file: file,
+      url: "SafeUrl"
+    }
+    const method = spyOn(component, 'convertFileToBase64');
+    component.onFileDropped(fileHandle);
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(fileHandle.file);
+    expect(component.url).toBe(fileHandle.url);
+  });
+
+  it('should emit updateFile when deleteFile', () => {
+    const method = spyOn(component.updateFile, 'emit');
+    component.deleteFile();
+    expect(method).toHaveBeenCalled();
+  });
 });

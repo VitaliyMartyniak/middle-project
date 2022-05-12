@@ -87,8 +87,8 @@ describe('ProfilePasswordComponent', () => {
   //   // @ts-ignore
   //   component.auth = authMock;
   //   const method = spyOn(store, 'dispatch')
-  //   spyOn(profileService, 'checkOldPassword').and.callFake(() => of(undefined));
-  //   spyOn(profileService, 'updatePassword').and.callFake(() => of(undefined));
+  //   spyOn(profileService, 'checkOldPassword').and.returnValue(of(undefined));
+  //   spyOn(profileService, 'updatePassword').and.returnValue(of(undefined));
   //   component.updatePassword();
   //   // @ts-ignore
   //   expect(method).toHaveBeenCalledWith(setSnackbar({text: 'Password successfully updated!', snackbarType: 'success'}));
@@ -98,7 +98,7 @@ describe('ProfilePasswordComponent', () => {
   //   // @ts-ignore
   //   component.auth = authMock;
   //   const method = spyOn(store, 'dispatch')
-  //   spyOn(profileService, 'checkOldPassword').and.callFake(() => throwError(() => new Error("error")));
+  //   spyOn(profileService, 'checkOldPassword').and.returnValue(throwError(() => new Error("error")));
   //   component.updatePassword();
   //   // @ts-ignore
   //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
@@ -109,7 +109,7 @@ describe('ProfilePasswordComponent', () => {
   //   component.auth = {
   //     currentUser: null
   //   }
-  //   spyOn(profileService, 'checkOldPassword').and.callFake(() => of(undefined));
+  //   spyOn(profileService, 'checkOldPassword').and.returnValue(of(undefined));
   //   component.updatePassword();
   //   // @ts-ignore
   //   expect(profileService.checkOldPassword).toHaveBeenCalledTimes(0);

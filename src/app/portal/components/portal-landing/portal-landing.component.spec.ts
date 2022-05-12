@@ -102,35 +102,35 @@ describe('PortalLandingComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should get articles from portal service', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   spyOn(portalService, 'getArticles').and.callFake(() => of(articlesMock));
-  //   component.ngOnInit();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setArticles({articles: articlesMock}));
-  // });
-  //
-  // it('should show error snackbar when getting articles', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   spyOn(portalService, 'getArticles').and.callFake(() => throwError(() => new Error("error")));
-  //   component.ngOnInit();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
-  //
-  // it('should navigate to login page when logout', () => {
-  //   const method = spyOn(router, 'navigate');
-  //   spyOn(authService, 'logout').and.callFake(() => of(undefined));
-  //   component.logout(event);
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith([ 'login' ]);
-  // });
-  //
-  // it('should not navigate to login page when logout', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   spyOn(authService, 'logout').and.callFake(() => throwError(() => new Error("error")));
-  //   component.logout(event);
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
+  it('should get articles from portal service', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(portalService, 'getArticles').and.returnValue(of(articlesMock));
+    component.ngOnInit();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setArticles({articles: articlesMock}));
+  });
+
+  it('should show error snackbar when getting articles', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(portalService, 'getArticles').and.returnValue(throwError(() => new Error("error")));
+    component.ngOnInit();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
+
+  it('should navigate to login page when logout', () => {
+    const method = spyOn(router, 'navigate');
+    spyOn(authService, 'logout').and.returnValue(of(undefined));
+    component.logout(event);
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith([ 'login' ]);
+  });
+
+  it('should not navigate to login page when logout', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'logout').and.returnValue(throwError(() => new Error("error")));
+    component.logout(event);
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
 });

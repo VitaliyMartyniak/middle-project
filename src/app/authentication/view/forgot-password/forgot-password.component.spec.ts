@@ -52,24 +52,19 @@ describe('ForgotPasswordComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should send reset password request', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   // @ts-ignore
-  //   spyOn(authService, 'forgotPasswordRequest').and.callFake(() => {
-  //     // @ts-ignore
-  //     return of('true')
-  //   });
-  //   component.sendResetPasswordRequest();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: 'Request sent on your email!', snackbarType: 'success'}));
-  // });
-  //
-  // it('should show error snackbar when send reset password request', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   // @ts-ignore
-  //   spyOn(authService, 'forgotPasswordRequest').and.callFake(() => throwError(() => new Error("error")));
-  //   component.sendResetPasswordRequest();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
+  it('should send reset password request', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'forgotPasswordRequest').and.returnValue(of(undefined));
+    component.sendResetPasswordRequest();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'Request sent on your email!', snackbarType: 'success'}));
+  });
+
+  it('should show error snackbar when send reset password request', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(authService, 'forgotPasswordRequest').and.returnValue(throwError(() => new Error("error")));
+    component.sendResetPasswordRequest();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
 });
