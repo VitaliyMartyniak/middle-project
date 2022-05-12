@@ -7,6 +7,7 @@ import {PhotoDndComponent} from "../../../../shared/components/photo-dnd/photo-d
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../../store/actions/notifications";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('ProfileAvatarComponent', () => {
   let component: ProfileAvatarComponent;
@@ -22,12 +23,12 @@ describe('ProfileAvatarComponent', () => {
       ],
       declarations: [
         ProfileAvatarComponent,
-        PhotoDndComponent
       ],
       providers: [
         { provide: AuthService, useValue: {updateUserProfileInfo: () => {}} },
         provideMockStore(),
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

@@ -6,6 +6,7 @@ import {SharedModule} from "../../../shared/shared.module";
 import {RouterTestingModule} from "@angular/router/testing";
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
 import {Observable} from "rxjs";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('AuthLandingComponent', () => {
   let component: AuthLandingComponent;
@@ -32,6 +33,7 @@ describe('AuthLandingComponent', () => {
         { provide: Router, useClass: RouterStub },
         provideMockStore(),
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

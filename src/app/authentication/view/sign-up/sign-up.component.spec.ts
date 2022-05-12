@@ -11,6 +11,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AuthAlternativeComponent} from "../../components/auth-alternative/auth-alternative.component";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
@@ -49,7 +50,6 @@ describe('SignUpComponent', () => {
       ],
       declarations: [
         SignUpComponent,
-        AuthAlternativeComponent
       ],
       providers: [
         { provide: Router, useValue: routerStub },
@@ -62,7 +62,8 @@ describe('SignUpComponent', () => {
           }
         },
         provideMockStore(),
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

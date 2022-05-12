@@ -9,6 +9,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {of, throwError} from "rxjs";
 import {setProfileLoading} from "../../../../store/actions/profile";
 import {setSnackbar} from "../../../../store/actions/notifications";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('ProfileInfoComponent', () => {
   let component: ProfileInfoComponent;
@@ -38,7 +39,8 @@ describe('ProfileInfoComponent', () => {
           }
         }),
         { provide: AuthService, useValue: {updateUserProfileInfo: () => {}} },
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

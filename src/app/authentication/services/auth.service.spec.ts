@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
 import {of} from "rxjs";
 import {setUser} from "../../store/actions/auth";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -29,7 +30,8 @@ describe('AuthService', () => {
         //   }
         // },
         provideMockStore(),
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
     store = TestBed.inject(MockStore);
     service = TestBed.inject(AuthService);

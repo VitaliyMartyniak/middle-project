@@ -4,6 +4,7 @@ import { PaginationComponent } from './pagination.component';
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {updatePage} from "../../../store/actions/pagination";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('PaginationComponent', () => {
   let component: PaginationComponent;
@@ -24,7 +25,8 @@ describe('PaginationComponent', () => {
             },
           }
         })
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

@@ -7,6 +7,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {setCategory, setOrder} from "../../../store/actions/filters";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('FiltersComponent', () => {
   let component: FiltersComponent;
@@ -24,7 +25,8 @@ describe('FiltersComponent', () => {
       declarations: [ FiltersComponent ],
       providers: [
         provideMockStore(),
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

@@ -9,6 +9,7 @@ import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('ForgotPasswordComponent', () => {
   let store: MockStore<any>;
@@ -35,6 +36,7 @@ describe('ForgotPasswordComponent', () => {
         provideMockStore(),
         { provide: Router, useValue: routerStub },
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BitcoinValueComponent } from './bitcoin-value.component';
 import {provideMockStore} from "@ngrx/store/testing";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('BitcoinValueComponent', () => {
   let component: BitcoinValueComponent;
@@ -12,7 +13,8 @@ describe('BitcoinValueComponent', () => {
       declarations: [ BitcoinValueComponent ],
       providers: [
         provideMockStore()
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

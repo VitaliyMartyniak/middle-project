@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SnackbarComponent } from './snackbar.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('SnackbarComponent', () => {
   let store: MockStore<any>;
@@ -26,7 +27,8 @@ describe('SnackbarComponent', () => {
             }
           }
         }),
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

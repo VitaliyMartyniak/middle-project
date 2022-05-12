@@ -6,6 +6,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {debounceInput} from "../../../store/actions/filters";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('ArticleSearchComponent', () => {
   let component: ArticleSearchComponent;
@@ -24,7 +25,8 @@ describe('ArticleSearchComponent', () => {
       ],
       providers: [
         provideMockStore(),
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

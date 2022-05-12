@@ -9,6 +9,7 @@ import {ProfileService} from "../../profile.service";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../../store/actions/notifications";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('ProfilePasswordComponent', () => {
   let component: ProfilePasswordComponent;
@@ -66,7 +67,8 @@ describe('ProfilePasswordComponent', () => {
             updatePassword: () => {},
           }
         },
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

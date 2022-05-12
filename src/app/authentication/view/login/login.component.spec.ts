@@ -15,6 +15,7 @@ import {setSnackbar} from "../../../store/actions/notifications";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import firebase from "firebase/compat";
 import DocumentData = firebase.firestore.DocumentData;
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -53,7 +54,6 @@ describe('LoginComponent', () => {
       ],
       declarations: [
         LoginComponent,
-        AuthAlternativeComponent
       ],
       providers: [
         { provide: Router, useValue: routerStub },
@@ -65,7 +65,8 @@ describe('LoginComponent', () => {
           }
         },
         provideMockStore(),
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
