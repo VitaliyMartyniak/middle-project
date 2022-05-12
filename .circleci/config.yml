@@ -23,7 +23,7 @@ workflows:
 jobs:
   node/test:
     docker:
-      - image: circleci/node:9.5-browsers
+      - image: circleci@d5592fd44e85:/$ which google-chrome /usr/bin/google-chrome
         environment:
           CHROME_BIN: /usr/bin/google-chrome karma start --single-run
     steps:
