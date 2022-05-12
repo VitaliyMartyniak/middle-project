@@ -24,8 +24,6 @@ jobs:
   node/test:
     docker:
       - image: circleci/node:10-browsers
-        environment:
-          CHROME_BIN: "/usr/bin/google-chrome karma start --single-run"
     steps:
       - checkout
       - run:
