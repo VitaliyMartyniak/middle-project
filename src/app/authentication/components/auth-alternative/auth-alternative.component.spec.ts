@@ -47,7 +47,7 @@ describe('AuthAlternativeComponent', () => {
         { provide: Router, useValue: routerStub },
         { provide: AuthService,
           useValue: {
-            googleLogin: () => {},
+            googleLogin: () => {of(OAuthResponse)},
             facebookLogin: () => {},
             setToken: () => {},
           }
@@ -71,52 +71,45 @@ describe('AuthAlternativeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should call googleLogin in authService', () => {
-  //   const method = spyOn(component, 'processUser');
-  //   // @ts-ignore
-  //   spyOn(authService, 'googleLogin').and.callFake(() => {
-  //     // @ts-ignore
-  //     return of(OAuthResponse)
-  //   });
-  //   component.loginByGoogle();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(OAuthResponse);
-  // });
-  //
-  // it('should show error snackbar when googleLogin fails', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   // @ts-ignore
-  //   spyOn(authService, 'googleLogin').and.callFake(() => throwError(() => new Error("error")));
-  //   component.loginByGoogle();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
-  //
-  // it('should call facebookLogin in authService', () => {
-  //   const method = spyOn(component, 'processUser');
-  //   // @ts-ignore
-  //   spyOn(authService, 'facebookLogin').and.callFake(() => {
-  //     // @ts-ignore
-  //     return of(OAuthResponse)
-  //   });
-  //   component.loginByFacebook();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(OAuthResponse);
-  // });
-  //
-  // it('should show error snackbar when facebookLogin fails', () => {
-  //   const method = spyOn(store, 'dispatch');
-  //   // @ts-ignore
-  //   spyOn(authService, 'facebookLogin').and.callFake(() => throwError(() => new Error("error")));
-  //   component.loginByFacebook();
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  // });
-  //
-  // it('should set user to localStorage when processUser', () => {
-  //   component.processUser(OAuthResponse);
-  //   expect(localStorage.getItem('alternativeUser')).toEqual(JSON.stringify(OAuthResponse.user));
-  // });
+  it('should call googleLogin in authService', () => {
+    const method = spyOn(component, 'processUser');
+    spyOn(authService, 'googleLogin').and.returnValue(of(OAuthResponse));
+    component.loginByGoogle();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(OAuthResponse);
+  });
+
+  it('should show error snackbar when googleLogin fails', () => {
+    const method = spyOn(store, 'dispatch');
+    // @ts-ignore
+    spyOn(authService, 'googleLogin').and.returnValue(throwError(() => new Error("error")));
+    component.loginByGoogle();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
+
+  it('should call facebookLogin in authService', () => {
+    const method = spyOn(component, 'processUser');
+    // @ts-ignore
+    spyOn(authService, 'facebookLogin').and.returnValue(of(OAuthResponse));
+    component.loginByFacebook();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(OAuthResponse);
+  });
+
+  it('should show error snackbar when facebookLogin fails', () => {
+    const method = spyOn(store, 'dispatch');
+    // @ts-ignore
+    spyOn(authService, 'facebookLogin').and.returnValue(throwError(() => new Error("error")));
+    component.loginByFacebook();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  });
+
+  it('should set user to localStorage when processUser', () => {
+    component.processUser(OAuthResponse);
+    expect(localStorage.getItem('alternativeUser')).toEqual(JSON.stringify(OAuthResponse.user));
+  });
 
   it('should set token in authService when processUser', () => {
     const method = spyOn(authService, 'setToken');
