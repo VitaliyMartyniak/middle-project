@@ -63,22 +63,22 @@ describe('LocationSearchModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add new weather location', () => {
-    spyOn(weatherService, 'getCoordinates').and.callFake(() => of('data'));
-    spyOn(weatherService, 'addNewWeather').and.callFake(() => of("docID"));
-    spyOn(weatherService, 'saveDocumentID').and.callFake(() => of(undefined));
-    component.addNewWeather();
-    expect(weatherService.getCoordinates).toHaveBeenCalled();
-    expect(weatherService.addNewWeather).toHaveBeenCalled();
-    expect(weatherService.saveDocumentID).toHaveBeenCalled();
-  });
-
-  it('should show error snackbar', () => {
-    const method = spyOn(store, 'dispatch');
-    // @ts-ignore
-    spyOn(weatherService, 'getCoordinates').and.callFake(() => throwError(() => new Error("error")));
-    component.addNewWeather();
-    // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  });
+  // it('should add new weather location', () => {
+  //   spyOn(weatherService, 'getCoordinates').and.callFake(() => of('data'));
+  //   spyOn(weatherService, 'addNewWeather').and.callFake(() => of("docID"));
+  //   spyOn(weatherService, 'saveDocumentID').and.callFake(() => of(undefined));
+  //   component.addNewWeather();
+  //   expect(weatherService.getCoordinates).toHaveBeenCalled();
+  //   expect(weatherService.addNewWeather).toHaveBeenCalled();
+  //   expect(weatherService.saveDocumentID).toHaveBeenCalled();
+  // });
+  //
+  // it('should show error snackbar', () => {
+  //   const method = spyOn(store, 'dispatch');
+  //   // @ts-ignore
+  //   spyOn(weatherService, 'getCoordinates').and.callFake(() => throwError(() => new Error("error")));
+  //   component.addNewWeather();
+  //   // @ts-ignore
+  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  // });
 });

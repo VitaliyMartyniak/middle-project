@@ -1,16 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ProfileService } from './profile.service';
-import {AngularFireModule} from "@angular/fire/compat";
-import {environment} from "../../../environments/environment";
 
 describe('ProfileService', () => {
   let service: ProfileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AngularFireModule.initializeApp(environment.firebase),
+      providers: [
+        { provide: ProfileService, useValue: {} },
       ]
     });
     service = TestBed.inject(ProfileService);

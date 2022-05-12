@@ -88,21 +88,21 @@ describe('ArticlesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should delete when deleteArticle', () => {
-    const method = spyOn(store, 'dispatch');
-    spyOn(portalService, 'deleteArticle').and.callFake(() => of(undefined));
-    component.deleteArticle('docID');
-    // @ts-ignore
-    expect(method).toHaveBeenCalledWith(removeArticle({docID: "docID"}));
-  });
-
-  it('should not delete when deleteArticle', () => {
-    const method = spyOn(store, 'dispatch');
-    spyOn(portalService, 'deleteArticle').and.returnValue(throwError(() => new Error("error")));
-    component.deleteArticle('docID');
-    // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
-  });
+  // it('should delete when deleteArticle', () => {
+  //   const method = spyOn(store, 'dispatch');
+  //   spyOn(portalService, 'deleteArticle').and.callFake(() => of(undefined));
+  //   component.deleteArticle('docID');
+  //   // @ts-ignore
+  //   expect(method).toHaveBeenCalledWith(removeArticle({docID: "docID"}));
+  // });
+  //
+  // it('should not delete when deleteArticle', () => {
+  //   const method = spyOn(store, 'dispatch');
+  //   spyOn(portalService, 'deleteArticle').and.returnValue(throwError(() => new Error("error")));
+  //   component.deleteArticle('docID');
+  //   // @ts-ignore
+  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+  // });
 
   it('should open ReadMoreArticleModalComponent when openModal', () => {
     const method = spyOn(dialog, 'open');

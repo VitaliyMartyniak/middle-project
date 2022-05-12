@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BitcoinValueComponent } from './bitcoin-value.component';
+import {provideMockStore} from "@ngrx/store/testing";
 
 describe('BitcoinValueComponent', () => {
   let component: BitcoinValueComponent;
@@ -8,7 +9,10 @@ describe('BitcoinValueComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BitcoinValueComponent ]
+      declarations: [ BitcoinValueComponent ],
+      providers: [
+        provideMockStore()
+      ]
     })
     .compileComponents();
   });

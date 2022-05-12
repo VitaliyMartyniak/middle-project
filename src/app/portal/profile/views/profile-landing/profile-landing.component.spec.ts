@@ -2,17 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileLandingComponent } from './profile-landing.component';
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
-import {ProfileInfoComponent} from "../../components/profile-info/profile-info.component";
-import {ProfileAvatarComponent} from "../../components/profile-avatar/profile-avatar.component";
-import {ProfilePasswordComponent} from "../../components/profile-password/profile-password.component";
 import {AuthService} from "../../../../authentication/services/auth.service";
-import {AngularFireModule} from "@angular/fire/compat";
-import {environment} from "../../../../../environments/environment";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {PhotoDndComponent} from "../../../../shared/components/photo-dnd/photo-dnd.component";
 import {MatTabsModule} from "@angular/material/tabs";
+import {ProfileService} from "../../profile.service";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('ProfileLandingComponent', () => {
   let component: ProfileLandingComponent;
@@ -27,17 +23,11 @@ describe('ProfileLandingComponent', () => {
         BrowserAnimationsModule,
         MatFormFieldModule,
         MatInputModule,
-        AngularFireModule.initializeApp(environment.firebase),
       ],
-      declarations: [
-        ProfileLandingComponent,
-        ProfileInfoComponent,
-        ProfileAvatarComponent,
-        ProfilePasswordComponent,
-        PhotoDndComponent,
-      ],
+      declarations: [ProfileLandingComponent],
       providers: [
-        AuthService,
+        { provide: AuthService, useValue: {} },
+        { provide: ProfileService, useValue: {} },
         provideMockStore({
           initialState: {
             auth: {
@@ -50,7 +40,8 @@ describe('ProfileLandingComponent', () => {
             }
           }
         }),
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
