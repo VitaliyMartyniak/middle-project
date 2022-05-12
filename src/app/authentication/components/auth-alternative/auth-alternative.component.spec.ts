@@ -48,7 +48,7 @@ describe('AuthAlternativeComponent', () => {
         { provide: Router, useValue: routerStub },
         { provide: AuthService,
           useValue: {
-            googleLogin: () => {of(OAuthResponse)},
+            googleLogin: () => {},
             facebookLogin: () => {},
             setToken: () => {},
           }
