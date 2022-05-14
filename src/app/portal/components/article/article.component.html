@@ -1,0 +1,36 @@
+<mat-card class="article">
+  <img class="article-photo" mat-card-image [src]="article.photo" alt="Article photo">
+  <mat-card-content>
+    <button *ngIf="user.uid === article.authorUID" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Articles options">
+      <mat-icon class="article-icon">more_horiz</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <a routerLink="/portal/article" [queryParams]="{docID: article.docID}" mat-menu-item>
+        <span>Edit</span>
+      </a>
+      <button (click)="deleteArticle(article.docID!)" mat-menu-item>
+        <span>Delete</span>
+      </button>
+    </mat-menu>
+    <section class="category-and-data">
+      <span>{{article.category}}</span>
+      <span>{{+article.date | date}}</span>
+    </section>
+
+    <section class="main-info">
+      <p class="title">{{article.title}}</p>
+      <span class="content">{{article.text}}</span>
+    </section>
+
+    <section class="additional-info">
+      <div class="author user">
+        <div class="user-photo">
+          <img *ngIf="article.authorAvatar" [src]="article.authorAvatar" alt="Author avatar"/>
+          <img *ngIf="!article.authorAvatar" src="assets/img/unknown-user.png" alt="Author avatar"/>
+        </div>
+        <span>{{article.authorName}}</span>
+      </div>
+      <a (click)="openModal()">Read more <mat-icon>arrow_forward</mat-icon></a>
+    </section>
+  </mat-card-content>
+</mat-card>

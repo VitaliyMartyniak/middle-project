@@ -15,6 +15,7 @@ import { ReadMoreArticleModalComponent } from './components/read-more-article-mo
 import { WeatherWidgetsComponent } from './components/weather-widgets/weather-widgets.component';
 import { LocationSearchModalComponent } from './components/location-search-modal/location-search-modal.component';
 import { BitcoinValueComponent } from './components/bitcoin-value/bitcoin-value.component';
+import { ArticleComponent } from './components/article/article.component';
 
 @NgModule({
     imports: [
@@ -50,6 +51,7 @@ import { BitcoinValueComponent } from './components/bitcoin-value/bitcoin-value.
     WeatherWidgetsComponent,
     LocationSearchModalComponent,
     BitcoinValueComponent,
+    ArticleComponent,
   ]
 })
 export class PortalModule { }
