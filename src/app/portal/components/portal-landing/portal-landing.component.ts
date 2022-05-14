@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../../../authentication/services/auth.service";
 import {Router} from "@angular/router";
 import {catchError, finalize, Subscription} from "rxjs";
@@ -15,9 +15,8 @@ import {setSnackbar} from "../../../store/actions/notifications";
   templateUrl: './portal-landing.component.html',
   styleUrls: ['./portal-landing.component.scss']
 })
-export class PortalLandingComponent implements OnInit {
+export class PortalLandingComponent implements OnInit, OnDestroy {
   private userSub: Subscription;
-  private articlesSub: Subscription;
   private isLoadingSub: Subscription;
   user: UserData;
   isLoading = true;
@@ -28,7 +27,7 @@ export class PortalLandingComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(setArticlesLoading({isLoading: true}));
     this.store.dispatch(setAuthLoading({isLoading: true}));
-    this.articlesSub = this.portalService.getArticles().pipe(
+    this.portalService.getArticles().pipe(
       finalize((): void => {
         this.store.dispatch(setArticlesLoading({isLoading: false}));
       }),
@@ -58,5 +57,10 @@ export class PortalLandingComponent implements OnInit {
     ).subscribe(() => {
       this.router.navigate(['login']);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+    this.isLoadingSub.unsubscribe();
   }
 }

@@ -9,7 +9,7 @@ export class DatePipe implements PipeTransform {
     const currentDate = new Date().getTime();
     if (currentDate - +articleDate < 2592000000) {
       const seconds = Math.floor((+new Date() - +new Date(articleDate)) / 1000);
-      if (seconds < 29) // less than 30 seconds ago will show as 'Just now'
+      if (seconds < 29)
         return 'Just now';
       const intervals: { [key: string]: number } = {
         'day': 86400,

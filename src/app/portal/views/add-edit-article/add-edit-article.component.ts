@@ -18,8 +18,7 @@ import {setSnackbar} from "../../../store/actions/notifications";
 export class AddEditArticleComponent {
   categories = ['PRODUCTIVITY', 'MEDIA', 'BUSINESS'];
   form: FormGroup;
-  private userSub: Subscription;
-  // private articlesSub: Subscription; todo test
+  userSub: Subscription
   isLoading$: Observable<boolean> = this.store.pipe(select(articlesLoadingSelector));
   user: UserData;
   mode: string;
@@ -128,5 +127,9 @@ export class AddEditArticleComponent {
       this.store.dispatch(updateArticle({articleData: updatedArticleInfo, docID: this.docID}));
       this.router.navigate(['portal', 'dashboard']);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
   }
 }

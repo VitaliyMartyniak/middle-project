@@ -14,10 +14,9 @@ import {weatherLocationsSelector} from "../../../store/selectors/weathers";
   styleUrls: ['./weather-widgets.component.scss']
 })
 export class WeatherWidgetsComponent implements OnInit, OnDestroy {
-  getWeatherLocationsSub: Subscription;
   weatherLocationsSub: Subscription;
   weatherLocations: LocationCoordinates[] = [];
-  private userSub: Subscription; //todo mb refactor and replace higher
+  userSub: Subscription; //todo mb refactor and replace higher
   user: UserData;
 
   constructor(private weatherService: WeatherService, private store: Store) {

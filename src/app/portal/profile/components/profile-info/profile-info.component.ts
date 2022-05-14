@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {userSelector} from "../../../../store/selectors/auth";
 import {catchError, finalize, Subscription} from "rxjs";
@@ -13,9 +13,9 @@ import {setSnackbar} from "../../../../store/actions/notifications";
   templateUrl: './profile-info.component.html',
   styleUrls: ['./profile-info.component.scss']
 })
-export class ProfileInfoComponent implements OnInit {
+export class ProfileInfoComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  private userSub: Subscription;
+  userSub: Subscription;
   docID: string | undefined = '';
 
   constructor(private store: Store, private authService: AuthService) {}
@@ -53,5 +53,9 @@ export class ProfileInfoComponent implements OnInit {
     ).subscribe(() => {
       this.store.dispatch(setSnackbar({text: "Profile info successfully updated!", snackbarType: 'success'}));
     });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
   }
 }

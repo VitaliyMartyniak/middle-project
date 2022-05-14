@@ -26,11 +26,10 @@ export class BitcoinValueComponent implements OnInit, OnDestroy {
         if (data && data.PRICE) {
           this.bitcoinValue = data.PRICE;
         }
-      }, // Called whenever there is a message from the server.
+      },
       (e: any) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
-      }, // Called if at any point WebSocket API signals some kind of error.
-      () => console.log('complete') // Called when connection is closed (for whatever reason).
+      }
     );
   }
 

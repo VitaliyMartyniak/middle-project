@@ -12,7 +12,7 @@ import {profileLoadingSelector} from "../../../../store/selectors/profile";
 })
 export class ProfileLandingComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean> = this.store.pipe(select(profileLoadingSelector));
-  private userSub: Subscription;
+  userSub: Subscription;
   user: UserData;
 
   constructor(private store: Store) { }
