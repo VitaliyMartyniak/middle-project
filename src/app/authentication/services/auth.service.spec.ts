@@ -2,8 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
-import {of} from "rxjs";
-import {setUser} from "../../store/actions/auth";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('AuthService', () => {
@@ -19,16 +17,15 @@ describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        AuthService,
-        // { provide: AuthService,
-        //   useValue: {
-        //     getAdditionalData: () => {},
-        //     setToken: () => {},
-        //     logout: () => {},
-        //     isAuthenticated: () => {},
-        //     autoLogin: () => {}
-        //   }
-        // },
+        { provide: AuthService,
+          useValue: {
+            getAdditionalData: () => {},
+            setToken: () => {},
+            logout: () => {},
+            isAuthenticated: () => {},
+            autoLogin: () => {}
+          }
+        },
         provideMockStore(),
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -38,10 +35,10 @@ describe('AuthService', () => {
     localStorage.clear();
   });
 
-  // it('should be created', () => {
-  //   expect(service).toBeTruthy();
-  // });
-  //
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
   // it('should try to autologin user that logged with email and password', () => {
   //   localStorage.setItem('userID', "id");
   //   const method = spyOn(store, 'dispatch');
