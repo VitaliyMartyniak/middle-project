@@ -100,10 +100,19 @@ describe('WeatherWidgetComponent', () => {
   // });
 
   it('should open LocationSearchModalComponent when openModal', () => {
+    component.user = {
+      name: "string",
+      uid: "userUID",
+      registrationType: "string",
+    }
     const method = spyOn(dialog, 'open');
     component.openModal();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(LocationSearchModalComponent);
+    expect(method).toHaveBeenCalledWith(LocationSearchModalComponent, {
+      data: {
+        userUID: 'userUID'
+      },
+    });
   });
 
   it('should remove weather location when deleteWidget', () => {

@@ -1,6 +1,8 @@
 <header>
   <section class="logo">
-    <img src="assets/img/logos/logoipsum-black.svg" alt="Logoipsum logo">
+    <a routerLink="/portal">
+      <img src="assets/img/logos/logoipsum-black.svg" alt="Logoipsum logo">
+    </a>
   </section>
 
   <section class="searcher-and-profile">
@@ -48,7 +50,7 @@
 
     <div class="line"></div>
 
-    <app-bitcoin-value></app-bitcoin-value>
+<!--    <app-bitcoin-value></app-bitcoin-value>-->
 
     <button mat-button (click)="logout($event)"><img src="assets/img/icons/logout.svg" alt="Logout">Logout</button>
   </aside>

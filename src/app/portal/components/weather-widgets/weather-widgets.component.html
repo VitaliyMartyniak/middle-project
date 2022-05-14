@@ -1,7 +1,15 @@
 <section class="weather-widgets">
-  <app-weather-widget [baseWeather]="true" [hideMenu]="!!weatherLocations.length" ></app-weather-widget>
+  <app-weather-widget
+    [baseWeather]="true"
+    [hideMenu]="!!weatherLocations.length"
+    [user]="user"
+  ></app-weather-widget>
 
   <ng-container *ngIf="weatherLocations.length">
-    <app-weather-widget *ngFor="let weatherLocation of weatherLocations" [weatherLocation]="weatherLocation"></app-weather-widget>
+    <app-weather-widget
+      *ngFor="let weatherLocation of weatherLocations"
+      [weatherLocation]="weatherLocation"
+      [user]="user"
+    ></app-weather-widget>
   </ng-container>
 </section>

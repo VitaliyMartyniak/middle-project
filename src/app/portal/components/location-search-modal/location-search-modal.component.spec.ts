@@ -4,7 +4,7 @@ import { LocationSearchModalComponent } from './location-search-modal.component'
 import {HttpClient, HttpHandler} from "@angular/common/http";
 import {WeatherService} from "../../services/weather.service";
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
-import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
@@ -23,6 +23,7 @@ describe('LocationSearchModalComponent', () => {
         MatDialog,
         HttpClient,
         HttpHandler,
+        MatDialogModule,
         { provide: WeatherService,
           useValue: {
             getCoordinates: () => {},
@@ -30,21 +31,12 @@ describe('LocationSearchModalComponent', () => {
             saveDocumentID: () => {}
           }
         },
-        provideMockStore({
-          initialState: {
-            auth: {
-              user: {
-                name: "string",
-                uid: "string",
-                registrationType: "string",
-              },
-            },
-          }
-        }),
+        provideMockStore(),
         { provide: MatDialogRef, useValue: {
             close: () => {},
           }
         },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -56,6 +48,9 @@ describe('LocationSearchModalComponent', () => {
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(LocationSearchModalComponent);
     component = fixture.componentInstance;
+    component.data = {
+      userUID: "userUID"
+    }
     fixture.detectChanges();
   });
 
@@ -75,7 +70,6 @@ describe('LocationSearchModalComponent', () => {
 
   it('should show error snackbar', () => {
     const method = spyOn(store, 'dispatch');
-    // @ts-ignore
     spyOn(weatherService, 'getCoordinates').and.returnValue(throwError(() => new Error("error")));
     component.addNewWeather();
     // @ts-ignore

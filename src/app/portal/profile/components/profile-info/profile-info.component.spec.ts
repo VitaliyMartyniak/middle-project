@@ -26,18 +26,7 @@ describe('ProfileInfoComponent', () => {
       ],
       declarations: [ ProfileInfoComponent ],
       providers: [
-        provideMockStore({
-          initialState: {
-            auth: {
-              user: {
-                name: 'Text',
-                lastName: 'success',
-                age: 1,
-                docID: 'one'
-              },
-            }
-          }
-        }),
+        provideMockStore(),
         { provide: AuthService, useValue: {updateUserProfileInfo: () => {}} },
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -50,6 +39,14 @@ describe('ProfileInfoComponent', () => {
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(ProfileInfoComponent);
     component = fixture.componentInstance;
+    component.user = {
+      registrationType: "firebase",
+      uid: "uid",
+      name: 'Text',
+      lastName: 'success',
+      age: "20",
+      docID: 'one'
+    };
     fixture.detectChanges();
   });
 

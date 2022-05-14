@@ -15,6 +15,10 @@ h2 {
     height: 300px;
   }
 
+  ::ng-deep .mat-card {
+    box-shadow: none !important;
+  }
+
   ::ng-deep .mat-card-image {
     margin-bottom: 10px !important;
   }

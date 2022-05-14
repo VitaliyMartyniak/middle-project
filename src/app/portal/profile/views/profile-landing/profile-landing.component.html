@@ -3,7 +3,7 @@
 
   <mat-tab-group animationDuration="0ms">
     <mat-tab label="Edit Information">
-      <app-profile-info></app-profile-info>
+      <app-profile-info [user]="user"></app-profile-info>
     </mat-tab>
     <mat-tab label="User Avatar">
       <app-profile-avatar [docID]="user['docID']"></app-profile-avatar>

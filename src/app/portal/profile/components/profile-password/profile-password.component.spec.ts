@@ -6,8 +6,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatInputModule} from "@angular/material/input";
 import {ProfileService} from "../../profile.service";
-import {of, throwError} from "rxjs";
-import {setSnackbar} from "../../../../store/actions/notifications";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 

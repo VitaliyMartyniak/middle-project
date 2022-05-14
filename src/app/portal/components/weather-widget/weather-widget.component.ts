@@ -5,7 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {catchError, finalize, map} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {LocationSearchModalComponent} from "../location-search-modal/location-search-modal.component";
-import {Location, LocationCoordinates} from "../../../shared/interfaces";
+import {Location, LocationCoordinates, UserData} from "../../../shared/interfaces";
 import {removeWeatherLocation} from "../../../store/actions/weathers";
 
 @Component({
@@ -17,6 +17,7 @@ export class WeatherWidgetComponent implements OnInit {
   @Input() weatherLocation: LocationCoordinates;
   @Input() hideMenu: boolean;
   @Input() baseWeather: boolean;
+  @Input() user: UserData;
 
   isLoading = true;
   city: string;
@@ -40,7 +41,7 @@ export class WeatherWidgetComponent implements OnInit {
         this.load(longitude, latitude);
       });
     } else {
-      // load Lviv coordinates
+      // load default(Lviv) coordinates
       this.load(24.031111, 49.842957);
     }
   }
@@ -74,7 +75,11 @@ export class WeatherWidgetComponent implements OnInit {
   }
 
   openModal(): void {
-    this.dialog.open(LocationSearchModalComponent);
+    this.dialog.open(LocationSearchModalComponent, {
+      data: {
+        userUID: this.user.uid!
+      }
+    });
   }
 
   deleteWidget(): void {
