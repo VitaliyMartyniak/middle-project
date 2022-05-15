@@ -1,7 +1,8 @@
 import {createAction, props} from "@ngrx/store";
+import {UserData} from "../../shared/interfaces";
 
 export const setUser = createAction('[AUTH] set user',
-  props<{user: any}>()
+  props<{user: UserData}>()
 );
 
 export const setAuthLoading = createAction('[AUTH] set auth loading',

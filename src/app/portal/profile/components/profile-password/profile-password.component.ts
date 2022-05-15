@@ -40,7 +40,7 @@ export class ProfilePasswordComponent implements OnInit {
 
   updatePassword(): void {
     const formData = {...this.form.value};
-    const user: any = this.auth.currentUser!;
+    const user = this.auth.currentUser!;
     if (!user || !user.email) return
     const provider = firebase.auth.EmailAuthProvider;
     const credential = provider.credential(

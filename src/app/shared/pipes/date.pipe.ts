@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DatePipe implements PipeTransform {
 
-  transform(articleDate: number): any {
+  transform(articleDate: number): string | undefined {
     const currentDate = new Date().getTime();
     if (currentDate - +articleDate < 2592000000) {
       const seconds = Math.floor((+new Date() - +new Date(articleDate)) / 1000);
@@ -33,6 +33,7 @@ export class DatePipe implements PipeTransform {
         "July", "August", "September", "October", "November", "December"];
       return `${articleDateFormat.getDate()} ${monthNames[articleDateFormat.getMonth()]} ${articleDateFormat.getFullYear()}`;
     }
+    return undefined
   }
 
 }

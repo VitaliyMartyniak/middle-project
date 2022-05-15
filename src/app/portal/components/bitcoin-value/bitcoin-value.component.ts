@@ -27,7 +27,7 @@ export class BitcoinValueComponent implements OnInit, OnDestroy {
           this.bitcoinValue = data.PRICE;
         }
       },
-      (e: any) => {
+      (e: string) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
       }
     );

@@ -13,6 +13,8 @@ import {
 } from "@angular/fire/firestore";
 import {from, Observable} from "rxjs";
 import {LocationCoordinates} from "../../shared/interfaces";
+import firebase from "firebase/compat";
+import DocumentData = firebase.firestore.DocumentData;
 
 @Injectable({
   providedIn: 'root'
@@ -26,15 +28,16 @@ export class WeatherService {
   getWeatherLocations(userId: string): Observable<LocationCoordinates[]> {
     const q = query(this.weathersRef, where('uid', '==', userId));
     return from(getDocs(q).then(r => {
-      let weatherLocations: any[] = [];
+      let weatherLocations: LocationCoordinates[] = [];
       r.docs.forEach((doc) => {
+        // @ts-ignore
         weatherLocations.push({ ...doc.data() })
       })
       return weatherLocations
     }));
   }
 
-  addNewWeather(newWeather: LocationCoordinates): Observable<any> {
+  addNewWeather(newWeather: DocumentData): Observable<string> {
     return from(addDoc(this.weathersRef, newWeather).then(r => r.id));
   }
 
@@ -45,6 +48,7 @@ export class WeatherService {
 
   saveDocumentID(id: string): Observable<void> {
     const docRef = doc(this.db, 'weathers', id);
+    // @ts-ignore
     return from(updateDoc(docRef, {
       docID: id
     }).then(() => undefined));

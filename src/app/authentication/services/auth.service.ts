@@ -53,7 +53,7 @@ export class AuthService {
     const userID = localStorage.getItem('userID');
     const alternativeUser = localStorage.getItem('alternativeUser');
     if (userID) {
-      this.getAdditionalData(userID).subscribe((user: DocumentData) => {
+      this.getAdditionalData(userID).subscribe((user: any) => {
         this.store.dispatch(setUser({user}));
       })
     } else if (alternativeUser) {
@@ -74,18 +74,19 @@ export class AuthService {
     }));
   }
 
-  setAdditionalData(userData: UserData): Observable<string> {
+  setAdditionalData(userData: DocumentData): Observable<string> {
     return from(addDoc(this.usersDataRef, userData).then(r => r.id));
   }
 
   saveDocumentID(id: string): Observable<void> {
     const docRef = doc(this.db, 'usersData', id);
+    // @ts-ignore
     return from(updateDoc(docRef, {
       docID: id
     }).then(() => undefined));
   }
 
-  updateUserProfileInfo(usersData: any, id: string): Observable<void> {
+  updateUserProfileInfo(usersData: DocumentData, id: string): Observable<void> {
     const docRef = doc(this.db, 'usersData', id);
     return from(updateDoc(docRef, usersData).then(() => undefined));
   }
@@ -102,7 +103,7 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    return from(signOut(this.auth).then(r => {
+    return from(signOut(this.auth).then(() => {
       localStorage.clear();
       return undefined;
     }));

@@ -10,7 +10,7 @@ export const addNewArticle = createAction('[ARTICLES] add new article',
 );
 
 export const updateArticle = createAction('[ARTICLES] update article',
-  props<{articleData: any, docID: string}>()
+  props<{articleData: Article, docID: string}>()
 );
 
 export const removeArticle = createAction('[ARTICLES] remove article',

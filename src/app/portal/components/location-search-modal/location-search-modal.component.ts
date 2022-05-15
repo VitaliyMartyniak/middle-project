@@ -31,7 +31,7 @@ export class LocationSearchModalComponent implements OnInit {
     });
   }
 
-  addNewWeather() {
+  addNewWeather(): void {
     this.store.dispatch(setWeathersLoading({isLoading: true}));
     const formData = {...this.form.value}
     let coordinates: LocationCoordinates;
