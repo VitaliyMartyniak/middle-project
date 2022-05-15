@@ -53,7 +53,6 @@ describe('Articles Reducer', () => {
       category: "string",
       title: "string",
       text: "string",
-      docID: "one",
     };
     const state = articlesReducer(previousState, updateArticle({articleData: updatedArticleData, docID: "one"}));
     expect(state.articles).toEqual([

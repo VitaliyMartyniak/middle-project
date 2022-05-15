@@ -35,6 +35,13 @@ export interface Article {
   authorUID: string,
 }
 
+export interface ArticleUpdatableData {
+  photo: string,
+  category: string,
+  title: string,
+  text: string,
+}
+
 export interface Snackbar {
   text: string,
   snackbarType: string,
