@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AuthenticationModule} from "./authentication/authentication.module";
 import {SharedModule} from "./shared/shared.module";
 import { environment } from '../environments/environment';
-// import {AngularFireModule} from "@angular/fire/compat";
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './store';
 import {EffectsModule} from "@ngrx/effects";

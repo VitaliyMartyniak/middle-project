@@ -11,7 +11,7 @@ import {
   updateDoc,
   where
 } from "@angular/fire/firestore";
-import {from, Observable} from "rxjs";
+import {from, Observable, tap} from "rxjs";
 import {LocationCoordinates} from "../../shared/interfaces";
 import firebase from "firebase/compat";
 import DocumentData = firebase.firestore.DocumentData;

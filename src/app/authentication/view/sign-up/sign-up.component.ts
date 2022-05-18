@@ -77,7 +77,9 @@ export class SignUpComponent implements OnInit {
       }),
     ).subscribe(() => {
       localStorage.setItem('userID', usersDataUID);
-      this.authService.setToken(token.expiresIn, token.idToken);
+      if (token) {
+        this.authService.setToken(token.expiresIn, token.idToken);
+      }
       this.router.navigate(['portal', 'dashboard']);
     });
   }

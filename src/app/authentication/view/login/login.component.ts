@@ -50,9 +50,12 @@ export class LoginComponent implements OnInit {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
         return of([]);
       }),
-    ).subscribe((usersData: any): void => {
+    ).subscribe((response: any): void => {
+      const usersData = {...response};
       localStorage.setItem('userID', usersData['uid']);
-      this.authService.setToken(token.expiresIn, token.idToken);
+      if (token) {
+        this.authService.setToken(token.expiresIn, token.idToken);
+      }
       this.router.navigate(['portal', 'dashboard']);
     });
   }

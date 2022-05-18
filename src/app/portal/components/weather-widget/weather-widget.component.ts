@@ -69,10 +69,13 @@ export class WeatherWidgetComponent implements OnInit {
         this.isLoading = false;
         return of([]);
       }),
-    ).subscribe((data: any) => {
-      this.temp = Math.round(data.current.temp);
-      this.weatherIcon = data.current.weather[0].icon;
-      this.isLoading = false;
+    ).subscribe((response: any) => {
+      const data = {...response};
+      if (data.current) {
+        this.temp = Math.round(data.current.temp);
+        this.weatherIcon = data.current.weather[0].icon;
+        this.isLoading = false;
+      }
     });
   }
 
