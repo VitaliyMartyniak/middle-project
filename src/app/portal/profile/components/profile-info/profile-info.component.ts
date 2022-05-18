@@ -1,7 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {userSelector} from "../../../../store/selectors/auth";
-import {catchError, finalize, Subscription} from "rxjs";
+import {catchError, finalize, of, Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AuthService} from "../../../../authentication/services/auth.service";
 import {UserData} from "../../../../shared/interfaces";
@@ -43,8 +42,9 @@ export class ProfileInfoComponent implements OnInit {
       finalize(() => {
         this.store.dispatch(setProfileLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe(() => {
       this.store.dispatch(setSnackbar({text: "Profile info successfully updated!", snackbarType: 'success'}));

@@ -4,7 +4,7 @@ import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {setAuthLoading} from "../../../store/actions/auth";
 import {Store} from "@ngrx/store";
-import {catchError, finalize} from "rxjs";
+import {catchError, finalize, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 
 @Component({
@@ -33,8 +33,9 @@ export class ForgotPasswordComponent implements OnInit {
         this.form.reset();
         this.store.dispatch(setAuthLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe(() => {
       this.store.dispatch(setSnackbar({text: 'Request sent on your email!', snackbarType: 'success'}));

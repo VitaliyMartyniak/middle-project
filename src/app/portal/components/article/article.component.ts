@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {removeArticle, setArticlesLoading} from "../../../store/actions/articles";
-import {catchError, finalize} from "rxjs";
+import {catchError, finalize, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {Article, UserData} from "../../../shared/interfaces";
 import {ReadMoreArticleModalComponent} from "../read-more-article-modal/read-more-article-modal.component";
@@ -25,8 +25,9 @@ export class ArticleComponent {
       finalize(() => {
         this.store.dispatch(setArticlesLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe(() => {
       this.store.dispatch(removeArticle({docID}));

@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {AuthService} from "../../../../authentication/services/auth.service";
 import {Store} from "@ngrx/store";
 import {setProfileLoading} from "../../../../store/actions/profile";
-import {catchError, finalize} from "rxjs";
+import {catchError, finalize, of} from "rxjs";
 import {setSnackbar} from "../../../../store/actions/notifications";
 
 @Component({
@@ -27,8 +27,9 @@ export class ProfileAvatarComponent {
       finalize(() => {
         this.store.dispatch(setProfileLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe(() => {
       this.store.dispatch(setSnackbar({text: "Profile avatar successfully updated!", snackbarType: 'success'}));

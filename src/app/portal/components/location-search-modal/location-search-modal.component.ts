@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {WeatherService} from "../../services/weather.service";
-import {catchError, finalize, mergeMap, Observable} from "rxjs";
+import {catchError, finalize, mergeMap, Observable, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {select, Store} from "@ngrx/store";
 import {LocationCoordinates, UserData} from "../../../shared/interfaces";
@@ -51,8 +51,9 @@ export class LocationSearchModalComponent implements OnInit {
         this.form.reset();
         this.store.dispatch(setWeathersLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe((): void => {
       this.store.dispatch(addNewWeatherLocation({weatherLocation: coordinates}));

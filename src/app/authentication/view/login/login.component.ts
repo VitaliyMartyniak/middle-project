@@ -7,7 +7,7 @@ import firebase from "firebase/compat";
 import DocumentData = firebase.firestore.DocumentData;
 import {setAuthLoading} from "../../../store/actions/auth";
 import {Store} from "@ngrx/store";
-import {catchError, finalize, mergeMap, Observable} from "rxjs";
+import {catchError, finalize, mergeMap, Observable, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 
 @Component({
@@ -46,8 +46,9 @@ export class LoginComponent implements OnInit {
         this.form.reset();
         this.store.dispatch(setAuthLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe((usersData: any): void => {
       localStorage.setItem('userID', usersData['uid']);

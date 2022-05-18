@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {WeatherService} from "../../services/weather.service";
 import {Store} from "@ngrx/store";
 import {MatDialog} from "@angular/material/dialog";
-import {catchError, finalize, map} from "rxjs";
+import {catchError, finalize, map, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {LocationSearchModalComponent} from "../location-search-modal/location-search-modal.component";
 import {Location, LocationCoordinates, UserData} from "../../../shared/interfaces";
@@ -54,18 +54,20 @@ export class WeatherWidgetComponent implements OnInit {
             city: response.city,
           } as Location)
       ),
-      catchError((e): any => {
+      catchError(() => {
         this.store.dispatch(setSnackbar({text: 'Error during getting location', snackbarType: 'error'}));
         this.isLoading = false;
+        return of([]);
       }),
     ).subscribe((data: any) => {
       this.country = data.country;
       this.city = data.city;
     });
     this.weatherService.getCurrentWeather(longitude, latitude).pipe(
-      catchError((e): any => {
+      catchError(() => {
         this.store.dispatch(setSnackbar({text: 'Error during getting weather', snackbarType: 'error'}));
         this.isLoading = false;
+        return of([]);
       }),
     ).subscribe((data: any) => {
       this.temp = Math.round(data.current.temp);
@@ -88,8 +90,9 @@ export class WeatherWidgetComponent implements OnInit {
       finalize(() => {
         this.isLoading = false;
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe(() => {
       this.store.dispatch(removeWeatherLocation({docID: this.weatherLocation.docID!}));

@@ -101,8 +101,9 @@ export class AddEditArticleComponent {
       finalize((): void => {
         this.store.dispatch(setArticlesLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe(() => {
       const newArticleWithDocID = {
@@ -120,8 +121,9 @@ export class AddEditArticleComponent {
       finalize((): void => {
         this.store.dispatch(setArticlesLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe(() => {
       this.store.dispatch(updateArticle({articleData: updatedArticleInfo, docID: this.docID}));

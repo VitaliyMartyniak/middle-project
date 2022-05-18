@@ -3,7 +3,7 @@ import {AuthService} from "../../services/auth.service";
 import {Store} from "@ngrx/store";
 import {Router} from "@angular/router";
 import {OAuthResponse} from "../../../shared/interfaces";
-import {catchError} from "rxjs";
+import {catchError, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 
 @Component({
@@ -17,8 +17,9 @@ export class AuthAlternativeComponent {
 
   loginByGoogle(): void {
     this.authService.googleLogin().pipe(
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe((response: any) => {
       this.processUser(response);
@@ -27,8 +28,9 @@ export class AuthAlternativeComponent {
 
   loginByFacebook(): void {
     this.authService.facebookLogin().pipe(
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe((response: any) => {
       this.processUser(response);

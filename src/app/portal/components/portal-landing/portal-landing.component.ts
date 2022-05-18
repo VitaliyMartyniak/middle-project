@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../../../authentication/services/auth.service";
 import {Router} from "@angular/router";
-import {catchError, finalize, Subscription} from "rxjs";
+import {catchError, finalize, of, Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {authLoadingSelector, userSelector} from "../../../store/selectors/auth";
 import {UserData} from "../../../shared/interfaces";
@@ -31,8 +31,9 @@ export class PortalLandingComponent implements OnInit, OnDestroy {
       finalize((): void => {
         this.store.dispatch(setArticlesLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe((articles: any) => {
       this.store.dispatch(setArticles({articles}));
@@ -51,8 +52,9 @@ export class PortalLandingComponent implements OnInit, OnDestroy {
   logout(event: Event): void {
     event.preventDefault();
     this.authService.logout().pipe(
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe(() => {
       this.router.navigate(['login']);

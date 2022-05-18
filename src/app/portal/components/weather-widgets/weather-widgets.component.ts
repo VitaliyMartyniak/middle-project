@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {catchError, finalize, Subscription} from "rxjs";
+import {catchError, finalize, of, Subscription} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {WeatherService} from "../../services/weather.service";
 import {Store} from "@ngrx/store";
@@ -39,8 +39,9 @@ export class WeatherWidgetsComponent implements OnInit, OnDestroy {
       finalize((): void => {
         this.store.dispatch(setWeathersLoading({isLoading: false}));
       }),
-      catchError((e): any => {
+      catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
       }),
     ).subscribe((weatherLocations: any) => {
       this.store.dispatch(setWeatherLocations({weatherLocations}));
