@@ -6,12 +6,14 @@ import {Router} from "@angular/router";
 import {ArticleSearchComponent} from "../article-search/article-search.component";
 import {PortalService} from "../../services/portal.service";
 import {AuthService} from "../../../authentication/services/auth.service";
-import {RouterTestingModule} from "@angular/router/testing";
-import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {Component, NO_ERRORS_SCHEMA} from "@angular/core";
 import {of, throwError} from "rxjs";
 import {MatMenuModule} from "@angular/material/menu";
 import {setArticles} from "../../../store/actions/articles";
 import {setSnackbar} from "../../../store/actions/notifications";
+import {DashboardComponent} from "../../views/dashboard/dashboard.component";
+import {AddEditArticleComponent} from "../../views/add-edit-article/add-edit-article.component";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('PortalLandingComponent', () => {
   let component: PortalLandingComponent;
@@ -25,6 +27,12 @@ describe('PortalLandingComponent', () => {
   const event: Event = {
     preventDefault: () => {}
   };
+
+  @Component({
+    selector: 'mock-component',
+    template: '<p>Mock Component</p>'
+  })
+  class MockComponent {}
 
   const articlesMock = [
     {
@@ -50,12 +58,24 @@ describe('PortalLandingComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        MatMenuModule
+        MatMenuModule,
+        RouterTestingModule.withRoutes([
+          {
+            path: '', component: PortalLandingComponent, children: [
+              {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+              {path: 'dashboard', component: DashboardComponent},
+              {path: 'article', component: AddEditArticleComponent},
+              {path: 'portal', component: MockComponent},
+            ],
+          },
+          {path: '**', redirectTo: '/portal'},
+        ]),
       ],
       declarations: [
         ArticleSearchComponent,
         PortalLandingComponent,
+        DashboardComponent,
+        AddEditArticleComponent,
       ],
       providers: [
         {
