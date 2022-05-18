@@ -84,20 +84,19 @@ describe('WeatherWidgetComponent', () => {
     expect(method).toHaveBeenCalledWith(setSnackbar({text: 'Error during getting location', snackbarType: 'error'}));
   });
 
-  // don't recomment
-  // it('should set temp in component from getCurrentWeather when load', () => {
-  //   spyOn(weatherService, 'getCurrentWeather').and.callFake(() => of({current: {temp: 3, weather: [{icon: null}]}}));
-  //   component.load(1,1);
-  //   expect(component.temp).toBe(3);
-  // });
+  it('should set temp in component from getCurrentWeather when load', () => {
+    spyOn(weatherService, 'getCurrentWeather').and.returnValue(of({current: {temp: 3, weather: [{icon: null}]}}));
+    component.load(1,1);
+    expect(component.temp).toBe(3);
+  });
 
-  // it('should not set temp in component from getCurrentWeather when load', () => {
-  //   spyOn(weatherService, 'getCurrentWeather').and.callFake(() => throwError(() => new Error("error")));
-  //   const method = spyOn(store, 'dispatch');
-  //   component.load(1,1);
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(setSnackbar({text: 'Error during getting weather', snackbarType: 'error'}));
-  // });
+  it('should not set temp in component from getCurrentWeather when load', () => {
+    spyOn(weatherService, 'getCurrentWeather').and.returnValue(throwError(() => new Error("error")));
+    const method = spyOn(store, 'dispatch');
+    component.load(1,1);
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: 'Error during getting weather', snackbarType: 'error'}));
+  });
 
   it('should open LocationSearchModalComponent when openModal', () => {
     component.user = {

@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CustomValidators} from "../../../../shared/custom-validators";
+import {CustomValidators} from "../../../../shared/custom-validators/custom-validators";
 import {ProfileService} from "../../profile.service";
 import {getAuth} from "@angular/fire/auth";
 import {setProfileLoading} from "../../../../store/actions/profile";

@@ -46,22 +46,22 @@ describe('AuthGuard', () => {
     expect(authGuard).toBeTruthy();
   });
 
-  // it('should return true and autologin user', () => {
-  //   const method = spyOn(authService, 'autoLogin');
-  //   spyOn(authService, 'isAuthenticated').and.callFake(() => true);
-  //   const result = authGuard.canActivate(route, state);
-  //   expect(method).toHaveBeenCalled();
-  //   expect(result).toBe(true);
-  // });
-  //
-  // it('should return false logout user and send user to login page', () => {
-  //   const method = spyOn(authService, 'logout');
-  //   const routerSpy = spyOn(router, 'navigate');
-  //   spyOn(authService, 'isAuthenticated').and.callFake(() => false);
-  //   const result = authGuard.canActivate(route, state);
-  //   expect(method).toHaveBeenCalled();
-  //   // @ts-ignore
-  //   expect(routerSpy).toHaveBeenCalledWith(['/login']);
-  //   expect(result).toBe(false);
-  // });
+  it('should return true and autologin user', () => {
+    const method = spyOn(authService, 'autoLogin');
+    spyOn(authService, 'isAuthenticated').and.callFake(() => true);
+    const result = authGuard.canActivate(route, state);
+    expect(method).toHaveBeenCalled();
+    expect(result).toBe(true);
+  });
+
+  it('should return false logout user and send user to login page', () => {
+    const method = spyOn(authService, 'logout');
+    const routerSpy = spyOn(router, 'navigate');
+    spyOn(authService, 'isAuthenticated').and.callFake(() => false);
+    const result = authGuard.canActivate(route, state);
+    expect(method).toHaveBeenCalled();
+    // @ts-ignore
+    expect(routerSpy).toHaveBeenCalledWith(['/login']);
+    expect(result).toBe(false);
+  });
 });

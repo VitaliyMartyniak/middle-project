@@ -41,24 +41,4 @@ describe('ProfileGuard', () => {
     profileGuard.canActivate(route, state);
     expect(method).toHaveBeenCalledTimes(0);
   });
-
-  // don't recomment
-  // it('should redirect user to dashboard page', () => {
-  //   store.setState({
-  //     auth: {
-  //       user: {
-  //         name: "string",
-  //         uid: "string",
-  //         registrationType: "google",
-  //       },
-  //     }
-  //   })
-  //   const method = spyOn(router, 'navigate');
-  //   profileGuard.canActivate(route, state);
-  //   store.select(userSelector).subscribe((user) => {
-  //     console.log(user)
-  //   })
-  //   // @ts-ignore
-  //   expect(method).toHaveBeenCalledWith(['/portal', 'dashboard'])
-  // });
 });
