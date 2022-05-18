@@ -39,7 +39,9 @@ export class AuthAlternativeComponent {
 
   processUser(response: OAuthResponse): void {
     localStorage.setItem('alternativeUser', JSON.stringify(response.user));
-    this.authService.setToken(response.token.expiresIn, response.token.idToken);
+    if (response.token) {
+      this.authService.setToken(response.token.expiresIn, response.token.idToken);
+    }
     this.router.navigate(['portal', 'dashboard']);
   }
 }

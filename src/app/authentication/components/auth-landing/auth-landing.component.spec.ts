@@ -15,6 +15,7 @@ describe('AuthLandingComponent', () => {
   let router: Router;
 
   class RouterStub {
+    public url = '';
     public ne = new NavigationStart(0, '/login');
     public events = new Observable(observer => {
       observer.next(this.ne);

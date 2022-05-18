@@ -7,7 +7,6 @@ import {MockStore, provideMockStore} from "@ngrx/store/testing";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {setSnackbar} from "../../../store/actions/notifications";
-import {HttpErrorResponse} from "@angular/common/http";
 
 describe('AddEditArticleComponent', () => {
   let component: AddEditArticleComponent;
@@ -17,12 +16,8 @@ describe('AddEditArticleComponent', () => {
   let route: any;
   let portalService: PortalService;
 
-  const error: HttpErrorResponse = new HttpErrorResponse({
-    status: 400,
-    statusText: 'Bad Request'
-  })
-
   const routerStub = {
+    url: '',
     navigate: () => {}
   }
 
