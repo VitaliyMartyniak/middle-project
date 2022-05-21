@@ -16,7 +16,7 @@
   <main *ngIf="!isLoading">
     <p class="date">{{monthNames[currentDay.getMonth()]}} {{currentDay.getDate()}}</p>
     <span>{{dayNames[currentDay.getDay()]}}</span>
-    <section class="temperature-info">
+    <section class="temperature-info" *ngIf="temp">
       <div>
         <p class="temperature">{{temp}}</p>
         <p class="location">{{city}}, {{country}}</p>

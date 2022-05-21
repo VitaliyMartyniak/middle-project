@@ -26,6 +26,9 @@ import {Store} from "@ngrx/store";
 import firebase from "firebase/compat";
 import {AuthResponse, OAuthResponse, Token, UserData} from "../../shared/interfaces";
 import DocumentData = firebase.firestore.DocumentData;
+import {setArticles} from "../../store/actions/articles";
+import {setCategory, setOrder, setSearch} from "../../store/actions/filters";
+import {setWeatherLocations} from "../../store/actions/weathers";
 
 @Injectable()
 export class AuthService {
@@ -104,9 +107,18 @@ export class AuthService {
 
   logout(): Observable<void> {
     return from(signOut(this.auth).then(() => {
+      this.clearStore();
       localStorage.clear();
       return undefined;
     }));
+  }
+
+  clearStore(): void {
+    this.store.dispatch(setArticles({articles: []}));
+    this.store.dispatch(setSearch({search: ''}));
+    this.store.dispatch(setOrder({order: 'asc'}));
+    this.store.dispatch(setCategory({category: 'All Categories'}));
+    this.store.dispatch(setWeatherLocations({weatherLocations: []}))
   }
 
   isAuthenticated(): boolean {
