@@ -16,6 +16,6 @@ jobs:
           name: Check install
       - checkout
       - run: npm install
-      - run: npm run test
+      - run: npm run test --no-watch --no-progress
       - run: npm run build
       - run: firebase deploy
