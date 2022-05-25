@@ -57,9 +57,10 @@ export class ProfilePasswordComponent implements OnInit {
       }),
       catchError((e) => {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
-        return of([]);
+        return of('error');
       }),
-    ).subscribe(() => {
+    ).subscribe((data) => {
+      if (data === 'error') return
       this.store.dispatch(setSnackbar({text: 'Password successfully updated!', snackbarType: 'success'}));
     });
   }
