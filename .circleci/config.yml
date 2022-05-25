@@ -17,17 +17,8 @@ jobs:
           name: Check install
       - checkout
       - run: npm install
-      - cypress/install:
-          requires:
-            - build
-          build: 'npm run build'
-            - cypress/run:
-                requires:
-                  - cypress/install
-                  - build
-                start: 'npm start'
-                store_artifacts: true
-                wait-on: 'http-get://localhost:4200'
+      - run: npm install cypress
+      - run: cypress/run
       - run: npm run test
       - run: npm run build
       - run: npm install firebase-tools
