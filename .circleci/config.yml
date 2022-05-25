@@ -17,6 +17,7 @@ jobs:
           name: Check install
       - checkout
       - run: npm install
+      - run: cypress/run
       - run: npm run test
       - run: npm run build
       - run: npm install firebase-tools
@@ -26,5 +27,4 @@ jobs:
 workflows:
   build:
     jobs:
-      - cypress/run
       - build
