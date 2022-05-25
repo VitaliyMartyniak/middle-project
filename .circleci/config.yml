@@ -17,6 +17,7 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run test
+      - run: cypress run
       - run: npm run build
       - run: npm install firebase-tools
       - run:
