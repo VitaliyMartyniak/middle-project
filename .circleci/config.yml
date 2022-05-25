@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  cypress: cypress-io/cypress@1.29.0
+  cypress: cypress-io/cypress@1
   browser-tools: circleci/browser-tools@1.2.3
 jobs:
   build:
@@ -27,3 +27,4 @@ workflows:
   build:
     jobs:
       - cypress/run
+      - build
