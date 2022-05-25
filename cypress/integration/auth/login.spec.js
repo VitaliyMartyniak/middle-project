@@ -23,6 +23,6 @@ describe('login page', () => {
       .should('have.value', 'qwerty12');
 
     cy.get('.mat-button').contains('Sign in').click();
-    cy.url().should('include', '/portal/dashboardrttrt');
+    cy.url().should('include', '/portal/dashboard');
   });
 })
