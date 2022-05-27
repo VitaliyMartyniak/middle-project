@@ -23,17 +23,27 @@ export class BitcoinValueComponent implements OnInit, OnDestroy {
 
     this.subject.subscribe(
       (data: any) => {
+        console.log('data', data);
         if (data && data.PRICE) {
           this.bitcoinValue = data.PRICE;
         }
       },
       (e: string) => {
+        this.unsubscribeWebSocket();
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
       }
     );
   }
 
+  unsubscribeWebSocket() {
+    this.subject.next({
+      action: "SubRemove",
+      subs: ["5~CCCAGG~BTC~USD",]
+    });
+  }
+
   ngOnDestroy(): void {
+    this.unsubscribeWebSocket();
     this.subject.unsubscribe();
   }
 }

@@ -1,0 +1,21 @@
+<section class="profile-wrapper">
+  <section class="user" *ngIf="user && !isLoading; else elseBlock">
+    <div class="user-photo">
+      <img *ngIf="user.photoUrl" [src]="user.photoUrl" alt="User avatar"/>
+      <img *ngIf="!user.photoUrl" src="assets/img/unknown-user.png" alt="User avatar"/>
+    </div>
+    <span class="user-name">{{user.name}} {{user.lastName}}</span>
+    <button *ngIf="user.registrationType === 'firebase'" class="user-dropdown" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <a routerLink="/portal/profile">Edit profile</a>
+      </button>
+    </mat-menu>
+  </section>
+
+  <ng-template #elseBlock>
+    <app-loader></app-loader>
+  </ng-template>
+</section>

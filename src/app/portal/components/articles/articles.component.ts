@@ -1,10 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Article, UserData} from "../../../shared/interfaces";
-import {Subscription} from "rxjs";
+import {catchError, finalize, of, Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {paginatedArticlesSelector} from "../../../store/selectors/pagination";
 import {articlesLoadingSelector} from "../../../store/selectors/articles";
 import {userSelector} from "../../../store/selectors/auth";
+import {setArticles, setArticlesLoading} from "../../../store/actions/articles";
+import {setSnackbar} from "../../../store/actions/notifications";
+import {PortalService} from "../../services/portal.service";
 
 @Component({
   selector: 'app-articles',
@@ -19,9 +22,21 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   isLoadingSub: Subscription;
   articlesSub: Subscription;
 
-  constructor(private store: Store) { }
+  constructor(private portalService: PortalService, private store: Store) { }
 
   ngOnInit(): void {
+    this.store.dispatch(setArticlesLoading({isLoading: true}));
+    this.portalService.getArticles().pipe(
+      finalize((): void => {
+        this.store.dispatch(setArticlesLoading({isLoading: false}));
+      }),
+      catchError((e) => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
+      }),
+    ).subscribe((articles: any) => {
+      this.store.dispatch(setArticles({articles}));
+    });
     this.usersSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
       if (user) {
         this.user = user;
