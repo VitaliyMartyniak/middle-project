@@ -3,11 +3,6 @@ describe('sign-up page', () => {
     cy.visit('https://middle-project-6ebe9.web.app/register');
   })
 
-  it('should go to terms and conditions page', () => {
-    cy.contains('Terms and Policy').click();
-    cy.url().should('include', '/terms')
-  });
-
   it('should go to login page', () => {
     cy.contains('Login').click();
     cy.url().should('include', '/login');
