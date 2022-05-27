@@ -35,7 +35,7 @@ export class BitcoinValueComponent implements OnInit, OnDestroy {
     );
   }
 
-  unsubscribeWebSocket() {
+  unsubscribeWebSocket(): void {
     this.subject.next({
       action: "SubRemove",
       subs: ["5~CCCAGG~BTC~USD",]
