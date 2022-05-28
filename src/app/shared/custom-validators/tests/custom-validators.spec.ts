@@ -1,5 +1,5 @@
 import {TestBed} from "@angular/core/testing";
-import {CustomValidators} from "./custom-validators";
+import {CustomValidators} from "../custom-validators";
 
 describe('CustomValidators', () => {
   let customValidators: CustomValidators;
@@ -59,6 +59,25 @@ describe('CustomValidators', () => {
 
     const method = spyOn(control.get('password'), 'setErrors');
     CustomValidators.passwordNotMatchValidator(control)
+    expect(method).toBeTruthy();
+  });
+
+  it('set working emailValidator', () => {
+    // @ts-ignore
+    const control: any = {
+      // @ts-ignore
+      get(path: string) {
+        if (path === 'email') {
+          return {
+            value: 'test@gma',
+            setErrors: () => {}
+          }
+        }
+      }
+    }
+
+    const method = spyOn(control.get('email'), 'setErrors');
+    CustomValidators.emailValidator(control)
     expect(method).toBeTruthy();
   });
 });

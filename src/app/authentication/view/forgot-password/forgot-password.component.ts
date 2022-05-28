@@ -6,6 +6,7 @@ import {setAuthLoading} from "../../../store/actions/auth";
 import {Store} from "@ngrx/store";
 import {catchError, finalize, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
+import {CustomValidators} from "../../../shared/custom-validators/custom-validators";
 
 @Component({
   selector: 'app-forgot-password',
@@ -20,10 +21,10 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       email: new FormControl('', [
-        Validators.email,
         Validators.required,
       ]),
-    });
+      // @ts-ignore
+    }, CustomValidators.emailValidator);
   }
 
   sendResetPasswordRequest(): void {

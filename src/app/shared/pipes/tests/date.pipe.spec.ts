@@ -1,4 +1,4 @@
-import { DatePipe } from './date.pipe';
+import { DatePipe } from '../date.pipe';
 import {TestBed} from "@angular/core/testing";
 
 describe('DatePipe', () => {

@@ -29,7 +29,6 @@ export class SignUpComponent implements OnInit {
         Validators.min(1),
       ]),
       email: new FormControl('', [
-        Validators.email,
         Validators.required,
       ]),
       password: new FormControl('', [
@@ -43,7 +42,7 @@ export class SignUpComponent implements OnInit {
         Validators.requiredTrue,
       ]),
       // @ts-ignore
-    }, CustomValidators.passwordMatchValidator);
+    }, [CustomValidators.passwordMatchValidator, CustomValidators.emailValidator]);
   }
 
   signUpUser(): void {

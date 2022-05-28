@@ -23,7 +23,6 @@ export class BitcoinValueComponent implements OnInit, OnDestroy {
 
     this.subject.subscribe(
       (data: any) => {
-        console.log('data', data);
         if (data && data.PRICE) {
           this.bitcoinValue = data.PRICE;
         }

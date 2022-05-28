@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {removeArticle, setArticlesLoading} from "../../../store/actions/articles";
 import {catchError, finalize, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
@@ -11,7 +11,8 @@ import {MatDialog} from "@angular/material/dialog";
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
-  styleUrls: ['./article.component.scss']
+  styleUrls: ['./article.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleComponent {
   @Input() article: Article;

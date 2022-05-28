@@ -1,4 +1,4 @@
-import { PhotoDndDirective } from './photo-dnd.directive';
+import { PhotoDndDirective } from '../photo-dnd.directive';
 import {TestBed} from "@angular/core/testing";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 

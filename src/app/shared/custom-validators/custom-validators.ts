@@ -16,4 +16,13 @@ export class CustomValidators {
       control.get('password')!.setErrors({ passswordMatch: true });
     }
   }
+
+  static emailValidator(control: AbstractControl): void {
+    const email: string = control.get('email')!.value;
+    const pattern = new RegExp("^[a-z0-9._%+-]+@[a-z0-9-]+[.]+.[a-z]{1,2}$");
+    let valid = pattern.test(email);
+    if (!valid) {
+      control.get('email')!.setErrors({ emailInvalid: true });
+    }
+  }
 }
