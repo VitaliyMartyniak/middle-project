@@ -13,10 +13,12 @@ import {setSnackbar} from "../../../store/actions/notifications";
 import {DashboardComponent} from "../../views/dashboard/dashboard.component";
 import {AddEditArticleComponent} from "../../views/add-edit-article/add-edit-article.component";
 import {RouterTestingModule} from "@angular/router/testing";
+import {setArticles} from "../../../store/actions/articles";
 
 describe('PortalLandingComponent', () => {
   let component: PortalLandingComponent;
   let fixture: ComponentFixture<PortalLandingComponent>;
+  let portalService: PortalService;
   let authService: AuthService;
   let store: MockStore<any>;
   let router: Router;
@@ -25,6 +27,27 @@ describe('PortalLandingComponent', () => {
   const event: Event = {
     preventDefault: () => {}
   };
+
+  const articlesMock = [
+    {
+      photo: "string",
+      category: "media",
+      date: 1,
+      title: "title",
+      text: "string",
+      authorName: "string",
+      authorUID: "string",
+    },
+    {
+      photo: "string2",
+      category: "media",
+      date: 2,
+      title: "title2",
+      text: "string2",
+      authorName: "string2",
+      authorUID: "string2",
+    }
+  ];
 
   @Component({
     selector: 'mock-component',
@@ -58,7 +81,7 @@ describe('PortalLandingComponent', () => {
         {
           provide: PortalService,
           useValue: {
-            getArticles: () => of("value")
+            getArticles: () => of([])
           }
         },
         {
@@ -88,6 +111,7 @@ describe('PortalLandingComponent', () => {
   beforeEach(() => {
     router = TestBed.inject(Router);
     authService = TestBed.inject(AuthService);
+    portalService = TestBed.inject(PortalService);
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(PortalLandingComponent);
     component = fixture.componentInstance;
@@ -96,6 +120,22 @@ describe('PortalLandingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get articles from portal service', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(portalService, 'getArticles').and.returnValue(of(articlesMock));
+    component.ngOnInit();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setArticles({articles: articlesMock}));
+  });
+
+  it('should show error snackbar when getting articles', () => {
+    const method = spyOn(store, 'dispatch');
+    spyOn(portalService, 'getArticles').and.returnValue(throwError(() => new Error("error")));
+    component.ngOnInit();
+    // @ts-ignore
+    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
   });
 
   it('should navigate to login page when logout', () => {
