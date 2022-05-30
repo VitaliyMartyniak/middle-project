@@ -1,9 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {catchError, finalize, of, Subscription} from "rxjs";
-import {setSnackbar} from "../../../store/actions/notifications";
+import {Subscription} from "rxjs";
 import {WeatherService} from "../../services/weather.service";
 import {Store} from "@ngrx/store";
-import {setWeatherLocations, setWeathersLoading} from "../../../store/actions/weathers";
+import {setWeatherLocations} from "../../../store/actions/weathers";
 import {userSelector} from "../../../store/selectors/auth";
 import {LocationCoordinates, UserData} from "../../../shared/interfaces";
 import {weatherLocationsSelector} from "../../../store/selectors/weathers";
@@ -19,8 +18,7 @@ export class WeatherWidgetsComponent implements OnInit, OnDestroy {
   userSub: Subscription;
   user: UserData;
 
-  constructor(private weatherService: WeatherService, private store: Store) {
-  }
+  constructor(private weatherService: WeatherService, private store: Store) {}
 
   ngOnInit(): void {
     this.userSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
@@ -35,17 +33,10 @@ export class WeatherWidgetsComponent implements OnInit, OnDestroy {
   }
 
   getWeatherLocations(): void {
-    this.weatherService.getWeatherLocations(this.user.uid).pipe(
-      finalize((): void => {
-        this.store.dispatch(setWeathersLoading({isLoading: false}));
-      }),
-      catchError((e) => {
-        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
-        return of([]);
-      }),
-    ).subscribe((weatherLocations: any) => {
-      this.store.dispatch(setWeatherLocations({weatherLocations}));
-    });
+    const weatherLocations = localStorage.getItem('weatherLocations');
+    if (weatherLocations) {
+      this.store.dispatch(setWeatherLocations({weatherLocations: JSON.parse(weatherLocations)}));
+    }
   }
 
   ngOnDestroy(): void {

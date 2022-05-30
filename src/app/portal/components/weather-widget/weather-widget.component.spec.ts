@@ -10,7 +10,7 @@ import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {LocationSearchModalComponent} from "../location-search-modal/location-search-modal.component";
-import {removeWeatherLocation} from "../../../store/actions/weathers";
+import {setWeatherLocations} from "../../../store/actions/weathers";
 
 describe('WeatherWidgetComponent', () => {
   let component: WeatherWidgetComponent;
@@ -18,6 +18,12 @@ describe('WeatherWidgetComponent', () => {
   let weatherService: WeatherService;
   let store: MockStore<any>;
   let dialog: MatDialog;
+
+  const weatherLocationMock = {
+    lat: 1,
+    lon: 1,
+    id: "docID"
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,7 +36,6 @@ describe('WeatherWidgetComponent', () => {
           useValue: {
             getLocation: () => of({countryName: "countryName", city: "city"}),
             getCurrentWeather: () => of('data'),
-            deleteWeather: () => {}
           }
         },
         MatDialog,
@@ -45,6 +50,7 @@ describe('WeatherWidgetComponent', () => {
   });
 
   beforeEach(() => {
+    localStorage.setItem('weatherLocations', JSON.stringify([weatherLocationMock]));
     dialog = TestBed.inject(MatDialog);
     store = TestBed.inject(MockStore);
     weatherService = TestBed.inject(WeatherService);
@@ -59,10 +65,7 @@ describe('WeatherWidgetComponent', () => {
   });
 
   it('should set loading weather with coordinates from component', () => {
-    component.weatherLocation = {
-      lat: 1,
-      lon: 1
-    }
+    component.weatherLocation = weatherLocationMock;
     const method = spyOn(component, 'load');
     component.ngOnInit();
     // @ts-ignore
@@ -99,45 +102,18 @@ describe('WeatherWidgetComponent', () => {
   });
 
   it('should open LocationSearchModalComponent when openModal', () => {
-    component.user = {
-      name: "string",
-      uid: "userUID",
-      registrationType: "string",
-    }
     const method = spyOn(dialog, 'open');
     component.openModal();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(LocationSearchModalComponent, {
-      data: {
-        userUID: 'userUID'
-      },
-    });
+    expect(method).toHaveBeenCalledWith(LocationSearchModalComponent);
   });
 
   it('should remove weather location when deleteWidget', () => {
-    component.weatherLocation = {
-      lat: 1,
-      lon: 1,
-      docID: "docID"
-    };
+    component.weatherLocation = weatherLocationMock;
     const method = spyOn(store, 'dispatch');
-    spyOn(weatherService, 'deleteWeather').and.returnValue(of(undefined));
     component.deleteWidget();
     // @ts-ignore
-    expect(method).toHaveBeenCalledWith(removeWeatherLocation({docID: component.weatherLocation.docID!}))
-  });
-
-  it('should not remove weather location when deleteWidget', () => {
-    component.weatherLocation = {
-      lat: 1,
-      lon: 1,
-      docID: "docID"
-    };
-    const method = spyOn(store, 'dispatch');
-    spyOn(weatherService, 'deleteWeather').and.returnValue(throwError(() => new Error("error")));
-    component.deleteWidget();
-    // @ts-ignore
-    expect(method).toHaveBeenCalledWith(setSnackbar({text: new Error("error"), snackbarType: 'error'}));
+    expect(method).toHaveBeenCalledWith(setWeatherLocations({weatherLocations: []}))
   });
 
 });

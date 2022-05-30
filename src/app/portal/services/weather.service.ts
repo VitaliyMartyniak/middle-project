@@ -1,58 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc, Firestore,
-  getDocs,
-  getFirestore,
-  query,
-  updateDoc,
-  where
-} from "@angular/fire/firestore";
-import {from, Observable, tap} from "rxjs";
-import {LocationCoordinates} from "../../shared/interfaces";
-import firebase from "firebase/compat";
-import DocumentData = firebase.firestore.DocumentData;
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService {
-  private db = getFirestore();
-  private weathersRef = collection(this.db, 'weathers');
-
-  constructor(private fireStore: Firestore, private http: HttpClient) { }
-
-  getWeatherLocations(userId: string): Observable<LocationCoordinates[]> {
-    const q = query(this.weathersRef, where('uid', '==', userId));
-    return from(getDocs(q).then(r => {
-      let weatherLocations: LocationCoordinates[] = [];
-      r.docs.forEach((doc) => {
-        // @ts-ignore
-        weatherLocations.push({ ...doc.data() })
-      })
-      return weatherLocations
-    }));
-  }
-
-  addNewWeather(newWeather: DocumentData): Observable<string> {
-    return from(addDoc(this.weathersRef, newWeather).then(r => r.id));
-  }
-
-  deleteWeather(id: string): Observable<void> {
-    const docRef = doc(this.db, 'weathers', id);
-    return from(deleteDoc(docRef).then(() => undefined));
-  }
-
-  saveDocumentID(id: string): Observable<void> {
-    const docRef = doc(this.db, 'weathers', id);
-    // @ts-ignore
-    return from(updateDoc(docRef, {
-      docID: id
-    }).then(() => undefined));
-  }
+  constructor(private http: HttpClient) { }
 
   getCoordinates(country: string, city: string): Observable<any> {
     return this.http.get(`https://api.openweathermap.org/geo/1.0/direct?q=${city},,${country}&limit=1&appid=00643ccdad413631edbc5bda6b3c9439`);

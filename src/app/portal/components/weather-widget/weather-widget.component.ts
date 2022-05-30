@@ -2,11 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {WeatherService} from "../../services/weather.service";
 import {Store} from "@ngrx/store";
 import {MatDialog} from "@angular/material/dialog";
-import {catchError, finalize, map, of} from "rxjs";
+import {catchError, map, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {LocationSearchModalComponent} from "../location-search-modal/location-search-modal.component";
-import {Location, LocationCoordinates, UserData} from "../../../shared/interfaces";
-import {removeWeatherLocation} from "../../../store/actions/weathers";
+import {Location, LocationCoordinates} from "../../../shared/interfaces";
+import {setWeatherLocations} from "../../../store/actions/weathers";
 
 @Component({
   selector: 'app-weather-widget',
@@ -17,7 +17,6 @@ export class WeatherWidgetComponent implements OnInit {
   @Input() weatherLocation: LocationCoordinates;
   @Input() hideMenu: boolean;
   @Input() baseWeather: boolean;
-  @Input() user: UserData;
 
   isLoading = true;
   city: string;
@@ -80,25 +79,14 @@ export class WeatherWidgetComponent implements OnInit {
   }
 
   openModal(): void {
-    this.dialog.open(LocationSearchModalComponent, {
-      data: {
-        userUID: this.user.uid!
-      }
-    });
+    this.dialog.open(LocationSearchModalComponent);
   }
 
   deleteWidget(): void {
-    this.isLoading = true;
-    this.weatherService.deleteWeather(this.weatherLocation.docID!).pipe(
-      finalize(() => {
-        this.isLoading = false;
-      }),
-      catchError((e) => {
-        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
-        return of([]);
-      }),
-    ).subscribe(() => {
-      this.store.dispatch(removeWeatherLocation({docID: this.weatherLocation.docID!}));
-    });
+    const localeStorageString = localStorage.getItem('weatherLocations');
+    const weatherLocations = JSON.parse(localeStorageString!);
+    const updatedWeatherLocations = weatherLocations.filter((location: LocationCoordinates) => location.id !== this.weatherLocation.id)
+    localStorage.setItem('weatherLocations', JSON.stringify(updatedWeatherLocations));
+    this.store.dispatch(setWeatherLocations({weatherLocations: updatedWeatherLocations}));
   }
 }

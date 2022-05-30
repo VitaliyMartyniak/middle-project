@@ -50,8 +50,7 @@ export interface Snackbar {
 export interface LocationCoordinates {
   lat: number,
   lon: number,
-  uid?: string,
-  docID?: string,
+  id?: string,
 }
 
 export interface Location {

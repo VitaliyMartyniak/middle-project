@@ -1,7 +1,6 @@
 import {createReducer, on} from "@ngrx/store";
 import {
   addNewWeatherLocation,
-  removeWeatherLocation,
   setWeatherLocations,
   setWeathersLoading
 } from "../actions/weathers";
@@ -29,12 +28,6 @@ export const weathersReducer = createReducer(
     return {
       ...state,
       weatherLocations: [...state.weatherLocations, weatherLocation]
-    }
-  }),
-  on(removeWeatherLocation, (state, {docID}) => {
-    return {
-      ...state,
-      weatherLocations: state.weatherLocations.filter((weatherLocation: LocationCoordinates) => (weatherLocation.docID !== docID)),
     }
   }),
   on(setWeathersLoading, (state, {isLoading}) => {

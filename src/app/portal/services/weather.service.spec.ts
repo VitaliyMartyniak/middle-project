@@ -9,16 +9,14 @@ describe('WeatherService', () => {
   let http: HttpClient;
 
   // @ts-ignore
-  const mock: Blob = {};
+  const mock: any = {};
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         HttpClient,
         HttpHandler,
-        { provide: WeatherService, useValue: {
-          getCoordinates: () => {}
-        } }
+        WeatherService,
       ]
     });
     service = TestBed.inject(WeatherService);
@@ -29,10 +27,24 @@ describe('WeatherService', () => {
     expect(service).toBeTruthy();
   });
 
-  // it('should get coordinates', () => {
-  //   spyOn(http, 'get').and.callFake(() => of(mock));
-  //   service.getCoordinates("country", "city").subscribe((response) => {
-  //     expect(response).toBe(mock);
-  //   })
-  // });
+  it('should get coordinates', () => {
+    spyOn(http, 'get').and.callFake(() => of(mock));
+    service.getCoordinates("country", "city").subscribe((response) => {
+      expect(response).toBe(mock);
+    })
+  });
+
+  it('should get current weather', () => {
+    spyOn(http, 'get').and.callFake(() => of(mock));
+    service.getCurrentWeather(1, 1).subscribe((response) => {
+      expect(response).toBe(mock);
+    })
+  });
+
+  it('should get location', () => {
+    spyOn(http, 'get').and.callFake(() => of(mock));
+    service.getLocation(1, 1).subscribe((response) => {
+      expect(response).toBe(mock);
+    })
+  });
 });
