@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {setArticles, setArticlesLoading} from "../../../store/actions/articles";
 import {PortalService} from "../../services/portal.service";
+import {NetworkService} from "../../../shared/services/network.service";
 
 @Component({
   selector: 'app-portal-landing',
@@ -16,15 +17,34 @@ import {PortalService} from "../../services/portal.service";
   styleUrls: ['./portal-landing.component.scss']
 })
 export class PortalLandingComponent implements OnInit, OnDestroy {
+  private networkSub: Subscription;
   private userSub: Subscription;
   private isLoadingSub: Subscription;
   user: UserData;
   isLoading = true;
 
-  constructor(private portalService: PortalService, private authService: AuthService, private router: Router, private store: Store) { }
+  constructor(private networkService: NetworkService, private portalService: PortalService, private authService: AuthService, private router: Router, private store: Store) { }
 
   ngOnInit(): void {
+    this.getArticles();
     this.store.dispatch(setAuthLoading({isLoading: true}));
+    this.userSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
+      if (user) {
+        this.user = user;
+        this.store.dispatch(setAuthLoading({isLoading: false}));
+      }
+    })
+    this.isLoadingSub = this.store.select(authLoadingSelector).subscribe((isLoading: boolean): void => {
+      this.isLoading = isLoading;
+    })
+    this.networkSub = this.networkService.networkStatus$.subscribe(status => {
+      if (status === 'online') {
+        this.getArticles();
+      }
+    });
+  }
+
+  getArticles(): void {
     this.store.dispatch(setArticlesLoading({isLoading: true}));
     this.portalService.getArticles().pipe(
       finalize((): void => {
@@ -36,15 +56,6 @@ export class PortalLandingComponent implements OnInit, OnDestroy {
       }),
     ).subscribe((articles: any) => {
       this.store.dispatch(setArticles({articles}));
-    })
-    this.userSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
-      if (user) {
-        this.user = user;
-        this.store.dispatch(setAuthLoading({isLoading: false}));
-      }
-    })
-    this.isLoadingSub = this.store.select(authLoadingSelector).subscribe((isLoading: boolean): void => {
-      this.isLoading = isLoading;
     })
   }
 
@@ -63,5 +74,6 @@ export class PortalLandingComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
     this.isLoadingSub.unsubscribe();
+    this.networkSub.unsubscribe();
   }
 }

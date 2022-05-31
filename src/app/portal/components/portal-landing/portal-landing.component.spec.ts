@@ -14,12 +14,14 @@ import {DashboardComponent} from "../../views/dashboard/dashboard.component";
 import {AddEditArticleComponent} from "../../views/add-edit-article/add-edit-article.component";
 import {RouterTestingModule} from "@angular/router/testing";
 import {setArticles} from "../../../store/actions/articles";
+import {NetworkService} from "../../../shared/services/network.service";
 
 describe('PortalLandingComponent', () => {
   let component: PortalLandingComponent;
   let fixture: ComponentFixture<PortalLandingComponent>;
   let portalService: PortalService;
   let authService: AuthService;
+  let networkService: NetworkService;
   let store: MockStore<any>;
   let router: Router;
 
@@ -78,6 +80,7 @@ describe('PortalLandingComponent', () => {
         AddEditArticleComponent,
       ],
       providers: [
+        NetworkService,
         {
           provide: PortalService,
           useValue: {
@@ -112,6 +115,7 @@ describe('PortalLandingComponent', () => {
     router = TestBed.inject(Router);
     authService = TestBed.inject(AuthService);
     portalService = TestBed.inject(PortalService);
+    networkService = TestBed.inject(NetworkService);
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(PortalLandingComponent);
     component = fixture.componentInstance;
@@ -128,6 +132,12 @@ describe('PortalLandingComponent', () => {
     component.ngOnInit();
     // @ts-ignore
     expect(method).toHaveBeenCalledWith(setArticles({articles: articlesMock}));
+  });
+
+  it('should get articles again when user back online', () => {
+    const method = spyOn(component, 'getArticles');
+    networkService.networkStatus$.next('online');
+    expect(method).toHaveBeenCalled();
   });
 
   it('should show error snackbar when getting articles', () => {
