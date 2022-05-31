@@ -15,6 +15,12 @@ describe('LocationSearchModalComponent', () => {
   let weatherService: WeatherService;
   let store: MockStore<any>;
 
+  const locationMock = {
+    lat: 1,
+    lon: 2,
+    id: 'id',
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ MatDialogModule ],
@@ -27,7 +33,6 @@ describe('LocationSearchModalComponent', () => {
         { provide: WeatherService,
           useValue: {
             getCoordinates: () => {},
-            saveDocumentID: () => {}
           }
         },
         provideMockStore(),
@@ -54,10 +59,20 @@ describe('LocationSearchModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add new weather location', () => {
-    spyOn(weatherService, 'getCoordinates').and.returnValue(of('data'));
+  it('should add new weather location to location from localstorage', () => {
+    const method = spyOn(store, 'dispatch');
+    localStorage.setItem('weatherLocations', JSON.stringify([locationMock]));
+    spyOn(weatherService, 'getCoordinates').and.returnValue(of([{lat: 1, lon: 2}]));
     component.addNewWeather();
-    expect(weatherService.getCoordinates).toHaveBeenCalled();
+    expect(method).toHaveBeenCalled();
+  });
+
+  it('should add new weather location', () => {
+    localStorage.clear();
+    const method = spyOn(store, 'dispatch');
+    spyOn(weatherService, 'getCoordinates').and.returnValue(of([{lat: 1, lon: 2}]));
+    component.addNewWeather();
+    expect(method).toHaveBeenCalled();
   });
 
   it('should show error snackbar', () => {

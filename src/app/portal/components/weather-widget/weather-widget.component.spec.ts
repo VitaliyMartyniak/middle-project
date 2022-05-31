@@ -11,11 +11,13 @@ import {of, throwError} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {LocationSearchModalComponent} from "../location-search-modal/location-search-modal.component";
 import {setWeatherLocations} from "../../../store/actions/weathers";
+import {NetworkService} from "../../../shared/services/network.service";
 
 describe('WeatherWidgetComponent', () => {
   let component: WeatherWidgetComponent;
   let fixture: ComponentFixture<WeatherWidgetComponent>;
   let weatherService: WeatherService;
+  let networkService: NetworkService;
   let store: MockStore<any>;
   let dialog: MatDialog;
 
@@ -38,6 +40,7 @@ describe('WeatherWidgetComponent', () => {
             getCurrentWeather: () => of('data'),
           }
         },
+        NetworkService,
         MatDialog,
         Overlay,
         MAT_DIALOG_SCROLL_STRATEGY_PROVIDER,
@@ -53,6 +56,7 @@ describe('WeatherWidgetComponent', () => {
     localStorage.setItem('weatherLocations', JSON.stringify([weatherLocationMock]));
     dialog = TestBed.inject(MatDialog);
     store = TestBed.inject(MockStore);
+    networkService = TestBed.inject(NetworkService);
     weatherService = TestBed.inject(WeatherService);
     fixture = TestBed.createComponent(WeatherWidgetComponent);
     component = fixture.componentInstance;
@@ -62,6 +66,12 @@ describe('WeatherWidgetComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should check locations when user back online', () => {
+    const method = spyOn(component, 'checkLocations');
+    networkService.networkStatus$.next('online');
+    expect(method).toHaveBeenCalled();
   });
 
   it('should set loading weather with coordinates from component', () => {

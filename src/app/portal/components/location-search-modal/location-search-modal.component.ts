@@ -51,7 +51,7 @@ export class LocationSearchModalComponent implements OnInit {
         lon: response[0].lon,
         id: 'id' + (new Date()).getTime(),
       };
-      let weatherLocations;
+      let weatherLocations: LocationCoordinates[];
       const localeStorageString = localStorage.getItem('weatherLocations');
       if (localeStorageString) {
         weatherLocations = JSON.parse(localeStorageString);

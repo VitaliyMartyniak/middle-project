@@ -1,23 +1,25 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {WeatherService} from "../../services/weather.service";
 import {Store} from "@ngrx/store";
 import {MatDialog} from "@angular/material/dialog";
-import {catchError, map, of} from "rxjs";
+import {catchError, map, of, Subscription} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {LocationSearchModalComponent} from "../location-search-modal/location-search-modal.component";
 import {Location, LocationCoordinates} from "../../../shared/interfaces";
 import {setWeatherLocations} from "../../../store/actions/weathers";
+import {NetworkService} from "../../../shared/services/network.service";
 
 @Component({
   selector: 'app-weather-widget',
   templateUrl: './weather-widget.component.html',
   styleUrls: ['./weather-widget.component.scss']
 })
-export class WeatherWidgetComponent implements OnInit {
+export class WeatherWidgetComponent implements OnInit, OnDestroy {
   @Input() weatherLocation: LocationCoordinates;
   @Input() hideMenu: boolean;
   @Input() baseWeather: boolean;
 
+  networkSub: Subscription;
   isLoading = true;
   city: string;
   country: string;
@@ -28,9 +30,18 @@ export class WeatherWidgetComponent implements OnInit {
   dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   weatherIcon: string;
 
-  constructor(private weatherService: WeatherService, private store: Store, public dialog: MatDialog) { }
+  constructor(private networkService: NetworkService, private weatherService: WeatherService, private store: Store, public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.checkLocations();
+    this.networkSub = this.networkService.networkStatus$.subscribe(status => {
+      if (status === 'online') {
+        this.checkLocations();
+      }
+    });
+  }
+
+  checkLocations() {
     if (this.weatherLocation) {
       this.load(this.weatherLocation.lon, this.weatherLocation.lat);
     } else if (navigator.geolocation) {
@@ -88,5 +99,9 @@ export class WeatherWidgetComponent implements OnInit {
     const updatedWeatherLocations = weatherLocations.filter((location: LocationCoordinates) => location.id !== this.weatherLocation.id)
     localStorage.setItem('weatherLocations', JSON.stringify(updatedWeatherLocations));
     this.store.dispatch(setWeatherLocations({weatherLocations: updatedWeatherLocations}));
+  }
+
+  ngOnDestroy(): void {
+    this.networkSub.unsubscribe();
   }
 }

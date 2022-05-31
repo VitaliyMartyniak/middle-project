@@ -3,8 +3,7 @@ import {Subscription} from "rxjs";
 import {WeatherService} from "../../services/weather.service";
 import {Store} from "@ngrx/store";
 import {setWeatherLocations} from "../../../store/actions/weathers";
-import {userSelector} from "../../../store/selectors/auth";
-import {LocationCoordinates, UserData} from "../../../shared/interfaces";
+import {LocationCoordinates} from "../../../shared/interfaces";
 import {weatherLocationsSelector} from "../../../store/selectors/weathers";
 
 @Component({
@@ -15,18 +14,11 @@ import {weatherLocationsSelector} from "../../../store/selectors/weathers";
 export class WeatherWidgetsComponent implements OnInit, OnDestroy {
   weatherLocationsSub: Subscription;
   weatherLocations: LocationCoordinates[] = [];
-  userSub: Subscription;
-  user: UserData;
 
   constructor(private weatherService: WeatherService, private store: Store) {}
 
   ngOnInit(): void {
-    this.userSub = this.store.select(userSelector).subscribe((user: UserData | null): void => {
-      if (user) {
-        this.user = user;
-        this.getWeatherLocations();
-      }
-    });
+    this.getWeatherLocations();
     this.weatherLocationsSub = this.store.select(weatherLocationsSelector).subscribe((weatherLocations: LocationCoordinates[]): void => {
       this.weatherLocations = weatherLocations;
     })
@@ -40,7 +32,6 @@ export class WeatherWidgetsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userSub.unsubscribe();
     this.weatherLocationsSub.unsubscribe();
   }
 

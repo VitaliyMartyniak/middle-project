@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PortalService } from './portal.service';
+import { PortalService } from '../portal.service';
 
 describe('PortalService', () => {
   let service: PortalService;

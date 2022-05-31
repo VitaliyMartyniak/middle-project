@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
-import {reauthenticateWithCredential, updatePassword} from "@angular/fire/auth";
-import firebase from "firebase/compat";
-import {from, Observable} from "rxjs";
+import {getAuth, reauthenticateWithCredential, updatePassword} from "@angular/fire/auth";
+import {from, Observable, of, throwError} from "rxjs";
+import { EmailAuthProvider } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
+  private auth = getAuth();
 
   constructor() { }
 
-  checkOldPassword(user: any, credential: firebase.auth.AuthCredential): Observable<void> {
+  checkOldPassword(oldPassword: string): Observable<void> {
+    const user = this.auth.currentUser!;
+    if (!user || !user.email) return throwError(() => new Error("error"))
+    const credential = EmailAuthProvider.credential(
+      user.email,
+      oldPassword
+    );
     return from(reauthenticateWithCredential(user, credential).then(() => undefined));
   }
 
-  updatePassword(user: any, newPassword: string): Observable<void> {
+  updatePassword(newPassword: string): Observable<void> {
+    const user = this.auth.currentUser!;
     return from(updatePassword(user, newPassword).then(() => undefined));
   }
 }

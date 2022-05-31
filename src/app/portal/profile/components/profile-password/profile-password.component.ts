@@ -2,12 +2,10 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomValidators} from "../../../../shared/custom-validators/custom-validators";
 import {ProfileService} from "../../profile.service";
-import {getAuth} from "@angular/fire/auth";
 import {setProfileLoading} from "../../../../store/actions/profile";
 import {Store} from "@ngrx/store";
 import {catchError, finalize, mergeMap, of} from "rxjs";
 import {setSnackbar} from "../../../../store/actions/notifications";
-import { EmailAuthProvider } from 'firebase/auth';
 
 @Component({
   selector: 'app-profile-password',
@@ -17,7 +15,6 @@ import { EmailAuthProvider } from 'firebase/auth';
 export class ProfilePasswordComponent implements OnInit {
   @ViewChild('oldPassword') oldPassword: ElementRef;
 
-  private auth = getAuth();
   form: FormGroup;
 
   constructor(private profileService: ProfileService, private store: Store) {}
@@ -40,16 +37,11 @@ export class ProfilePasswordComponent implements OnInit {
 
   updatePassword(): void {
     const formData = {...this.form.value};
-    const user = this.auth.currentUser!;
-    if (!user || !user.email) return
-    const credential = EmailAuthProvider.credential(
-      user.email,
-      formData.oldPassword
-    );
+
     this.store.dispatch(setProfileLoading({isLoading: true}));
-    this.profileService.checkOldPassword(user, credential).pipe(
+    this.profileService.checkOldPassword(formData.oldPassword).pipe(
       mergeMap(() => {
-        return this.profileService.updatePassword(user, formData.password)
+        return this.profileService.updatePassword(formData.password)
       }),
       finalize(() => {
         this.form.reset();

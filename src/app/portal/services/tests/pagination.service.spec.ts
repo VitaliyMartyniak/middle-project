@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PaginationService } from './pagination.service';
+import { PaginationService } from '../pagination.service';
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
 
 describe('PaginationService', () => {

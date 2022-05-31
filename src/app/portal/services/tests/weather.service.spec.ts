@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { WeatherService } from './weather.service';
+import { WeatherService } from '../weather.service';
 import {HttpClient, HttpHandler} from "@angular/common/http";
 import {of} from "rxjs";
 

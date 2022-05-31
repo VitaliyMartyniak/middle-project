@@ -1,7 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {WebSocketSubject} from "rxjs/webSocket";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {Store} from "@ngrx/store";
+import {NetworkService} from "../../../shared/services/network.service";
+import {BitcoinService} from "../../services/bitcoin.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-bitcoin-value',
@@ -9,19 +11,18 @@ import {Store} from "@ngrx/store";
   styleUrls: ['./bitcoin-value.component.scss']
 })
 export class BitcoinValueComponent implements OnInit, OnDestroy {
-  subject: WebSocketSubject<any>;
+  bitcoinSub: Subscription;
+  networkSub: Subscription;
   bitcoinValue: number;
 
-  constructor(private store: Store) { }
+  constructor(private networkService: NetworkService,
+              private bitcoinService: BitcoinService,
+              private store: Store) { }
 
   ngOnInit(): void {
-    this.subject = new WebSocketSubject("wss://streamer.cryptocompare.com/v2?api_key=7326454d789bf44612f11e66aa2c57b83d3ad5add0fd1b32c4c518fa22a4e77d");
-    this.subject.next({
-      action: "SubAdd",
-      subs: ["5~CCCAGG~BTC~USD",]
-    });
+    this.subscribeWebSocket();
 
-    this.subject.subscribe(
+    this.bitcoinSub = this.bitcoinService.bitcoinValue$.subscribe(
       (data: any) => {
         if (data && data.PRICE) {
           this.bitcoinValue = data.PRICE;
@@ -32,17 +33,27 @@ export class BitcoinValueComponent implements OnInit, OnDestroy {
         this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
       }
     );
+
+    this.networkSub = this.networkService.networkStatus$.subscribe(status => {
+      if (status === 'online') {
+        this.subscribeWebSocket();
+      } else if (status === 'offline') {
+        this.unsubscribeWebSocket();
+      }
+    });
+  }
+
+  subscribeWebSocket(): void {
+    this.bitcoinService.subscribeWebSocket();
   }
 
   unsubscribeWebSocket(): void {
-    this.subject.next({
-      action: "SubRemove",
-      subs: ["5~CCCAGG~BTC~USD",]
-    });
+    this.bitcoinService.unsubscribeWebSocket();
   }
 
   ngOnDestroy(): void {
     this.unsubscribeWebSocket();
-    this.subject.unsubscribe();
+    this.bitcoinSub.unsubscribe();
+    this.networkSub.unsubscribe();
   }
 }
