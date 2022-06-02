@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomValidators} from "../../../../shared/custom-validators/custom-validators";
 import {ProfileService} from "../../profile.service";
@@ -10,11 +10,10 @@ import {setSnackbar} from "../../../../store/actions/notifications";
 @Component({
   selector: 'app-profile-password',
   templateUrl: './profile-password.component.html',
-  styleUrls: ['./profile-password.component.scss']
+  styleUrls: ['./profile-password.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfilePasswordComponent implements OnInit {
-  @ViewChild('oldPassword') oldPassword: ElementRef;
-
   form: FormGroup;
 
   constructor(private profileService: ProfileService, private store: Store) {}

@@ -7,7 +7,8 @@ export class DatePipe implements PipeTransform {
 
   transform(articleDate: number): string | undefined {
     const currentDate = new Date().getTime();
-    if (currentDate - +articleDate < 2592000000) {
+    const month = 2592000000;
+    if (currentDate - +articleDate < month) {
       const seconds = Math.floor((+new Date() - +new Date(articleDate)) / 1000);
       if (seconds < 29)
         return 'Just now';

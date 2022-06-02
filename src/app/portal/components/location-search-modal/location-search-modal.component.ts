@@ -1,12 +1,12 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {WeatherService} from "../../services/weather.service";
-import {catchError, finalize, mergeMap, Observable, of} from "rxjs";
+import {catchError, finalize, Observable, of} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {select, Store} from "@ngrx/store";
-import {LocationCoordinates, UserData} from "../../../shared/interfaces";
+import {LocationCoordinates} from "../../../shared/interfaces";
 import {addNewWeatherLocation, setWeathersLoading} from "../../../store/actions/weathers";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MatDialogRef} from "@angular/material/dialog";
 import {weathersLoadingSelector} from "../../../store/selectors/weathers";
 
 @Component({

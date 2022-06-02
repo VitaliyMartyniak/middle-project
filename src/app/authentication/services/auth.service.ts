@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {from, Observable} from "rxjs";
+import {catchError, from, Observable, of, take} from "rxjs";
 import {
   addDoc,
   collection,
@@ -29,6 +29,7 @@ import DocumentData = firebase.firestore.DocumentData;
 import {setArticles} from "../../store/actions/articles";
 import {setCategory, setOrder, setSearch} from "../../store/actions/filters";
 import {setWeatherLocations} from "../../store/actions/weathers";
+import {setSnackbar} from "../../store/actions/notifications";
 
 @Injectable()
 export class AuthService {
@@ -56,7 +57,13 @@ export class AuthService {
     const userID = localStorage.getItem('userID');
     const alternativeUser = localStorage.getItem('alternativeUser');
     if (userID) {
-      this.getAdditionalData(userID).subscribe((user: any) => {
+      this.getAdditionalData(userID).pipe(
+        take(1),
+        catchError((e) => {
+          this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+          return of([]);
+        }),
+      ).subscribe((user: any) => {
         this.store.dispatch(setUser({user}));
       })
     } else if (alternativeUser) {
@@ -114,6 +121,7 @@ export class AuthService {
   }
 
   clearStore(): void {
+    this.store.dispatch(setUser({user: null}));
     this.store.dispatch(setArticles({articles: []}));
     this.store.dispatch(setSearch({search: ''}));
     this.store.dispatch(setOrder({order: 'asc'}));

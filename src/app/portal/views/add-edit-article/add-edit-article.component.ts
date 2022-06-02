@@ -18,7 +18,8 @@ import {setSnackbar} from "../../../store/actions/notifications";
 export class AddEditArticleComponent {
   categories = ['PRODUCTIVITY', 'MEDIA', 'BUSINESS'];
   form: FormGroup;
-  userSub: Subscription
+  userSub: Subscription;
+  routeSub: Subscription;
   isLoading$: Observable<boolean> = this.store.pipe(select(articlesLoadingSelector));
   user: UserData;
   mode: string;
@@ -41,7 +42,7 @@ export class AddEditArticleComponent {
         Validators.required,
       ]),
     });
-    this.route.queryParams.pipe(
+    this.routeSub = this.route.queryParams.pipe(
       mergeMap((params: Params): Observable<Article[]> | Observable<undefined> => {
         if (params['docID']) {
           this.docID = params['docID'];
@@ -132,6 +133,7 @@ export class AddEditArticleComponent {
   }
 
   ngOnDestroy(): void {
+    this.routeSub.unsubscribe();
     this.userSub.unsubscribe();
   }
 }

@@ -1,6 +1,6 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {catchError, finalize, of, Subscription} from "rxjs";
+import {catchError, finalize, of} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AuthService} from "../../../../authentication/services/auth.service";
 import {UserData} from "../../../../shared/interfaces";
@@ -10,7 +10,8 @@ import {setSnackbar} from "../../../../store/actions/notifications";
 @Component({
   selector: 'app-profile-info',
   templateUrl: './profile-info.component.html',
-  styleUrls: ['./profile-info.component.scss']
+  styleUrls: ['./profile-info.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileInfoComponent implements OnInit {
   @Input() user: UserData;
