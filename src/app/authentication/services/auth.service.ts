@@ -126,19 +126,19 @@ export class AuthService {
   }
 
   get token(): string | null {
-    const fbTokenExp = localStorage.getItem('fb-token-exp');
-    const expDate = fbTokenExp ? new Date(fbTokenExp) : null;
+    const tokenExp = localStorage.getItem('token-exp');
+    const expDate = tokenExp ? new Date(tokenExp) : null;
     if(!expDate || new Date() > expDate) {
       this.logout();
       return null
     }
-    return localStorage.getItem('fb-token');
+    return localStorage.getItem('token');
   }
 
   setToken(expiresIn: number, idToken: string): void {
     const expDate = new Date(new Date().getTime() + expiresIn * 1000);
-    localStorage.setItem('fb-token', idToken);
-    localStorage.setItem('fb-token-exp', expDate.toString());
+    localStorage.setItem('token', idToken);
+    localStorage.setItem('token-exp', expDate.toString());
   }
 
   googleLogin(): Observable<OAuthResponse> {
