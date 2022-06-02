@@ -25,8 +25,8 @@
     <p>Main Menu</p>
     <nav>
       <a routerLink="/portal/dashboard" routerLinkActive="active" #dashboard="routerLinkActive">
-        <img *ngIf="dashboard.isActive" src="assets/img/icons/speedometer-active.svg" alt="dashboard-active" />
-        <img *ngIf="!dashboard.isActive" src="assets/img/icons/speedometer-inactive.svg" alt="dashboard-inactive" />
+        <img [src]="dashboard.isActive ? 'assets/img/icons/speedometer-active.svg' : 'assets/img/icons/speedometer-inactive.svg'"
+             [alt]="!dashboard.isActive ? 'dashboard-active' : 'dashboard-inactive'" />
         Dashboard
       </a>
     </nav>
