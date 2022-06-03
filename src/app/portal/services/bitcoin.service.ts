@@ -5,7 +5,7 @@ import {WebSocketSubject} from "rxjs/webSocket";
   providedIn: 'root'
 })
 export class BitcoinService {
-  bitcoinValue$ = new WebSocketSubject("wss://streamer.cryptocompare.com/v2?api_key=7326454d789bf44612f11e66aa2c57b83d3ad5add0fd1b32c4c518fa22a4e77d");
+  bitcoinValue$ = new WebSocketSubject("wss://streamer.cryptocompare.com/v2?api_key=19bf20fbefe801d979dd040469ceba1728ac71667a1996b262bd34ea7d7e3251");
   constructor() { }
 
   subscribeWebSocket(): void {
