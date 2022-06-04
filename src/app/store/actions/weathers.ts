@@ -9,6 +9,10 @@ export const addNewWeatherLocation = createAction('[WEATHERS] add new weather lo
   props<{weatherLocation: LocationCoordinates}>()
 );
 
+export const removeWeatherLocation = createAction('[WEATHERS] remove weather location',
+  props<{docID: string}>()
+);
+
 export const setWeathersLoading = createAction('[WEATHERS] set weathers loading',
   props<{isLoading: boolean}>()
 );

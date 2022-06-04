@@ -33,6 +33,8 @@ describe('LocationSearchModalComponent', () => {
         { provide: WeatherService,
           useValue: {
             getCoordinates: () => {},
+            addNewWeather: () => {},
+            saveDocumentID: () => {}
           }
         },
         provideMockStore(),
@@ -52,6 +54,9 @@ describe('LocationSearchModalComponent', () => {
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(LocationSearchModalComponent);
     component = fixture.componentInstance;
+    component.data = {
+      userUID: "userUID"
+    }
     fixture.detectChanges();
   });
 
@@ -59,20 +64,14 @@ describe('LocationSearchModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add new weather location to location from localstorage', () => {
-    const method = spyOn(store, 'dispatch');
-    localStorage.setItem('weatherLocations', JSON.stringify([locationMock]));
-    spyOn(weatherService, 'getCoordinates').and.returnValue(of([{lat: 1, lon: 2}]));
-    component.addNewWeather();
-    expect(method).toHaveBeenCalled();
-  });
-
   it('should add new weather location', () => {
-    localStorage.clear();
-    const method = spyOn(store, 'dispatch');
-    spyOn(weatherService, 'getCoordinates').and.returnValue(of([{lat: 1, lon: 2}]));
+    spyOn(weatherService, 'getCoordinates').and.returnValue(of('data'));
+    spyOn(weatherService, 'addNewWeather').and.returnValue(of("docID"));
+    spyOn(weatherService, 'saveDocumentID').and.returnValue(of(undefined));
     component.addNewWeather();
-    expect(method).toHaveBeenCalled();
+    expect(weatherService.getCoordinates).toHaveBeenCalled();
+    expect(weatherService.addNewWeather).toHaveBeenCalled();
+    expect(weatherService.saveDocumentID).toHaveBeenCalled();
   });
 
   it('should show error snackbar', () => {

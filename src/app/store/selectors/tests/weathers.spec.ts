@@ -5,7 +5,7 @@ const weathersState = {
     {
       lat: 1,
       lon: 1,
-      id: "one"
+      docID: "one"
     }
   ],
   isLoading: false,

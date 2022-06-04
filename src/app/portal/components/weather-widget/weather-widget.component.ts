@@ -2,11 +2,11 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {WeatherService} from "../../services/weather.service";
 import {Store} from "@ngrx/store";
 import {MatDialog} from "@angular/material/dialog";
-import {catchError, map, of, Subscription} from "rxjs";
+import {catchError, finalize, map, of, Subscription} from "rxjs";
 import {setSnackbar} from "../../../store/actions/notifications";
 import {LocationSearchModalComponent} from "../location-search-modal/location-search-modal.component";
-import {Location, LocationCoordinates} from "../../../shared/interfaces";
-import {setWeatherLocations} from "../../../store/actions/weathers";
+import {Location, LocationCoordinates, UserData} from "../../../shared/interfaces";
+import {setWeatherLocations, removeWeatherLocation} from "../../../store/actions/weathers";
 import {NetworkService} from "../../../shared/services/network.service";
 
 @Component({
@@ -18,6 +18,7 @@ export class WeatherWidgetComponent implements OnInit, OnDestroy {
   @Input() weatherLocation: LocationCoordinates;
   @Input() hideMenu: boolean;
   @Input() baseWeather: boolean;
+  @Input() user: UserData;
 
   networkSub: Subscription;
   isLoading = true;
@@ -90,15 +91,26 @@ export class WeatherWidgetComponent implements OnInit, OnDestroy {
   }
 
   openModal(): void {
-    this.dialog.open(LocationSearchModalComponent);
+    this.dialog.open(LocationSearchModalComponent, {
+      data: {
+        userUID: this.user.uid!
+      }
+    });
   }
 
   deleteWidget(): void {
-    const localeStorageString = localStorage.getItem('weatherLocations');
-    const weatherLocations = JSON.parse(localeStorageString!);
-    const updatedWeatherLocations = weatherLocations.filter((location: LocationCoordinates) => location.id !== this.weatherLocation.id)
-    localStorage.setItem('weatherLocations', JSON.stringify(updatedWeatherLocations));
-    this.store.dispatch(setWeatherLocations({weatherLocations: updatedWeatherLocations}));
+    this.isLoading = true;
+    this.weatherService.deleteWeather(this.weatherLocation.docID!).pipe(
+      finalize(() => {
+        this.isLoading = false;
+      }),
+      catchError((e) => {
+        this.store.dispatch(setSnackbar({text: e, snackbarType: 'error'}));
+        return of([]);
+      }),
+    ).subscribe(() => {
+      this.store.dispatch(removeWeatherLocation({docID: this.weatherLocation.docID!}));
+    });
   }
 
   ngOnDestroy(): void {

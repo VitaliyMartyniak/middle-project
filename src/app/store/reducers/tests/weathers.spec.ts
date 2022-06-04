@@ -1,6 +1,7 @@
 import {initialState, weathersReducer, WeathersState} from "../weathers";
 import {
   addNewWeatherLocation,
+  removeWeatherLocation,
   setWeatherLocations,
   setWeathersLoading
 } from "../../actions/weathers";
@@ -24,6 +25,21 @@ describe('Weathers Reducer', () => {
     }
     const state = weathersReducer(initialState, addNewWeatherLocation({weatherLocation}))
     expect(state.weatherLocations).toEqual([weatherLocation]);
+  });
+
+  it('should return state with removed weather location', () => {
+    const previousState: WeathersState = {
+      weatherLocations: [
+        {
+          lat: 1,
+          lon: 1,
+          docID: "one"
+        }
+      ],
+      isLoading: false
+    };
+    const state = weathersReducer(previousState, removeWeatherLocation({docID: "one"}));
+    expect(state.weatherLocations).toEqual([]);
   });
 
   it('should return state with isLoading true', () => {
